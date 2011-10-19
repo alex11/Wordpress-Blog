@@ -1,0 +1,63 @@
+/*
+Theme Name: Thirty Ten
+Theme URI: http://aaron.jorb.in/thirty-ten
+Description: A child theme of the 2010 default theme for WordPress.
+Author: Aaron Jorbin based on work by the WordPress team
+Author URI: http://aaron.jorb.in/
+Version: 1.1.4
+Tags: black, blue, white, three-columns, fixed-width, custom-header, theme-options, threaded-comments, sticky-post, translation-ready, microformats, rtl-language-support, editor-style
+Template: twentyten
+*/
+
+@import url('../twentyten/style.css');
+
+/* Move menu to be above image */
+#header #access{
+position: relative;
+}
+#site-title {
+margin:0 0 44px;
+}
+/* Change our default link colors */
+a:link{
+color:#0B4239;
+}
+a:visited{
+color:#e34517;
+}
+a:hover{
+color:#00BD72;
+}
+a:active{
+color:#e34517;
+}
+/* Modify the footer to allow for a bigger description and nicer looking links  */
+#site-info{
+width:250px;
+}
+#site-generator{
+width: 590px;
+}
+
+#site-generator a{
+background: none;
+padding: 0 7px;
+}
+
+#jorbin-link a:link, #jorbin-link a:visited, #jorbin-link a:hover,#jorbin-link a:active {
+color:#990000;
+
+}
+#generator-link a{
+-moz-background-clip:border;
+-moz-background-inline-policy:continuous;
+-moz-background-origin:padding;
+background:transparent url(../twentyten/images/wordpress.png) no-repeat scroll left center;
+color:#666666;
+display:inline-block;
+line-height:16px;
+margin-left:1px;
+padding-left:19px;
+text-decoration:none;
+}
+/* Look good?  Drink a glass of whisky and enjoy */

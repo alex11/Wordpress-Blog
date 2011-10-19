@@ -1,0 +1,6 @@
+.DS_Store
+.com.apple.timemachine.supported
+
+wp-config.php
+wp-content/uploads/
+wp-content/cache/
