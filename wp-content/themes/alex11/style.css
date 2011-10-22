@@ -316,3 +316,6 @@ div.really_simple_share {
 	max-width: 100%;
 	margin: 0;
 }
+/* PLUGIN: Rating-Widget Plugin
+--------------------------------------------- */
+.rw-ui-container { margin-bottom:7px; }

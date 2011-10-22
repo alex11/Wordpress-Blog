@@ -10,7 +10,7 @@
         "rateThis" => "Bewertung abgeben",
         "like" => "Ich mag es",
         "dislike" => "Ich mag nicht",
-        "vote" => "Abstimmen",
+        "vote" => "Stimme",
         "votes" => "Stimmen",
         "thanks" => "Vielen Dank",
     );
