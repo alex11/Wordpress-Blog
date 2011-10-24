@@ -4,7 +4,6 @@
 	<head profile="http://gmpg.org/xfn/11">
 		<meta http-equiv="Content-Type" content="<?php bloginfo( 'html_type' ) ?>; charset=<?php bloginfo( 'charset' ) ?>" />
 		<title><?php wp_title( '|', true, 'right' ); bloginfo( 'name' ); ?></title>
-		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 		<link rel="icon" href="/wp-content/uploads/2011/10/favicon.ico" type="image/x-icon">
 
 		<?php do_action( 'bp_head' ) ?>
