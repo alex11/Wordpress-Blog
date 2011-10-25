@@ -33,7 +33,7 @@ get_header();
 		?>
 		<a class="ical" href="<?php bloginfo('home'); ?>/?ical=<?php echo $tecCatObject->slug; ?>"><?php _e('iCal Import', $spEvents->pluginDomain) ?></a>
 		<div id="asamblea">
-			<p>Jeden Tag eine Asamblea am Bundestag ab 17 Uhr und ab 20 Uhr auch im IRC-Chat: ircs://irc.indymedia.org/occupyberlin (a href="/2011/10/vassembly-virtual-online-assembly/">weitere Infos</a>)</p>
+			<p>Jeden Tag eine Asamblea am Bundestag ab 17 Uhr und ab 20 Uhr auch im IRC-Chat: ircs://irc.indymedia.org/occupyberlin (<a href="/2011/10/vassembly-virtual-online-assembly/">weitere Infos</a>)</p>
 		</div>
 		<?php event_grid_view(); // See the plugins/the-events-calendar/views/table.php template for customization ?>	
 	</div>
