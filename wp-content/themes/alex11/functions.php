@@ -640,7 +640,7 @@ function bp_dtheme_comment_form( $default_labels ) {
 		'comment_field'  => '<p class="form-textarea"><textarea name="comment" id="comment" cols="60" rows="10" aria-required="true"></textarea></p>',
 		'fields'         => apply_filters( 'comment_form_default_fields', $fields ),
 		'logged_in_as'   => '',
-		'must_log_in'    => '<p class="alert">' . sprintf( __( 'You must be <a href="%1$s">logged in</a> to post a comment.', 'buddypress' ), wp_login_url( get_permalink() ) )	. '</p>',
+		'must_log_in'    => '<p class="alert">' . sprintf( __( 'Du muss <a href="%1$s">angemeldet sein</a>, um ein Kommentar abzugeben. Hier kannst du dich <a href="/register">Registrieren</a>.', 'buddypress' ), wp_login_url( get_permalink() ) )	. '</p>',
 		'title_reply'    => __( 'Leave a reply', 'buddypress' )
 	);
 
