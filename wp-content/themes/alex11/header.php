@@ -54,5 +54,14 @@
 
 		<?php do_action( 'bp_after_header' ) ?>
 		<?php do_action( 'bp_before_container' ) ?>
+		
+		<?php if (is_user_logged_in() ) { //only logged in user can see this ?>
+			
+		<?php } else { ?>
+			<div id="info-area">
+				<p>Willkommen auf alex11. Ein offenes BlogCamp, ein Camp im Internet. Mache und diskutiere Vorschläge und Initiativen. <a href="/info">Hier erfährst du mehr</a></p>
+				<p class="linkbar"><a href="/register">Registriere dich</a> oder melde dich an | Bring dich ein und hau rein</p>
+			</div>
+		<?php } ?>
 
 		<div id="container">

@@ -137,6 +137,10 @@ div.page ul, div.post ul { list-style:none; }
 ul#links-list li.linkcat { margin-bottom:20px; }
 ul#links-list li.linkcat h2 { margin-bottom:5px; }
 
+#info-area { background: none repeat scroll 0 0 #F2CA52; margin-bottom: 20px; padding: 16px 0; text-align: center; width: 100%; border-radius:7px; }
+#info-area p { line-height:12px; font-size:13px; font-weight:bold; }
+#info-area p.linkbar { font-size:16px; }
+
 /* PLUGIN: The Events Calendar
 --------------------------------------------- */
 #tec-content { 
