@@ -140,6 +140,21 @@ ul#links-list li.linkcat h2 { margin-bottom:5px; }
 #info-area p { line-height:12px; font-size:13px; font-weight:bold; }
 #info-area p.linkbar { font-size:16px; }
 
+/* Disabled Sidebars
+--------------------------------------------- */
+.page-id-284 .upcoming,
+.page-id-284 #text-21,
+.page-id-284 #tag_cloud-3,
+.page-id-284 #recent-comments-3,
+.page-id-284 #recent-posts-2,
+.page-id-284 #text-16,
+.page-id-284 #text-17,
+.page-id-284 #text-18,
+.page-id-284 #text-19,
+.page-id-284 #text-20,
+.page-id-284 #linkcat-9,
+.page-id-284 #text-11 { display:none; }
+
 /* PLUGIN: The Events Calendar
 --------------------------------------------- */
 #tec-content { 
