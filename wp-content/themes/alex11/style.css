@@ -44,22 +44,21 @@ div#sidebar .padder { padding:0; }
 div#sidebar div { margin-top:10px; }
 
 #footer { margin:20px 0 0 0; }
-#footer-image { background:url(images/footer-image-draft.png) 0 0 no-repeat; width:980px; height:189px; margin:0 auto; }
+#footer-image img { width:100%; }
 #footer-color {
 	width:100%;
 	height:41px;
 	background-color:#5a7302;
 }
+
 #footer #site-generator { display:none; }
-#footer-widgets { background:none; padding:0; margin-bottom:-32px;}
-#footer-widget-area div.widget-area > ul { width:95%; margin:0 auto; }
-#menu-footer li { float:left; margin:2px 10px; }
-#menu-footer li a:link { color:#fff; }
+#footer-widgets { background:#5a7302; color:#fff; }
 
 /* Headlines
 --------------------------------------------- */
 h2 { font-size:20px; }
 h2.pagetitle { font-size:24px; }
+#footer-widgets h3.widgettitle { background:#F2CA52; color:#212121; font-weight:normal;}
 
 /* Links
 --------------------------------------------- */
@@ -100,11 +99,11 @@ div.item-list-tabs ul li a:active span { background-color:#d93d1a; }
 
 div#sidebar a:link { text-decoration:none; }
 
-#menu-footer li a:link,
-#menu-footer li a:visited { color:#fff; text-decoration:none; }
-#menu-footer li a:hover,
-#menu-footer li a:focus,
-#menu-footer li a:active { color:#d93d1a; text-decoration:none; }
+#footer-widgets a:link,
+#footer-widgets a:visited { color:#fff; text-decoration:none;}
+#footer-widgets a:hover,
+#footer-widgets a:focus,
+#footer-widgets a:active { color:#F2CA52; }
 
 /* Individual Rules
 --------------------------------------------- */
