@@ -140,6 +140,8 @@ ul#links-list li.linkcat h2 { margin-bottom:5px; }
 #info-area p { line-height:12px; font-size:13px; font-weight:bold; }
 #info-area p.linkbar { font-size:16px; }
 
+#blog-archives .archive-meta { margin-bottom:20px; background:#F2CA52; padding:10px; border-radius:7px; }
+
 /* Disabled Sidebars
 --------------------------------------------- */
 .page-id-284 .upcoming,
@@ -152,7 +154,6 @@ ul#links-list li.linkcat h2 { margin-bottom:5px; }
 .page-id-284 #text-18,
 .page-id-284 #text-19,
 .page-id-284 #text-20,
-.page-id-284 #linkcat-9,
 .page-id-284 #text-11 { display:none; }
 
 /* PLUGIN: The Events Calendar
