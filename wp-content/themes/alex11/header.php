@@ -60,7 +60,7 @@
 		<?php } else { ?>
 			<div id="info-area">
 				<p>Willkommen auf alex11. Ein offenes BlogCamp, ein Camp im Internet. Mache und diskutiere Vorschläge und Initiativen. <a href="/info">Hier erfährst du mehr</a></p>
-				<p class="linkbar"><a href="/register">Registriere dich</a> oder melde dich an | Bring dich ein und hau rein</p>
+				<p class="linkbar">Es ist dein/unser Blog, also hau rein und <a href="/register">registriere dich</a> oder melde dich an &darr; </p>
 			</div>
 		<?php } ?>
 
