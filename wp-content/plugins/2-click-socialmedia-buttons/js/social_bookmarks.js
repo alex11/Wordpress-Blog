@@ -1,79 +1,77 @@
 (function($){
-    "use strict";
-
+	"use strict";
 	/*
 	 * helper functions
-	 */ 
+	 */
 
-    // abbreviate at last blank before length and add "\u2026" (horizontal ellipsis)
-    function abbreviateText(text, length) {
-        var abbreviated = decodeURIComponent(text);
-        if (abbreviated.length <= length) {
-            return text;
-        }
+	// abbreviate at last blank before length and add "\u2026" (horizontal ellipsis)
+	function abbreviateText(text, length) {
+		var abbreviated = decodeURIComponent(text);
+		if (abbreviated.length <= length) {
+			return text;
+		}
 
-        var lastWhitespaceIndex = abbreviated.substring(0, length - 1).lastIndexOf(' ');
-        abbreviated = encodeURIComponent(abbreviated.substring(0, lastWhitespaceIndex)) + "\u2026";
+		var lastWhitespaceIndex = abbreviated.substring(0, length - 1).lastIndexOf(' ');
+		abbreviated = encodeURIComponent(abbreviated.substring(0, lastWhitespaceIndex)) + "\u2026";
 
-        return abbreviated;
-    }
+		return abbreviated;
+	}
 
-    // returns content of <meta name="" content=""> tags or '' if empty/non existant
-    function getMeta(name) {
-        var metaContent = $('meta[name="' + name + '"]').attr('content');
-        return metaContent || '';
-    }
-    
-    // create tweet text from content of <meta name="DC.title"> and <meta name="DC.creator">
-    // fallback to content of <title> tag
-    function getTweetText() {
-        var title = getMeta('DC.title');
-        var creator = getMeta('DC.creator');
+	// returns content of <meta name="" content=""> tags or '' if empty/non existant
+	function getMeta(name) {
+		var metaContent = $('meta[name="' + name + '"]').attr('content');
+		return metaContent || '';
+	}
 
-        if (title.length > 0 && creator.length > 0) {
-            title += ' - ' + creator;
-        } else {
-            title = $('title').text();
-        }
+	// create tweet text from content of <meta name="DC.title"> and <meta name="DC.creator">
+	// fallback to content of <title> tag
+	function getTweetText() {
+		var title = getMeta('DC.title');
+		var creator = getMeta('DC.creator');
 
-        return encodeURIComponent(title);
-    }
+		if (title.length > 0 && creator.length > 0) {
+			title += ' - ' + creator;
+		} else {
+			title = $('title').text();
+		}
 
-    // build URI from rel="canonical" or document.location
-    function getURI() {
-        var uri = document.location.href;
-        var canonical = $("link[rel=canonical]").attr("href");
+		return encodeURIComponent(title);
+	}
 
-        if (canonical && canonical.length > 0) {
-            if (canonical.indexOf("http") < 0) {
-                canonical = document.location.protocol + "//" + document.location.host + canonical;
-            }
-            uri = canonical;
-        }
+	// build URI from rel="canonical" or document.location
+	function getURI() {
+		var uri = document.location.href;
+		var canonical = $("link[rel=canonical]").attr("href");
 
-        return uri;
-    }
+		if (canonical && canonical.length > 0) {
+			if (canonical.indexOf("http") < 0) {
+				canonical = document.location.protocol + "//" + document.location.host + canonical;
+			}
+			uri = canonical;
+		}
 
-    function cookieSet(name, value, days, path, domain) {
-        var expires = new Date();
-        expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000));
-        document.cookie = name + '=' + value + '; expires=' + expires.toUTCString() + '; path=' + path + '; domain=' + domain;
-    }
-    function cookieDel(name, value, path, domain) {
-        var expires = new Date();
-        expires.setTime(expires.getTime() - 100);
-        document.cookie = name + '=' + value + '; expires=' + expires.toUTCString() + '; path=' + path + '; domain=' + domain;
-    }
-	
-	
+		return uri;
+	}
+
+	function cookieSet(name, value, days, path, domain) {
+		var expires = new Date();
+		expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000));
+		document.cookie = name + '=' + value + '; expires=' + expires.toUTCString() + '; path=' + path + '; domain=' + domain;
+	}
+
+	function cookieDel(name, value, path, domain) {
+		var expires = new Date();
+		expires.setTime(expires.getTime() - 100);
+		document.cookie = name + '=' + value + '; expires=' + expires.toUTCString() + '; path=' + path + '; domain=' + domain;
+	}
+
 	$.fn.socialSharePrivacy = function(options){
 		var defaults = {
 			'services' : {
 				'facebook' : {
 					'status'			: 'on',
-					'app_id'			: '',
 					'dummy_img'			: '',
-					'txt_info'			: '2 Klicks f&uuml;r mehr Datenschutz: Erst wenn Sie hier klicken, wird der Button aktiv und Sie k&ouml;nnen Ihre Empfehlung an Facebook senden. Schon beim Aktivieren werden Daten an Dritte &uuml;bertragen &ndash; siehe <em>i</em>.',
+					'txt_info'			: '2 Klicks für mehr Datenschutz: Erst wenn Sie hier klicken, wird der Button aktiv und Sie können Ihre Empfehlung an Facebook senden. Schon beim Aktivieren werden Daten an Dritte übertragen - siehe <em>i</em>.',
 					'txt_fb_off'		: 'nicht mit Facebook verbunden',
 					'txt_fb_on'			: 'mit Facebook verbunden',
 					'perma_option'		: 'on',
@@ -86,12 +84,12 @@
 				'twitter' : {
 					'status'			: 'on',
 					'dummy_img'			: '',
-					'txt_info'			: '2 Klicks f&uuml;r mehr Datenschutz: Erst wenn Sie hier klicken, wird der Button aktiv und Sie k&ouml;nnen Ihre Empfehlung an Twitter senden. Schon beim Aktivieren werden Daten an Dritte &uuml;bertragen &ndash; siehe <em>i</em>.',
+					'txt_info'			: '2 Klicks für mehr Datenschutz: Erst wenn Sie hier klicken, wird der Button aktiv und Sie können Ihre Empfehlung an Twitter senden. Schon beim Aktivieren werden Daten an Dritte übertragen - siehe <em>i</em>.',
 					'txt_twitter_off'	: 'nicht mit Twitter verbunden',
 					'txt_twitter_on'	: 'mit Twitter verbunden',
 					'perma_option'		: 'on',
 					'display_name'		: 'Twitter',
-					'reply_to'			: '', 
+					'reply_to'			: '',
 					'tweet_text'		: '',
 					'referrer_track'	: '',
 					'the_permalink'		: document.location.host,
@@ -100,18 +98,31 @@
 				'gplus' : {
 					'status'			: 'on',
 					'dummy_img'			: '',
-					'txt_info'			: '2 Klicks f&uuml;r mehr Datenschutz: Erst wenn Sie hier klicken, wird der Button aktiv und Sie k&ouml;nnen Ihre Empfehlung an Google+ senden. Schon beim Aktivieren werden Daten an Dritte &uuml;bertragen &ndash; siehe <em>i</em>.',
+					'txt_info'			: '2 Klicks für mehr Datenschutz: Erst wenn Sie hier klicken, wird der Button aktiv und Sie können Ihre Empfehlung an Google+ senden. Schon beim Aktivieren werden Daten an Dritte übertragen - siehe <em>i</em>.',
 					'txt_gplus_off'		: 'nicht mit Google+ verbunden',
 					'txt_plus_on'		: 'mit Google+ verbunden',
 					'perma_option'		: 'on',
 					'display_name'		: 'Google+',
 					'referrer_track'	: '',
 					'the_permalink'		: document.location.host
+				},
+				'flattr' : {
+					'status'			: 'on',
+					'uid'				: '',
+					'dummy_img'			: '',
+					'txt_info'			: '2 Klicks für mehr Datenschutz: Erst wenn Sie hier klicken, wird der Button aktiv und Sie können Ihre Empfehlung an Flattr senden. Schon beim Aktivieren werden Daten an Dritte übertragen - siehe <em>i</em>.',
+					'txt_flattr_off'	: 'nicht mit Flattr verbunden',
+					'txt_flattr_on'		: 'mit Flattr verbunden',
+					'perma_option'		: 'on',
+					'display_name'		: 'Flattr',
+					'the_title'			: '',
+					'the_permalink'		: document.location.host,
+					'the_excerpt'		: ''
 				}
 			},
 			'info_link'			: 'http://www.heise.de/ct/artikel/2-Klicks-fuer-mehr-Datenschutz-1333879.html',
-			'txt_help'  		: 'Wenn Sie diese Felder durch einen Klick aktivieren, werden Informationen an Facebook, Twitter oder Google in die USA &uuml;bertragen und unter Umst&auml;nden auch dort gespeichert. N&auml;heres erfahren Sie durch einen Klick auf das <em>i</em>.',
-			'settings_perma'	: 'Dauerhaft aktivieren und Daten&uuml;ber&shy;tragung zustimmen:',
+			'txt_help'  		: 'Wenn Sie diese Felder durch einen Klick aktivieren, werden Informationen an Facebook, Twitter, Flattr oder Google ins Ausland übertragen und unter Umständen auch dort gespeichert. Näheres erfahren Sie durch einen Klick auf das <em>i</em>.',
+			'settings_perma'	: 'Dauerhaft aktivieren und Datenüber-tragung zustimmen:',
 			'cookie_path'		: '/',
 			'cookie_domain'		: document.location.host,
 			'cookie_expires'	: '365',
@@ -119,239 +130,288 @@
 		};
 
 		var options = $.extend(true, defaults, options);
-		
+
 		var facebook_on = (options.services.facebook.status === 'on');
-        var twitter_on  = (options.services.twitter.status  === 'on');
-        var gplus_on    = (options.services.gplus.status    === 'on');
+		var twitter_on  = (options.services.twitter.status  === 'on');
+		var gplus_on	= (options.services.gplus.status	=== 'on');
+		var flattr_on	= (options.services.flattr.status	=== 'on');
 
-        // check if at least one service is "on"
-        if (!facebook_on && !twitter_on && !gplus_on) {
-            return;
-        }
+		// check if at least one service is "on"
+		if (!facebook_on && !twitter_on && !gplus_on && !flattr_on) {
+			return;
+		}
 
-        // insert stylesheet into document and prepend target element
-        if (options.css_path.length > 0) {
-            $('head').append('<link rel="stylesheet" type="text/css" href="' + options.css_path + '" />');
-        }
-        $(this).prepend('<ul class="social_share_privacy_area"></ul>');
-        var context = $('.social_share_privacy_area', this);
+		// insert stylesheet into document and prepend target element
+		if (options.css_path.length > 0) {
+			$('head').append('<link rel="stylesheet" type="text/css" href="' + options.css_path + '" />');
+		}
+		$(this).prepend('<ul class="social_share_privacy_area"></ul>');
+		var context = $('.social_share_privacy_area', this);
 
-        // canonical uri that will be shared
-        var uri = options.uri;
-        if (typeof uri === 'function') {
-            uri = uri();
-        }
+		// canonical uri that will be shared
+		var uri = options.uri;
+		if (typeof uri === 'function') {
+			uri = uri();
+		}
 
 		return this.each(function(){
-            //
-            // Facebook
-            //
-            if (facebook_on) {
-                var fb_enc_uri = encodeURIComponent(options.services.facebook.the_permalink+options.services.facebook.referrer_track);
-                var fb_code = '<iframe src="http://www.facebook.com/plugins/like.php?locale=' + options.services.facebook.language + '&amp;href=' + fb_enc_uri + '&amp;send=false&amp;layout=button_count&amp;width=120&amp;show_faces=false&amp;action=' + options.services.facebook.action + '&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:145px; height:21px;" allowTransparency="true"></iframe>';
-                var fb_dummy_btn = '<img src="' + options.services.facebook.dummy_img + '" alt="Facebook &quot;Like&quot;-Dummy" class="fb_like_privacy_dummy" />';
+			//
+			// Facebook
+			//
+			if (facebook_on) {
+				var fb_enc_uri = encodeURIComponent(options.services.facebook.the_permalink+options.services.facebook.referrer_track);
+				var fb_code = '<iframe src="http://www.facebook.com/plugins/like.php?locale=' + options.services.facebook.language + '&amp;href=' + fb_enc_uri + '&amp;send=false&amp;layout=button_count&amp;width=120&amp;show_faces=false&amp;action=' + options.services.facebook.action + '&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:145px; height:21px;" allowTransparency="true"></iframe>';
+				var fb_dummy_btn = '<img src="' + options.services.facebook.dummy_img + '" alt="Facebook &quot;Like&quot;-Dummy" class="fb_like_privacy_dummy" />';
 
-                context.append('<li class="facebook help_info"><span class="info">' + options.services.facebook.txt_info + '</span><span class="switch off">' + options.services.facebook.txt_fb_off + '</span><div class="fb_like dummy_btn">' + fb_dummy_btn + '</div></li>');
+				context.append('<li class="facebook help_info"><span class="info">' + options.services.facebook.txt_info + '</span><span class="switch off">' + options.services.facebook.txt_fb_off + '</span><div class="fb_like dummy_btn">' + fb_dummy_btn + '</div></li>');
 
-                var $container_fb = $('li.facebook', context);
+				var $container_fb = $('li.facebook', context);
 
-                $('li.facebook div.fb_like img.fb_like_privacy_dummy,li.facebook span.switch', context).live('click', function () {
-                    if ($container_fb.find('span.switch').hasClass('off')) {
-                        $container_fb.addClass('info_off');
-                        $container_fb.find('span.switch').addClass('on').removeClass('off').html(options.services.facebook.txt_fb_on);
-                        $container_fb.find('img.fb_like_privacy_dummy').replaceWith(fb_code);
-                    } else {
-                        $container_fb.removeClass('info_off');
-                        $container_fb.find('span.switch').addClass('off').removeClass('on').html(options.services.facebook.txt_fb_off);
-                        $container_fb.find('.fb_like').html(fb_dummy_btn);
-                    }
-                });
-            }
-			
-            //
-            // Twitter
-            //
-            if (twitter_on) {
-                var text = options.services.twitter.tweet_text;
-                if (typeof text === 'function') {
-                    text = text();
-                }
-                // 120 is the max character count left after twitters automatic url shortening with t.co
-                text = abbreviateText(text, '120');
+				$('li.facebook div.fb_like img.fb_like_privacy_dummy,li.facebook span.switch', context).live('click', function () {
+					if ($container_fb.find('span.switch').hasClass('off')) {
+						$container_fb.addClass('info_off');
+						$container_fb.find('span.switch').addClass('on').removeClass('off').html(options.services.facebook.txt_fb_on);
+						$container_fb.find('img.fb_like_privacy_dummy').replaceWith(fb_code);
+					} else {
+						$container_fb.removeClass('info_off');
+						$container_fb.find('span.switch').addClass('off').removeClass('on').html(options.services.facebook.txt_fb_off);
+						$container_fb.find('.fb_like').html(fb_dummy_btn);
+					}
+				});
+			}
 
-                var twitter_enc_uri = encodeURIComponent(options.services.twitter.the_permalink+options.services.twitter.referrer_track);
-                var twitter_count_url = encodeURIComponent(options.services.twitter.the_permalink);
-                var twitter_code = '<iframe allowtransparency="true" frameborder="0" scrolling="no" src="http://platform.twitter.com/widgets/tweet_button.html?url=' + twitter_enc_uri + '&amp;counturl=' + twitter_count_url + '&amp;text=' + text + '&amp;via='+options.services.twitter.reply_to+'&amp;count=horizontal&amp;lang=' + options.services.twitter.language + '" style="width:130px; height:25px;"></iframe>';
-                var twitter_dummy_btn = '<img src="' + options.services.twitter.dummy_img + '" alt="&quot;Tweet this&quot;-Dummy" class="tweet_this_dummy" />';
+			//
+			// Twitter
+			//
+			if (twitter_on) {
+				var text = options.services.twitter.tweet_text;
+				if (typeof text === 'function') {
+					text = text();
+				}
+				// 120 is the max character count left after twitters automatic url shortening with t.co
+				text = abbreviateText(text, '120');
 
-                context.append('<li class="twitter help_info"><span class="info">' + options.services.twitter.txt_info + '</span><span class="switch off">' + options.services.twitter.txt_twitter_off + '</span><div class="tweet dummy_btn">' + twitter_dummy_btn + '</div></li>');
+				var twitter_enc_uri = encodeURIComponent(options.services.twitter.the_permalink+options.services.twitter.referrer_track);
+				var twitter_count_url = encodeURIComponent(options.services.twitter.the_permalink);
+				var twitter_code = '<iframe allowtransparency="true" frameborder="0" scrolling="no" src="http://platform.twitter.com/widgets/tweet_button.html?url=' + twitter_enc_uri + '&amp;counturl=' + twitter_count_url + '&amp;text=' + text + '&amp;via='+options.services.twitter.reply_to+'&amp;count=horizontal&amp;lang=' + options.services.twitter.language + '" style="width:130px; height:25px;"></iframe>';
+				var twitter_dummy_btn = '<img src="' + options.services.twitter.dummy_img + '" alt="&quot;Tweet this&quot;-Dummy" class="tweet_this_dummy" />';
 
-                var $container_tw = $('li.twitter', context);
+				context.append('<li class="twitter help_info"><span class="info">' + options.services.twitter.txt_info + '</span><span class="switch off">' + options.services.twitter.txt_twitter_off + '</span><div class="tweet dummy_btn">' + twitter_dummy_btn + '</div></li>');
 
-                $('li.twitter div.tweet img,li.twitter span.switch', context).live('click', function () {
-                    if ($container_tw.find('span.switch').hasClass('off')) {
-                        $container_tw.addClass('info_off');
-                        $container_tw.find('span.switch').addClass('on').removeClass('off').html(options.services.twitter.txt_twitter_on);
-                        $container_tw.find('img.tweet_this_dummy').replaceWith(twitter_code);
-                    } else {
-                        $container_tw.removeClass('info_off');
-                        $container_tw.find('span.switch').addClass('off').removeClass('on').html(options.services.twitter.txt_twitter_off);
-                        $container_tw.find('.tweet').html(twitter_dummy_btn);
-                    }
-                });
-            }
-			
-            //
-            // Google+
-            //
-            if (gplus_on) {
-                // fuer G+ wird die URL nicht encoded, da das zu einem Fehler fuehrt
-                var gplus_uri = options.services.gplus.the_permalink+options.services.gplus.referrer_track;
-                
-                // we use the Google+ "asynchronous" code, standard code is flaky if inserted into dom after load
-                var gplus_code = '<div class="g-plusone" data-size="medium" data-href="' + gplus_uri + '"></div><script type="text/javascript">window.___gcfg = {lang: "' + options.services.gplus.language + '"}; (function() { var po = document.createElement("script"); po.type = "text/javascript"; po.async = true; po.src = "https://apis.google.com/js/plusone.js"; var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(po, s); })(); </script>';
-                var gplus_dummy_btn = '<img src="' + options.services.gplus.dummy_img + '" alt="&quot;Google+1&quot;-Dummy" class="gplus_one_dummy" />';
+				var $container_tw = $('li.twitter', context);
 
-                context.append('<li class="gplus help_info"><span class="info">' + options.services.gplus.txt_info + '</span><span class="switch off">' + options.services.gplus.txt_gplus_off + '</span><div class="gplusone dummy_btn">' + gplus_dummy_btn + '</div></li>');
+				$('li.twitter div.tweet img,li.twitter span.switch', context).live('click', function () {
+					if ($container_tw.find('span.switch').hasClass('off')) {
+						$container_tw.addClass('info_off');
+						$container_tw.find('span.switch').addClass('on').removeClass('off').html(options.services.twitter.txt_twitter_on);
+						$container_tw.find('img.tweet_this_dummy').replaceWith(twitter_code);
+					} else {
+						$container_tw.removeClass('info_off');
+						$container_tw.find('span.switch').addClass('off').removeClass('on').html(options.services.twitter.txt_twitter_off);
+						$container_tw.find('.tweet').html(twitter_dummy_btn);
+					}
+				});
+			}
 
-                var $container_gplus = $('li.gplus', context);
+			//
+			// Google+
+			//
+			if (gplus_on) {
+				// fuer G+ wird die URL nicht encoded, da das zu einem Fehler fuehrt
+				var gplus_uri = options.services.gplus.the_permalink+options.services.gplus.referrer_track;
 
-                $('li.gplus div.gplusone img,li.gplus span.switch', context).live('click', function () {
-                    if ($container_gplus.find('span.switch').hasClass('off')) {
-                        $container_gplus.addClass('info_off');
-                        $container_gplus.find('span.switch').addClass('on').removeClass('off').html(options.services.gplus.txt_gplus_on);
-                        $container_gplus.find('img.gplus_one_dummy').replaceWith(gplus_code);
-                    } else {
-                        $container_gplus.removeClass('info_off');
-                        $container_gplus.find('span.switch').addClass('off').removeClass('on').html(options.services.gplus.txt_gplus_off);
-                        $container_gplus.find('.gplusone').html(gplus_dummy_btn);
-                    }
-                });
-            }
+				// we use the Google+ "asynchronous" code, standard code is flaky if inserted into dom after load
+				var gplus_code = '<div class="g-plusone" data-size="medium" data-href="' + gplus_uri + '"></div><script type="text/javascript">window.___gcfg = {lang: "' + options.services.gplus.language + '"}; (function() { var po = document.createElement("script"); po.type = "text/javascript"; po.async = true; po.src = "https://apis.google.com/js/plusone.js"; var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(po, s); })(); </script>';
+				var gplus_dummy_btn = '<img src="' + options.services.gplus.dummy_img + '" alt="&quot;Google+1&quot;-Dummy" class="gplus_one_dummy" />';
 
-            //
-            // Der Info/Settings-Bereich wird eingebunden
-            //
-            context.append('<li class="settings_info"><div class="settings_info_menu off perma_option_off"><a href="' + options.info_link + '"><span class="help_info icon"><span class="info">' + options.txt_help + '</span></span></a></div></li>');
+				context.append('<li class="gplus help_info"><span class="info">' + options.services.gplus.txt_info + '</span><span class="switch off">' + options.services.gplus.txt_gplus_off + '</span><div class="gplusone dummy_btn">' + gplus_dummy_btn + '</div></li>');
 
-            // Info-Overlays mit leichter Verzoegerung einblenden
-            $('.help_info:not(.info_off)', context).live('mouseenter', function () {
-                var $info_wrapper = $(this);
-                var timeout_id = window.setTimeout(function () { $($info_wrapper).addClass('display'); }, 500);
-                $(this).data('timeout_id', timeout_id);
-            });
-            $('.help_info', context).live('mouseleave', function () {
-                var timeout_id = $(this).data('timeout_id');
-                window.clearTimeout(timeout_id);
-                if ($(this).hasClass('display')) {
-                    $(this).removeClass('display');
-                }
-            });
+				var $container_gplus = $('li.gplus', context);
 
-            var facebook_perma = (options.services.facebook.perma_option === 'on');
-            var twitter_perma  = (options.services.twitter.perma_option  === 'on');
-            var gplus_perma    = (options.services.gplus.perma_option    === 'on');
+				$('li.gplus div.gplusone img,li.gplus span.switch', context).live('click', function () {
+					if ($container_gplus.find('span.switch').hasClass('off')) {
+						$container_gplus.addClass('info_off');
+						$container_gplus.find('span.switch').addClass('on').removeClass('off').html(options.services.gplus.txt_gplus_on);
+						$container_gplus.find('img.gplus_one_dummy').replaceWith(gplus_code);
+					} else {
+						$container_gplus.removeClass('info_off');
+						$container_gplus.find('span.switch').addClass('off').removeClass('on').html(options.services.gplus.txt_gplus_off);
+						$container_gplus.find('.gplusone').html(gplus_dummy_btn);
+					}
+				});
+			}
 
-            // Menue zum dauerhaften Einblenden der aktiven Dienste via Cookie einbinden
-            // Die IE7 wird hier ausgenommen, da er kein JSON kann und die Cookies hier ueber JSON-Struktur abgebildet werden
-            if (((facebook_on && facebook_perma)
-                || (twitter_on && twitter_perma)
-                || (gplus_on && gplus_perma))
-                    && (!$.browser.msie || ($.browser.msie && $.browser.version > 7.0))) {
+			//
+			// Flattr
+			//
+			if (flattr_on) {
+				var flattr_title = options.services.flattr.the_title;
+				var flattr_uri = encodeURIComponent(options.services.flattr.the_permalink);
+				var flattr_excerpt = options.services.flattr.the_excerpt;
+				var flattr_code = '<iframe src="http://api.flattr.com/button/view/?uid=' + options.services.flattr.uid + '&amp;url=' + flattr_uri + '&amp;title=' + flattr_title + '&amp;description=' + flattr_excerpt + '&amp;category=text&amp;language=de_DE&amp;button=compact" style="width:110px; height:22px;" allowtransparency="true" frameborder="0" scrolling="no"></iframe>';
+				var flattr_dummy_btn = '<img src="' + options.services.flattr.dummy_img + '" alt="&quot;Flattr&quot;-Dummy" class="flattr_dummy" />';
 
-                // Cookies abrufen
-                var cookie_list = document.cookie.split(';');
-                var cookies = '{';
-                var i = 0;
-                for (; i < cookie_list.length; i += 1) {
-                    var foo = cookie_list[i].split('=');
-                    cookies += '"' + $.trim(foo[0]) + '":"' + $.trim(foo[1]) + '"';
-                    if (i < cookie_list.length - 1) {
-                        cookies += ',';
-                    }
-                }
-                cookies += '}';
-                cookies = JSON.parse(cookies);
+				context.append('<li class="flattr help_info"><span class="info">' + options.services.flattr.txt_info + '</span><span class="switch off">' + options.services.flattr.txt_flattr_off + '</span><div class="flattrbtn dummy_btn">' + flattr_dummy_btn + '</div></li>');
 
-                // Container definieren
-                var $container_settings_info = $('li.settings_info', context);
+				var $container_flattr = $('li.flattr', context);
 
-                // Klasse entfernen, die das i-Icon alleine formatiert, da Perma-Optionen eingeblendet werden
-                $container_settings_info.find('.settings_info_menu').removeClass('perma_option_off');
+				$('li.flattr div.flattrbtn img,li.flattr span.switch', context).live('click', function () {
+					if ($container_flattr.find('span.switch').hasClass('off')) {
+						$container_flattr.addClass('info_off');
+						$container_flattr.find('span.switch').addClass('on').removeClass('off').html(options.services.flattr.txt_flattr_on);
+						$container_flattr.find('img.flattr_dummy').replaceWith(flattr_code);
+					} else {
+						$container_flattr.removeClass('info_off');
+						$container_flattr.find('span.switch').addClass('off').removeClass('on').html(options.services.flattr.txt_flattr_off);
+						$container_flattr.find('.flattrbtn').html(flattr_dummy_btn);
+					}
+				});
+			}
 
-                // Perma-Optionen-Icon (.settings) und Formular (noch versteckt) einbinden
-                $container_settings_info.find('.settings_info_menu').append('<span class="settings">Einstellungen</span><form><fieldset><legend>' + options.settings_perma + '</legend></fieldset></form>');
+			//
+			// Der Info/Settings-Bereich wird eingebunden
+			//
+			context.append('<li class="settings_info"><div class="settings_info_menu off perma_option_off"><a href="' + options.info_link + '"><span class="help_info icon"><span class="info">' + options.txt_help + '</span></span></a></div></li>');
+
+			// Info-Overlays mit leichter Verzoegerung einblenden
+			$('.help_info:not(.info_off)', context).live('mouseenter', function () {
+				var $info_wrapper = $(this);
+				var timeout_id = window.setTimeout(function () { $($info_wrapper).addClass('display'); }, 500);
+				$(this).data('timeout_id', timeout_id);
+			});
+			$('.help_info', context).live('mouseleave', function () {
+				var timeout_id = $(this).data('timeout_id');
+				window.clearTimeout(timeout_id);
+				if ($(this).hasClass('display')) {
+					$(this).removeClass('display');
+				}
+			});
+
+			var facebook_perma = (options.services.facebook.perma_option === 'on');
+			var twitter_perma  = (options.services.twitter.perma_option  === 'on');
+			var gplus_perma	= (options.services.gplus.perma_option	=== 'on');
+			var flattr_perma	= (options.services.flattr.perma_option	=== 'on');
+
+			// Menue zum dauerhaften Einblenden der aktiven Dienste via Cookie einbinden
+			// Die IE7 wird hier ausgenommen, da er kein JSON kann und die Cookies hier ueber JSON-Struktur abgebildet werden
+			if (((facebook_on && facebook_perma)
+				|| (twitter_on && twitter_perma)
+				|| (gplus_on && gplus_perma)
+				|| (flattr_on && flattr_perma))
+					&& (!$.browser.msie || ($.browser.msie && $.browser.version > 7.0))) {
+
+				// Cookies abrufen
+				var cookie_list = document.cookie.split(';');
+				var cookies = '{';
+				var i = 0;
+				for (; i < cookie_list.length; i += 1) {
+					var foo = cookie_list[i].split('=');
+					cookies += '"' + $.trim(foo[0]) + '":"' + $.trim(foo[1]) + '"';
+					if (i < cookie_list.length - 1) {
+						cookies += ',';
+					}
+				}
+				cookies += '}';
+				cookies = JSON.parse(cookies);
+
+				// Container definieren
+				var $container_settings_info = $('li.settings_info', context);
+
+				// Klasse entfernen, die das i-Icon alleine formatiert, da Perma-Optionen eingeblendet werden
+				$container_settings_info.find('.settings_info_menu').removeClass('perma_option_off');
+
+				// Perma-Optionen-Icon (.settings) und Formular (noch versteckt) einbinden
+				$container_settings_info.find('.settings_info_menu').append('<span class="settings">Einstellungen</span><form><fieldset><legend>' + options.settings_perma + '</legend></fieldset></form>');
 
 
-                // Die Dienste mit <input> und <label>, sowie checked-Status laut Cookie, schreiben
-                var checked = ' checked="checked"';
-                if (facebook_on && facebook_perma) {
-                    var perma_status_facebook = cookies.socialSharePrivacy_facebook === 'perma_on' ? checked : '';
-                    $container_settings_info.find('form fieldset').append(
-                        '<input type="checkbox" name="perma_status_facebook" id="perma_status_facebook"'
-                            + perma_status_facebook + ' /><label for="perma_status_facebook">'
-                            + options.services.facebook.display_name + '</label>'
-                    );
-                }
+				// Die Dienste mit <input> und <label>, sowie checked-Status laut Cookie, schreiben
+				var checked = ' checked="checked"';
+				if (facebook_on && facebook_perma) {
+					var perma_status_facebook = cookies.socialSharePrivacy_facebook === 'perma_on' ? checked : '';
+					$container_settings_info.find('form fieldset').append(
+						'<input type="checkbox" name="perma_status_facebook" id="perma_status_facebook"'
+							+ perma_status_facebook + ' /><label for="perma_status_facebook">'
+							+ options.services.facebook.display_name + '</label>'
+					);
+				}
 
-                if (twitter_on && twitter_perma) {
-                    var perma_status_twitter = cookies.socialSharePrivacy_twitter === 'perma_on' ? checked : '';
-                    $container_settings_info.find('form fieldset').append(
-                        '<input type="checkbox" name="perma_status_twitter" id="perma_status_twitter"'
-                            + perma_status_twitter + ' /><label for="perma_status_twitter">'
-                            + options.services.twitter.display_name + '</label>'
-                    );
-                }
+				if (twitter_on && twitter_perma) {
+					var perma_status_twitter = cookies.socialSharePrivacy_twitter === 'perma_on' ? checked : '';
+					$container_settings_info.find('form fieldset').append(
+						'<input type="checkbox" name="perma_status_twitter" id="perma_status_twitter"'
+							+ perma_status_twitter + ' /><label for="perma_status_twitter">'
+							+ options.services.twitter.display_name + '</label>'
+					);
+				}
 
-                if (gplus_on && gplus_perma) {
-                    var perma_status_gplus = cookies.socialSharePrivacy_gplus === 'perma_on' ? checked : '';
-                    $container_settings_info.find('form fieldset').append(
-                        '<input type="checkbox" name="perma_status_gplus" id="perma_status_gplus"'
-                            + perma_status_gplus + ' /><label for="perma_status_gplus">'
-                            + options.services.gplus.display_name + '</label>'
-                    );
-                }
+				if (gplus_on && gplus_perma) {
+					var perma_status_gplus = cookies.socialSharePrivacy_gplus === 'perma_on' ? checked : '';
+					$container_settings_info.find('form fieldset').append(
+							'<input type="checkbox" name="perma_status_gplus" id="perma_status_gplus"'
+							+ perma_status_gplus + ' /><label for="perma_status_gplus">'
+							+ options.services.gplus.display_name + '</label>'
+					);
+				}
 
-                // Cursor auf Pointer setzen fuer das Zahnrad
-                $container_settings_info.find('span.settings').css('cursor', 'pointer');
+				if (flattr_on && flattr_perma) {
+					var perma_status_flattr = cookies.socialSharePrivacy_flattr === 'perma_on' ? checked : '';
+					$container_settings_info.find('form fieldset').append(
+						'<input type="checkbox" name="perma_status_flattr" id="perma_status_flattr"'
+							+ perma_status_flattr + ' /><label for="perma_status_flattr">'
+							+ options.services.flattr.display_name + '</label>'
+					);
+				}
 
-                // Einstellungs-Menue bei mouseover ein-/ausblenden
-                $($container_settings_info.find('span.settings'), context).live('mouseenter', function () {
-                    var timeout_id = window.setTimeout(function () { $container_settings_info.find('.settings_info_menu').removeClass('off').addClass('on'); }, 500);
-                    $(this).data('timeout_id', timeout_id);
-                }); 
-                $($container_settings_info, context).live('mouseleave', function () {
-                    var timeout_id = $(this).data('timeout_id');
-                    window.clearTimeout(timeout_id);
-                    $container_settings_info.find('.settings_info_menu').removeClass('on').addClass('off');
-                });
+				// Cursor auf Pointer setzen fuer das Zahnrad
+				$container_settings_info.find('span.settings').css('cursor', 'pointer');
 
-                // Klick-Interaktion auf <input> um Dienste dauerhaft ein- oder auszuschalten (Cookie wird gesetzt oder geloescht)
-                $($container_settings_info.find('fieldset input')).live('click', function (event) {
-                    var click = event.target.id;
-                    var service = click.substr(click.lastIndexOf('_') + 1, click.length);
-                    var cookie_name = 'socialSharePrivacy_' + service;
+				// Einstellungs-Menue bei mouseover ein-/ausblenden
+				$($container_settings_info.find('span.settings'), context).live('mouseenter', function () {
+					var timeout_id = window.setTimeout(function () { $container_settings_info.find('.settings_info_menu').removeClass('off').addClass('on'); }, 500);
+					$(this).data('timeout_id', timeout_id);
+				});
+				$($container_settings_info, context).live('mouseleave', function () {
+					var timeout_id = $(this).data('timeout_id');
+					window.clearTimeout(timeout_id);
+					$container_settings_info.find('.settings_info_menu').removeClass('on').addClass('off');
+				});
 
-                    if ($('#' + event.target.id + ':checked').length) {
-                        cookieSet(cookie_name, 'perma_on', options.cookie_expires, options.cookie_path, options.cookie_domain);
-                        $('form fieldset label[for=' + click + ']', context).addClass('checked');
-                    } else {
-                        cookieDel(cookie_name, 'perma_on', options.cookie_path, options.cookie_domain);
-                        $('form fieldset label[for=' + click + ']', context).removeClass('checked');
-                    }
-                });
+				// Klick-Interaktion auf <input> um Dienste dauerhaft ein- oder auszuschalten (Cookie wird gesetzt oder geloescht)
+				$($container_settings_info.find('fieldset input')).live('click', function (event) {
+					var click = event.target.id;
+					var service = click.substr(click.lastIndexOf('_') + 1, click.length);
+					var cookie_name = 'socialSharePrivacy_' + service;
 
-                // Dienste automatisch einbinden, wenn entsprechendes Cookie vorhanden ist
-                if (facebook_on && facebook_perma && cookies.socialSharePrivacy_facebook === 'perma_on') {
-                    $('li.facebook span.switch', context).click();
-                }
-                if (twitter_on && twitter_perma && cookies.socialSharePrivacy_twitter === 'perma_on') {
-                    $('li.twitter span.switch', context).click();
-                }
-                if (gplus_on && gplus_perma && cookies.socialSharePrivacy_gplus === 'perma_on') {
-                    $('li.gplus span.switch', context).click();
-                }
-            }
+					if ($('#' + event.target.id + ':checked').length) {
+						cookieSet(cookie_name, 'perma_on', options.cookie_expires, options.cookie_path, options.cookie_domain);
+						$('form fieldset label[for=' + click + ']', context).addClass('checked');
+					} else {
+						cookieDel(cookie_name, 'perma_on', options.cookie_path, options.cookie_domain);
+						$('form fieldset label[for=' + click + ']', context).removeClass('checked');
+					}
+				});
+
+				// Dienste automatisch einbinden, wenn entsprechendes Cookie vorhanden ist
+				// Facebook
+				if (facebook_on && facebook_perma && cookies.socialSharePrivacy_facebook === 'perma_on') {
+					$('li.facebook span.switch', context).click();
+				}
+
+				// Twitter
+				if (twitter_on && twitter_perma && cookies.socialSharePrivacy_twitter === 'perma_on') {
+					$('li.twitter span.switch', context).click();
+				}
+
+				// Googleplus
+				if (gplus_on && gplus_perma && cookies.socialSharePrivacy_gplus === 'perma_on') {
+					$('li.gplus span.switch', context).click();
+				}
+
+				// Flattr
+				if (flattr_on && flattr_perma && cookies.socialSharePrivacy_flattr === 'perma_on') {
+					$('li.flattr span.switch', context).click();
+				}
+			}
 		});
 	}
 })(jQuery);

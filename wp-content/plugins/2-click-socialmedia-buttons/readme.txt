@@ -1,16 +1,16 @@
 ﻿=== 2 Click Social Media Buttons ===
 Contributors: ppfeufer
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=DC2AEJD2J66RE
-Tags: twitter, facebook, googleplus, button
+Tags: twitter, facebook, googleplus, button, flattr
 Requires at least: 3.0.1
 Tested up to: WordPress 3.3-beta2
-Stable tag: 0.10
+Stable tag: 0.13
 
-Fügt die Buttons für Facebook-Like (Empfehlen), Twitter und Googleplus dem deutschen Datenschutz entsprechend in euer WordPress ein.
+Fügt die Buttons für Facebook-Like (Empfehlen), Twitter, Flattr und Googleplus dem deutschen Datenschutz entsprechend in euer WordPress ein.
 
 == Description ==
 
-Fügt die Buttons für Facebook-Like (Empfehlen), Twitter und Googleplus dem deutschen Datenschutz entsprechend in euer WordPress ein.
+Fügt die Buttons für Facebook-Like (Empfehlen), Twitter, Flattr und Googleplus dem deutschen Datenschutz entsprechend in euer WordPress ein.
 Dies wird leider durch immer verwirrendere Datenschutzbestimmungen notwendig. Das Plugin ist eine WordPress-Adaption der Lösung von heise.de wie in ihrem Artikel [2 Klicks für mehr Datenschutz](http://www.heise.de/ct/artikel/2-Klicks-fuer-mehr-Datenschutz-1333879.html "2 Klicks für mehr Datenschutz auf heise online") beschrieben.
 Bisher werden die Buttons einfach in den Einzelartikeln und -seiten unter dem Artikel eingebunden. Einige Einstellungsmöglichkeiten sind noch in Planung.
 
@@ -47,6 +47,31 @@ Nutze dafür einfach dein Dashboard
 3. Einstellungsmenü der Buttons.
 
 == Changelog ==
+= 0.13 =
+* (28. 10. 2011)
+* Fix: Funktion zum Einbinden der Buttons überarbeitet. (schlanker, kürzer und schneller)
+* Fix: Schreibfehler auf der Einstellungsseite berichtigt.
+* Workaround für Themes, welche auf dem Weg vom Content zum Footer die Post-ID verlieren eingebaut.
+* Code ein wenig aufgeräumt.
+
+= 0.12 =
+* (27. 10. 2011)
+* Neu: Sprachunterstützung hinzugefügt (Englisch und Deutsch).
+* Neu: Direkte Eingabe der Infotexte. Also der Texte, die bei Mouseover angezeigt werden.
+
+= 0.11-r2 =
+* (27. 10. 2011)
+* Update: JavaScript
+
+= 0.11-r1 =
+* (27. 10. 2011)
+* Versionbump
+
+= 0.11 =
+* (26. 20. 2011)
+* Fix: CSS - äußeren Bildabstand der Listenelemente auf 0 gesetzt. Dies gab sonst einige Probleme in einigen Themes. (margin:0 !important;)
+* Neu: Flattr ist nun ebenfalls dabei :-)
+
 = 0.10 =
 * (22. 10. 2011)
 * Fix: Falls es kein Excerpt gibt, wird nun explizit einer generiert, damit es auch etwas Text bei Google+ und Faebook anzuzeigen gibt.
@@ -54,7 +79,7 @@ Nutze dafür einfach dein Dashboard
 = 0.9 =
 * (21. 10. 2011)
 * Fix: Sonderzeichen in der Überschrift führen nicht mehr dazu, dass die Buttons nicht geladen werden.
-* Fix: CSS - äußeren Bildabstand der Dummybilder auf 0 gesetzt. Dies gab sonst einige Probleme in einigen Themes.
+* Fix: CSS - inneren Bildabstand der Listenelemente auf 0 gesetzt. Dies gab sonst einige Probleme in einigen Themes. (padding:0 !important;)
 * JavaScript aufgeräumt.
 
 = 0.8.2 =

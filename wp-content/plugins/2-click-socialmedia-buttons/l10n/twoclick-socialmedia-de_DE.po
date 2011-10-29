@@ -1,0 +1,207 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Poedit-Language: \n"
+"X-Poedit-Country: \n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;\n"
+"X-Poedit-Basepath: \n"
+"X-Poedit-Bookmarks: \n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Textdomain-Support: yes"
+
+#: 2-click-socialmedia-buttons-widget.php:23
+#@ twoclick-socialmedia
+msgid "2-Click Social Media Buttons"
+msgstr "2-Click Social Media Buttons"
+
+#: 2-click-socialmedia-buttons-widget.php:42
+#@ twoclick-socialmedia
+msgid "Title"
+msgstr "Titel"
+
+#: 2-click-socialmedia-buttons-widget.php:53
+#: 2-click-socialmedia-buttons.php:154
+#@ twoclick-socialmedia
+msgid "Like this Plugin? Buy me a coffee."
+msgstr "Das Plugin gefällt Dir? Spendier mir nen Kaffee."
+
+#: 2-click-socialmedia-buttons.php:265
+#@ twoclick-socialmedia
+msgid "Save Changes"
+msgstr "Speichern"
+
+#: 2-click-socialmedia-buttons.php:195
+#@ twoclick-socialmedia
+msgid "Position"
+msgstr "Position"
+
+#: 2-click-socialmedia-buttons.php:197
+#@ twoclick-socialmedia
+msgid "Before the Post"
+msgstr "Vor dem Artikel"
+
+#: 2-click-socialmedia-buttons.php:198
+#@ twoclick-socialmedia
+msgid "After the Post"
+msgstr "Nach dem Artikel"
+
+#: 2-click-socialmedia-buttons.php:199
+#@ twoclick-socialmedia
+msgid "Manuall (Shortcode)"
+msgstr "Manuell (Shortcode)"
+
+#: 2-click-socialmedia-buttons.php:203
+#@ twoclick-socialmedia
+msgid "If you choose \"Manuall (Shortcode)\", you can use the shortcode <strong>[twoclick_buttons]</strong> inside your articles."
+msgstr "Ist die Option \"Manuell (Shortcode)\" gewählt, so können die Buttons mittels des Shortcodes <strong>[twoclick_buttons]</strong> in den Artikel eingebunden werden."
+
+#: 2-click-socialmedia-buttons-widget.php:48
+#@ twoclick-socialmedia
+msgid "Twittername"
+msgstr "Twittername"
+
+#: 2-click-socialmedia-buttons.php:251
+#@ twoclick-socialmedia
+msgid "Please use 'yourname', <strong>not</strong> 'RT @yourname'."
+msgstr "Bitte benutze das Format 'deinname', <strong>nicht</strong> 'RT @deinname'."
+
+#: 2-click-socialmedia-buttons-widget.php:49
+#@ twoclick-socialmedia
+msgid "Flattr-ID"
+msgstr "Flattr-ID"
+
+#: 2-click-socialmedia-buttons.php:187
+#@ twoclick-socialmedia
+msgid "Display on CMS-Pages"
+msgstr "Auch auf CMS-Seiten anzeigen"
+
+#: 2-click-socialmedia-buttons.php:190
+#@ twoclick-socialmedia
+msgid "On singleposts the buttons will be shown by default. There is no option needed."
+msgstr "In den Einzelartikeln wird das Plugin per default eingebunden. Dies bedarf keiner Option."
+
+#: 2-click-socialmedia-buttons.php:145
+#@ twoclick-socialmedia
+msgid "Settings for 2-Click Social Media Buttons"
+msgstr "Einstellungen für 2-Click Social Media Buttons"
+
+#: 2-click-socialmedia-buttons.php:151
+#@ twoclick-socialmedia
+msgid "Display"
+msgstr "Anzeige"
+
+#: 2-click-socialmedia-buttons.php:161
+#@ twoclick-socialmedia
+msgid "Enable Facebook"
+msgstr "Facebook anzeigen"
+
+#: 2-click-socialmedia-buttons.php:163
+#@ twoclick-socialmedia
+msgid "Option for permanent activation for Facebook"
+msgstr "Biete permanente Aktivierung von Facebook an"
+
+#: 2-click-socialmedia-buttons.php:167
+#@ twoclick-socialmedia
+msgid "Enable Twitter"
+msgstr "Twitter anzeigen"
+
+#: 2-click-socialmedia-buttons.php:169
+#@ twoclick-socialmedia
+msgid "Option for permanent activation for Twitter"
+msgstr "Biete permanente Aktivierung von Twitter an"
+
+#: 2-click-socialmedia-buttons.php:173
+#@ twoclick-socialmedia
+msgid "Enable Google+"
+msgstr "Google+ anzeigen"
+
+#: 2-click-socialmedia-buttons.php:175
+#@ twoclick-socialmedia
+msgid "Option for permanent activation for Google+"
+msgstr "Biete permanente Aktivierung von Google+ an"
+
+#: 2-click-socialmedia-buttons.php:179
+#@ twoclick-socialmedia
+msgid "Enable Flattr"
+msgstr "Flattr anzeigen"
+
+#: 2-click-socialmedia-buttons.php:181
+#@ twoclick-socialmedia
+msgid "Option for permanent activation for Flattr"
+msgstr "Biete permanente Aktivierung von Flattr an"
+
+#: 2-click-socialmedia-buttons-widget.php:47
+#@ twoclick-socialmedia
+msgid "Preferences"
+msgstr "Einstellungen"
+
+#: 2-click-socialmedia-buttons.php:211
+#@ twoclick-socialmedia
+msgid "Infotext<br /><em>(optional)</em>"
+msgstr "Infotexte<br /><em>(optional)</em>"
+
+#: 2-click-socialmedia-buttons.php:214
+#@ twoclick-socialmedia
+msgid "Facebook:"
+msgstr "Facebook:"
+
+#: 2-click-socialmedia-buttons.php:218
+#@ twoclick-socialmedia
+msgid "Twitter:"
+msgstr "Twitter:"
+
+#: 2-click-socialmedia-buttons.php:222
+#@ twoclick-socialmedia
+msgid "Google+:"
+msgstr "Google+:"
+
+#: 2-click-socialmedia-buttons.php:226
+#@ twoclick-socialmedia
+msgid "Flattr:"
+msgstr "Flattr:"
+
+#: 2-click-socialmedia-buttons.php:230
+#@ twoclick-socialmedia
+msgid "Infobutton:"
+msgstr "Infobutton:"
+
+#: 2-click-socialmedia-buttons.php:234
+#@ twoclick-socialmedia
+msgid "Permaoption:"
+msgstr "Permaoption:"
+
+#: 2-click-socialmedia-buttons.php:238
+#@ twoclick-socialmedia
+msgid "Infolink:"
+msgstr "Infolink:"
+
+#: 2-click-socialmedia-buttons.php:240
+#@ twoclick-socialmedia
+msgid "Links starting with http://"
+msgstr "Links beginnen im Übrigen mit http://"
+
+#: 2-click-socialmedia-buttons.php:247
+#@ twoclick-socialmedia
+msgid "Twitter"
+msgstr "Twitter"
+
+#: 2-click-socialmedia-buttons.php:257
+#@ twoclick-socialmedia
+msgid "Flattr"
+msgstr "Flattr"
+
+#: 2-click-socialmedia-buttons.php:259
+#@ twoclick-socialmedia
+msgid "User:"
+msgstr "Nutzer:"
+
