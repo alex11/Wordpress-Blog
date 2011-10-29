@@ -56,8 +56,10 @@ div#sidebar div { margin-top:10px; }
 
 /* Headlines
 --------------------------------------------- */
+h1 { font-size:20px; margin-bottom:15px; }
 h2 { font-size:20px; }
-h2.pagetitle { font-size:24px; }
+h2.pagetitle { font-size:22px; }
+div#item-header h2 { font-size:22px; }
 #footer-widgets h3.widgettitle { background:#F2CA52; color:#212121; font-weight:normal;}
 
 /* Links
