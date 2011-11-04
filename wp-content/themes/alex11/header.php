@@ -5,6 +5,7 @@
 		<meta http-equiv="Content-Type" content="<?php bloginfo( 'html_type' ) ?>; charset=<?php bloginfo( 'charset' ) ?>" />
 		<title><?php wp_title( '|', true, 'right' ); bloginfo( 'name' ); ?></title>
 		<link rel="icon" href="/wp-content/uploads/2011/10/favicon.ico" type="image/x-icon">
+		<link rel="image_src" href="/wp-content/uploads/2011/11/Facebook_Share_Image.png" />
 
 		<?php do_action( 'bp_head' ) ?>
 
