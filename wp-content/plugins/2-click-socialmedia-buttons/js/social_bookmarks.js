@@ -117,6 +117,7 @@
 					'display_name'		: 'Flattr',
 					'the_title'			: '',
 					'the_permalink'		: document.location.host,
+					'referrer_track'	: '',
 					'the_excerpt'		: ''
 				}
 			},

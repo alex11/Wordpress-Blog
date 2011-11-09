@@ -2,9 +2,9 @@
 Contributors: ppfeufer
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=DC2AEJD2J66RE
 Tags: twitter, facebook, googleplus, button, flattr
-Requires at least: 3.0.1
-Tested up to: WordPress 3.3-beta2
-Stable tag: 0.13
+Requires at least: 3.1
+Tested up to: WordPress 3.3
+Stable tag: 0.15
 
 Fügt die Buttons für Facebook-Like (Empfehlen), Twitter, Flattr und Googleplus dem deutschen Datenschutz entsprechend in euer WordPress ein.
 
@@ -24,7 +24,6 @@ Bisher werden die Buttons einfach in den Einzelartikeln und -seiten unter dem Ar
 * Wählbar ob es dem Besucher möglich sein soll, die Buttons permanent anzeigen zu lassen.
 * Anzeige auf den Artikelseiten (default, nicht änderbar).
 * Optionale Anzeige aif CMS-Seiten.
-* Optionale Anzeige in der Artikelübersicht (noch beta).
 
 == Installation ==
 
@@ -47,6 +46,16 @@ Nutze dafür einfach dein Dashboard
 3. Einstellungsmenü der Buttons.
 
 == Changelog ==
+= 0.15 =
+* (09. 11. 2011)
+* Ready for WordPress 3.3
+
+= 0.14 =
+* (02. 11. 2011)
+* Neu: Optionen für Twitter erweitert.
+* Neu: Auswahl des Facebook-Buttons (Empfehlen/Like).
+* Update: Deutsche Übersetzung überarbeitet.
+
 = 0.13 =
 * (28. 10. 2011)
 * Fix: Funktion zum Einbinden der Buttons überarbeitet. (schlanker, kürzer und schneller)
