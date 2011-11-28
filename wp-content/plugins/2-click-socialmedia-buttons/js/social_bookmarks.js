@@ -77,7 +77,6 @@
 					'perma_option'		: 'on',
 					'display_name'		: 'Facebook',
 					'referrer_track'	: '',
-					'the_permalink'		: document.location.host,
 					'language'			: 'de_DE',
 					'action'			: 'recommend'
 				},
@@ -92,7 +91,6 @@
 					'reply_to'			: '',
 					'tweet_text'		: '',
 					'referrer_track'	: '',
-					'the_permalink'		: document.location.host,
 					'language'			: 'de'
 				},
 				'gplus' : {
@@ -104,7 +102,7 @@
 					'perma_option'		: 'on',
 					'display_name'		: 'Google+',
 					'referrer_track'	: '',
-					'the_permalink'		: document.location.host
+					'plusone_lib'		: ''
 				},
 				'flattr' : {
 					'status'			: 'on',
@@ -116,7 +114,6 @@
 					'perma_option'		: 'on',
 					'display_name'		: 'Flattr',
 					'the_title'			: '',
-					'the_permalink'		: document.location.host,
 					'referrer_track'	: '',
 					'the_excerpt'		: ''
 				}
@@ -127,7 +124,8 @@
 			'cookie_path'		: '/',
 			'cookie_domain'		: document.location.host,
 			'cookie_expires'	: '365',
-			'css_path'			: ''
+			'css_path'			: '',
+			'uri'				: getURI
 		};
 
 		var options = $.extend(true, defaults, options);
@@ -160,7 +158,8 @@
 			// Facebook
 			//
 			if (facebook_on) {
-				var fb_enc_uri = encodeURIComponent(options.services.facebook.the_permalink+options.services.facebook.referrer_track);
+//				var fb_enc_uri = encodeURIComponent(options.services.facebook.the_permalink+options.services.facebook.referrer_track);
+				var fb_enc_uri = encodeURIComponent(uri+options.services.facebook.referrer_track);
 				var fb_code = '<iframe src="http://www.facebook.com/plugins/like.php?locale=' + options.services.facebook.language + '&amp;href=' + fb_enc_uri + '&amp;send=false&amp;layout=button_count&amp;width=120&amp;show_faces=false&amp;action=' + options.services.facebook.action + '&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:145px; height:21px;" allowTransparency="true"></iframe>';
 				var fb_dummy_btn = '<img src="' + options.services.facebook.dummy_img + '" alt="Facebook &quot;Like&quot;-Dummy" class="fb_like_privacy_dummy" />';
 
@@ -192,8 +191,10 @@
 				// 120 is the max character count left after twitters automatic url shortening with t.co
 				text = abbreviateText(text, '120');
 
-				var twitter_enc_uri = encodeURIComponent(options.services.twitter.the_permalink+options.services.twitter.referrer_track);
-				var twitter_count_url = encodeURIComponent(options.services.twitter.the_permalink);
+//				var twitter_enc_uri = encodeURIComponent(options.services.twitter.the_permalink+options.services.twitter.referrer_track);
+				var twitter_enc_uri = encodeURIComponent(uri+options.services.twitter.referrer_track);
+//				var twitter_count_url = encodeURIComponent(options.services.twitter.the_permalink);
+				var twitter_count_url = encodeURIComponent(uri);
 				var twitter_code = '<iframe allowtransparency="true" frameborder="0" scrolling="no" src="http://platform.twitter.com/widgets/tweet_button.html?url=' + twitter_enc_uri + '&amp;counturl=' + twitter_count_url + '&amp;text=' + text + '&amp;via='+options.services.twitter.reply_to+'&amp;count=horizontal&amp;lang=' + options.services.twitter.language + '" style="width:130px; height:25px;"></iframe>';
 				var twitter_dummy_btn = '<img src="' + options.services.twitter.dummy_img + '" alt="&quot;Tweet this&quot;-Dummy" class="tweet_this_dummy" />';
 
@@ -219,10 +220,14 @@
 			//
 			if (gplus_on) {
 				// fuer G+ wird die URL nicht encoded, da das zu einem Fehler fuehrt
-				var gplus_uri = options.services.gplus.the_permalink+options.services.gplus.referrer_track;
+//				var gplus_uri = options.services.gplus.the_permalink+options.services.gplus.referrer_track;
+				var gplus_uri = uri + options.services.gplus.referrer_track;
+				var plusone_lib = options.services.gplus.plusone_lib;
 
 				// we use the Google+ "asynchronous" code, standard code is flaky if inserted into dom after load
 				var gplus_code = '<div class="g-plusone" data-size="medium" data-href="' + gplus_uri + '"></div><script type="text/javascript">window.___gcfg = {lang: "' + options.services.gplus.language + '"}; (function() { var po = document.createElement("script"); po.type = "text/javascript"; po.async = true; po.src = "https://apis.google.com/js/plusone.js"; var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(po, s); })(); </script>';
+//				var gplus_code = '<iframe allowtransparency="true" src="' + plusone_lib + '?url=' + gplus_uri + '&amp;size=medium&amp;count=true&amp;lang=de" scrolling="no" frameborder="0" style="border:none; width:90px; height:24px;" align="left"></iframe>';
+//				var gplus_code = '<iframe allowtransparency="true" src="https://plusone.google.com/u/0/_/+1/fastbutton?url=' + gplus_uri + '&amp;size=medium&amp;count=true&amp;lang=de" scrolling="no" frameborder="0" style="border:none; width:90px; height:24px;" align="left"></iframe>';
 				var gplus_dummy_btn = '<img src="' + options.services.gplus.dummy_img + '" alt="&quot;Google+1&quot;-Dummy" class="gplus_one_dummy" />';
 
 				context.append('<li class="gplus help_info"><span class="info">' + options.services.gplus.txt_info + '</span><span class="switch off">' + options.services.gplus.txt_gplus_off + '</span><div class="gplusone dummy_btn">' + gplus_dummy_btn + '</div></li>');
@@ -248,6 +253,7 @@
 			if (flattr_on) {
 				var flattr_title = options.services.flattr.the_title;
 				var flattr_uri = encodeURIComponent(options.services.flattr.the_permalink);
+				var flattr_uri = encodeURIComponent(uri);
 				var flattr_excerpt = options.services.flattr.the_excerpt;
 				var flattr_code = '<iframe src="http://api.flattr.com/button/view/?uid=' + options.services.flattr.uid + '&amp;url=' + flattr_uri + '&amp;title=' + flattr_title + '&amp;description=' + flattr_excerpt + '&amp;category=text&amp;language=de_DE&amp;button=compact" style="width:110px; height:22px;" allowtransparency="true" frameborder="0" scrolling="no"></iframe>';
 				var flattr_dummy_btn = '<img src="' + options.services.flattr.dummy_img + '" alt="&quot;Flattr&quot;-Dummy" class="flattr_dummy" />';
@@ -288,10 +294,10 @@
 				}
 			});
 
-			var facebook_perma = (options.services.facebook.perma_option === 'on');
-			var twitter_perma  = (options.services.twitter.perma_option  === 'on');
-			var gplus_perma	= (options.services.gplus.perma_option	=== 'on');
-			var flattr_perma	= (options.services.flattr.perma_option	=== 'on');
+			var facebook_perma	= (options.services.facebook.perma_option	=== 'on');
+			var twitter_perma	= (options.services.twitter.perma_option	=== 'on');
+			var gplus_perma		= (options.services.gplus.perma_option		=== 'on');
+			var flattr_perma	= (options.services.flattr.perma_option		=== 'on');
 
 			// Menue zum dauerhaften Einblenden der aktiven Dienste via Cookie einbinden
 			// Die IE7 wird hier ausgenommen, da er kein JSON kann und die Cookies hier ueber JSON-Struktur abgebildet werden
@@ -395,22 +401,26 @@
 				// Dienste automatisch einbinden, wenn entsprechendes Cookie vorhanden ist
 				// Facebook
 				if (facebook_on && facebook_perma && cookies.socialSharePrivacy_facebook === 'perma_on') {
-					$('li.facebook span.switch', context).click();
+//					$('li.facebook span.switch', context).click();
+					$('li.facebook div.fb_like img', context).click();
 				}
 
 				// Twitter
 				if (twitter_on && twitter_perma && cookies.socialSharePrivacy_twitter === 'perma_on') {
-					$('li.twitter span.switch', context).click();
+//					$('li.twitter span.switch', context).click();
+					$('li.twitter div.tweet img', context).click();
 				}
 
 				// Googleplus
 				if (gplus_on && gplus_perma && cookies.socialSharePrivacy_gplus === 'perma_on') {
-					$('li.gplus span.switch', context).click();
+//					$('li.gplus span.switch', context).click();
+					$('li.gplus div.gplusone img', context).click();
 				}
 
 				// Flattr
 				if (flattr_on && flattr_perma && cookies.socialSharePrivacy_flattr === 'perma_on') {
-					$('li.flattr span.switch', context).click();
+//					$('li.flattr span.switch', context).click();
+					$('li.flattr div.flattrbtn img', context).click();
 				}
 			}
 		});

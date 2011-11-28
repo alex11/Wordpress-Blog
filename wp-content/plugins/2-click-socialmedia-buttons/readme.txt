@@ -1,10 +1,10 @@
 ﻿=== 2 Click Social Media Buttons ===
 Contributors: ppfeufer
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=DC2AEJD2J66RE
-Tags: twitter, facebook, googleplus, button, flattr
-Requires at least: 3.1
-Tested up to: WordPress 3.3
-Stable tag: 0.15
+Tags: twitter, facebook, googleplus, button, flattr, social, privacy
+Requires at least: 3.0.1
+Tested up to: 3.3
+Stable tag: 0.20
 
 Fügt die Buttons für Facebook-Like (Empfehlen), Twitter, Flattr und Googleplus dem deutschen Datenschutz entsprechend in euer WordPress ein.
 
@@ -23,7 +23,7 @@ Bisher werden die Buttons einfach in den Einzelartikeln und -seiten unter dem Ar
 * Wählbar welcher Button angezeigt werden soll.
 * Wählbar ob es dem Besucher möglich sein soll, die Buttons permanent anzeigen zu lassen.
 * Anzeige auf den Artikelseiten (default, nicht änderbar).
-* Optionale Anzeige aif CMS-Seiten.
+* Optionale Anzeige auf CMS-Seiten.
 
 == Installation ==
 
@@ -36,7 +36,7 @@ Nutze dafür einfach dein Dashboard
 
 **Manuelle Installation**
 
-1. Lade das Verzeichnis `2-click-socialmedia-buttons` in Dein `/wp-content/plugins/`-Verzeichnis Deines WordPres.
+1. Lade das Verzeichnis `2-click-socialmedia-buttons` in Dein `/wp-content/plugins/`-Verzeichnis Deines WordPress.
 1. Aktiviere das Plugin.
 
 == Screenshots ==
@@ -46,6 +46,36 @@ Nutze dafür einfach dein Dashboard
 3. Einstellungsmenü der Buttons.
 
 == Changelog ==
+
+= 0.20 =
+* (27. 11. 2011)
+* Das Einbinden auf der Übersichtsseite funktioniert nun endlich :-)
+
+= 0.19.1 =
+* (26. 11. 2011)
+* Fix: Schreibfehler in Variablenwert behoben. Danke an [Torsten](http://blog.blechkopp.net/) für den Hinweis.
+
+= 0.19 =
+* (16. 11. 2011)
+* Neu: Option für ein Standardartikelbild eingefügt. Diese wird wirksam, wenn im Artikel oder der Seite kein Artikelbild (Post Thumbnail) oder sonstiges Bild gefunden wurde, welches für Facebook und/oder Google+ verwendet werden könnte.
+* Fix: Teilen bei Google+ ist nun wieder möglich.
+
+= 0.18.1 =
+* (15. 11. 2011)
+* Update: Übersetzung (Sorry, dass diese extra kommt)
+
+= 0.18 =
+* (15. 11. 2011)
+* Neu: Template-Tag zum direkten Einbau ins Theme. Der Template-Tag berücksichtigt alle Einstellungen, die unter "Anzeige" getätigt wurden. Dafür nutze einfach `if(function_exists('get_twoclick_buttons')) {get_twoclick_buttons(get_the_ID());}` innerhalb des Themes. Beachte jedoch, dass dies nur bei Einzelartikeln und/oder -seiten funktioniert, nicht innerhalb des Loops.
+
+= 0.17 =
+* (14. 11. 2011)
+* Dummybilder für Facebook werden nun richtig angezeigt. Je nach Auswahl entweder "Gefällt mir"/"Like" oder "Empfehlen"/"Recommend". Danke an [Kai Köpke](http://kkoepke.de) für die Bearbeitung der Grafiken.
+
+= 0.16 =
+* (10. 11. 2011)
+* Fix: Optionen im Link werden nun an die Buttons übergeben.
+
 = 0.15 =
 * (09. 11. 2011)
 * Ready for WordPress 3.3
