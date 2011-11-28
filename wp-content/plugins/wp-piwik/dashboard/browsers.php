@@ -10,7 +10,6 @@
 			$aryConf['params']['limit']
 	);
 	$aryConf['title'] = __('Browser', 'wp-piwik');
-	include('header.php');
 	$strValues = '';
 	$intCount = 0; $intMore = 0; $intSum = 0;
 	if (is_array($aryConf['data']))
@@ -60,7 +59,3 @@ $j.jqplot('wp-piwik_stats_browsers_graph', [[<?php echo $strValues; ?>]], {
 
 });
 </script>
-<?php /************************************************************************/
-	include ('footer.php');
-
-/* EOF */

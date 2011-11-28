@@ -11,8 +11,6 @@
 	);
 	$intMax = 9;
 	$aryConf['title'] = __('Pages', 'wp-piwik');
-	include('header.php');
-
 /***************************************************************************/ ?>
 <div class="table">
 	<table class="widefat wp-piwik-table">
@@ -51,7 +49,3 @@
 		</tbody>
 	</table>
 </div>
-<?php /************************************************************************/
-	include ('footer.php');
-
-/* EOF */

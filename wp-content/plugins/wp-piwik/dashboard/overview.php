@@ -10,8 +10,6 @@
 		$aryConf['params']['limit']
 	);
 	$aryConf['title'] = __('Overview', 'wp-piwik');
-	if (!isset($aryConf['inline']) || $aryConf['inline'] != true)
-		include('header.php');
 	if ($aryConf['params']['date'] == 'last30') {
 		$aryTmp = array(
 			'bounce_count' => 0,
@@ -65,7 +63,5 @@
 	</table>
 </div>
 <?php /************************************************************************/
-	if (!isset($aryConf['inline']) || isset($aryConf['inline']) != true)
-		include ('footer.php');
 
 /* EOF */

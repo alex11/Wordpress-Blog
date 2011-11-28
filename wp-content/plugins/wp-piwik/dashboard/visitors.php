@@ -22,9 +22,6 @@
 		$aryConf['params']['limit']
 	);	
 	
-	if (!isset($aryConf['inline']) || $aryConf['inline'] != true)
-		include('header.php');
-	
 	$strValues = $strLabels = $strBounced =  $strValuesU = $strCounter = '';
 	$intUSum = $intCount = 0; 
 	if (is_array($aryConf['data']['Visitors']))
@@ -46,7 +43,7 @@
 
 /***************************************************************************/ ?>
 <div class="wp-piwik-graph-wide">
-	<div id="wp-piwik_stats_vistors_graph" style="height:220px;width:490px;"></div>
+	<div id="wp-piwik_stats_vistors_graph" style="height:220px;<?php if (!isset($aryConf['inline']) || $aryConf['inline'] != true) { ?>width:490px<?php } ?>"></div>
 </div>
 <?php if (!isset($aryConf['inline']) || $aryConf['inline'] != true) { ?>
 <div class="table">
@@ -86,8 +83,3 @@ $j.jqplot('wp-piwik_stats_vistors_graph', [[<?php echo $strValues; ?>],[<?php ec
 	series:[{color:'#90AAD9',fillColor:'#D4E2ED'},{color:'#A3BCEA',fillColor:'#E4F2FD',trendline:{show:true,label:'Unique visitor trend'}},{color:'#E9A0BA',fillColor:'#FDE4F2'}],
 });
 </script>
-<?php /************************************************************************/
-	if (!isset($aryConf['inline']) || $aryConf['inline'] != true)
-		include ('footer.php');
-
-/* EOF */
