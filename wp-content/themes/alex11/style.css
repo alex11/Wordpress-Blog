@@ -334,11 +334,6 @@ div.wpcf7-response-output {
     margin: -15px 0 15px !important;
     border-radius:7px;
 }
-/* PLUGIN: Really simple Facebook Twitter share buttons
---------------------------------------------- */
-div.really_simple_share {
-	margin-bottom:20px;
-}
 
 #content .really_simple_share object,
 #content .really_simple_share embed,
@@ -350,3 +345,7 @@ div.really_simple_share {
 /* PLUGIN: Rating-Widget Plugin
 --------------------------------------------- */
 .rw-ui-container { margin-bottom:7px; }
+
+/* PLUGIN: Twitter-Tools
+--------------------------------------------- */
+#text-11 div ul li div { display:none; }
