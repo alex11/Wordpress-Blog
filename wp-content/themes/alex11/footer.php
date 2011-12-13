@@ -13,7 +13,7 @@
 
 			<div id="site-generator" role="contentinfo">
 				<?php do_action( 'bp_dtheme_credits' ) ?>
-				<p><?php printf( __( 'Proudly powered by <a href="%1$s">WordPress</a> and <a href="%2$s">BuddyPress</a>.', 'buddypress' ), 'http://wordpress.org', 'http://buddypress.org' ) ?></p>
+				<p><?php printf( __( 'Proudly powered by <a href="%1$s">WordPress</a> and <a href="%2$s">BuddyPress</a>.', 'buddypress' ), 'https://wordpress.org', 'https://buddypress.org' ) ?></p>
 			</div>
 
 			<?php do_action( 'bp_footer' ) ?>
@@ -25,7 +25,7 @@
 	</div>
 
 	<script type="text/javascript">
-		var pkBaseURL = (("https:" == document.location.protocol) ? "https://www.alex11.org/stats/" : "http://www.alex11.org/stats/");
+		var pkBaseURL = (("https:" == document.location.protocol) ? "https://www.alex11.org/stats/" : "https://www.alex11.org/stats/");
 		document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
 	</script>
 	<script type="text/javascript">
@@ -34,7 +34,7 @@
 			piwikTracker.trackPageView();
 			piwikTracker.enableLinkTracking();
 			} catch( err ) {}
-	</script><noscript><p><img src="http://www.alex11.org/stats/piwik.php?idsite=1" style="border:0" alt="" /></p></noscript>
+	</script><noscript><p><img src="https://www.alex11.org/stats/piwik.php?idsite=1" style="border:0" alt="" /></p></noscript>
 	</body>
 
 </html>

@@ -10,8 +10,8 @@
  * for various features in WordPress, such as post thumbnails and navigation menus, and
  * for BuddyPress, action buttons and javascript localisation.
  *
- * When using a child theme (see http://codex.wordpress.org/Theme_Development, http://codex.wordpress.org/Child_Themes
- * and http://codex.buddypress.org/theme-development/building-a-buddypress-child-theme/), you can override
+ * When using a child theme (see https://codex.wordpress.org/Theme_Development, https://codex.wordpress.org/Child_Themes
+ * and https://codex.buddypress.org/theme-development/building-a-buddypress-child-theme/), you can override
  * certain functions (those wrapped in a function_exists() call) by defining them first in your
  * child theme's functions.php file. The child theme's functions.php file is included before the
  * parent theme's file, so the child theme functions would be used.
@@ -20,7 +20,7 @@
  * to a filter or action hook. The hook can be removed by using remove_action() or
  * remove_filter() and you can attach your own function to the hook.
  *
- * For more information on hooks, actions, and filters, see http://codex.wordpress.org/Plugin_API.
+ * For more information on hooks, actions, and filters, see https://codex.wordpress.org/Plugin_API.
  *
  * @package BuddyPress
  * @subpackage BP-Default
@@ -134,7 +134,7 @@ if ( !function_exists( 'bp_dtheme_enqueue_scripts' ) ) :
 /**
  * Enqueue theme javascript safely
  *
- * @see http://codex.wordpress.org/Function_Reference/wp_enqueue_script
+ * @see https://codex.wordpress.org/Function_Reference/wp_enqueue_script
  * @since 1.5
  */
 function bp_dtheme_enqueue_scripts() {
@@ -173,8 +173,8 @@ if ( !function_exists( 'bp_dtheme_enqueue_styles' ) ) :
  * If you would prefer to use @import, or would like to change the way in which stylesheets are
  * enqueued, you can override bp_dtheme_enqueue_styles() in your theme's functions.php file.
  *
- * @see http://codex.wordpress.org/Function_Reference/wp_enqueue_style
- * @see http://codex.buddypress.org/releases/1-5-developer-and-designer-information/
+ * @see https://codex.wordpress.org/Function_Reference/wp_enqueue_style
+ * @see https://codex.buddypress.org/releases/1-5-developer-and-designer-information/
  * @since 1.5
  */
 function bp_dtheme_enqueue_styles() {
@@ -545,7 +545,7 @@ endif;
 
 if ( !function_exists( 'bp_dtheme_show_notice' ) ) :
 /**
- * Show a notice when the theme is activated - workaround by Ozh (http://old.nabble.com/Activation-hook-exist-for-themes--td25211004.html)
+ * Show a notice when the theme is activated - workaround by Ozh (https://old.nabble.com/Activation-hook-exist-for-themes--td25211004.html)
  *
  * @since 1.2
  */
