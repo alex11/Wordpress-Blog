@@ -9,10 +9,6 @@ Template: bp-default
 Tags: buddypress, two-column, orange, green, acampada, acampada berlin
 */
 
-/* Google Fonts Import
---------------------------------------------- */
-@import url(https://fonts.googleapis.com/css?family=Droid+Sans:regular,bold|Droid+Serif:regular,italic,bold,bolditalic&subset=latin);
-
 /* General Structure and Styles
 --------------------------------------------- */
 body { background-position: left top;
@@ -106,6 +102,10 @@ div#sidebar a:link { text-decoration:none; }
 #footer-widgets a:hover,
 #footer-widgets a:focus,
 #footer-widgets a:active { color:#F2CA52; }
+
+/* Class
+--------------------------------------------- */
+.clearer { clear:both; height:1px; }
 
 /* Individual Rules
 --------------------------------------------- */
@@ -345,6 +345,112 @@ div.wpcf7-response-output {
 /* PLUGIN: Rating-Widget Plugin
 --------------------------------------------- */
 .rw-ui-container { margin-bottom:7px; }
+
+/* PLUGIN: Event Manager
+--------------------------------------------- */
+#em-wrapper .em-events-search { font-size:15px; line-height:40px; margin-bottom:20px; }
+#em-wrapper .em-events-search input,
+#event-form .wrap input,
+#em-wrapper .em-events-search select {
+    color: #888888;
+    font-family: inherit;
+    font-size: 14px;
+	padding:6px;
+}
+#em-wrapper .em-events-search input,
+#event-form .wrap input { -moz-font-feature-settings: inherit; -moz-font-language-override: inherit; border: 1px inset #CCCCCC; border-radius: 3px 3px 3px 3px; }
+#em-wrapper .em-events-search-dates input { width:100px; }
+
+#em-wrapper .em-events-search-country,
+#em-wrapper .em-events-search-region,
+#em-wrapper .em-events-search-state { display:none; }
+
+#em-wrapper .dateandtime div { text-align:center; font-size:11px; line-height:21px; background:#F2CA52; margin:0; padding:3px 0; border-radius:7px; }
+#em-wrapper .dateandtime div .date { font-size:14px; font-weight:bold; }
+
+#em-wrapper .titleandcategory { font-size:11px; line-height:21px; }
+#em-wrapper .titleandcategory a:link,
+#em-wrapper .titleandcategory a:visited { text-decoration:none; font-size:14px; font-weight:bold; }
+#em-wrapper .titleandcategory a:hover,
+#em-wrapper .titleandcategory a:focus,
+#em-wrapper .titleandcategory a:active {  }
+.pagetitle span.who { float:right; width:50px; margin-top:-30px; }
+#em-wrapper #whenandwhere { width:100%; padding-top:15px; margin-bottom:15px; border-top:1px solid #DDDDDD; border-bottom:1px solid #DDDDDD; }
+#em-wrapper #whenandwhere p { width:45%; float:left; }
+#em-wrapper #whenandwhere p.who { width:50px; float:right; }
+#em-wrapper #flyer img { float:left; width:250px; margin:0 15px 15px 0; }
+#em-wrapper .map { width:600px; margin:30px auto; }
+
+h2.pagetitle .category { font-weight:normal; font-size:11px; }
+
+/*
+#event-form .wrap div.event-form-name,
+#event-form .wrap div.event-form-when,
+#event-form .wrap div.event-form-recurrence,
+#event-form .wrap div.event-form-categories,
+#event-form .wrap div.event-form-image { width:48%; padding:5px; float:left; }
+#event-form .wrap div.event-form-where,
+#event-form .wrap div.event-form-details { width:48%; padding:5px; float:right; }
+*/
+#event-form .wrap .left { width:48%; float:left; }
+#event-form .wrap .right { width:48%; float:right; }
+#event-form .wrap div.event-form-name select { font-size:14px; margin:15px 0 10px 0; } 
+#event-form .wrap div.event-form-when input.hasDatepicker { width:140px; margin:0 3px;}
+#event-form .wrap div.event-form-categories select { width:100%; font-size:14px; }
+#event-form .wrap  input#event-name { font-size:22px; width:96%; }
+#event-form .wrap .group-event { margin:10px 0; }
+#event-form .wrap .group-event select,
+#event-form .wrap .event-form-where select { font-size:16px; }
+#event-form .wrap .event-form-image img { width:100%; }
+#event-form .wrap .event-form-image input#event-image { width:60%; }
+#event-form .wrap .event-form-details textarea { height:400px; }
+#event-form .wrap .event-form-details h4,
+#event-form .wrap .event-form-when h4,
+#event-form .wrap .event-form-categories h4,
+#event-form .wrap .event-form-image h4 { margin-top:20px; }
+
+#event-form .wrap .warning,
+.em-warning { background:#F2CA52; padding:5px; border-radius:7px; }
+.em-warning p { margin:0; }
+.statusnotice { margin-bottom:15px; }
+#event-form p.submit { text-align:right; margin-top:20px; }
+
+#posts-filter a.add-new-h2 {  }
+#posts-filter .subsubsub { margin:15px 0 -20px 0; }
+#locations-filter .subsubsub { margin:15px 0 -21px 260px; }
+#locations-filter .tablenav { padding-bottom:5px; }
+#locations-filter .tablenav div { float:none; }
+#posts-filter p.search-box { width:350px; margin-bottom:5px; float:right; text-align:right; }
+#posts-filter p.search-box label { display:none; }
+table.widefat th { text-align:left; }
+table.widefat a:link,
+table.widefat a:visited { text-decoration:none; }
+
+#location-form #em-location-data table { width:50%; float:left; }
+#location-form #em-location-data table th { text-align:right; vertical-align:top; }
+#location-form #em-location-data table select { width:155px }
+#location-form #em-location-data table textarea { width:100%; height:100px;}
+#location-form input#location-name { font-size:22px; width:96%; }
+#location-form h4.em-location-data { margin-top:20px; }
+
+.em-events-list a { text-decoration:none; }
+.em-events-list li a {  font-size:14px; font-weight:bold; }
+.em-events-list li { margin-bottom:10px; border-bottom:1px #EAEAEA solid; }
+.em-events-list li ul li { margin-bottom:10px; border-bottom:none; }
+.em-events-list li ul li a { font-size:12px; font-weight:normal; }
+
+#subnav #my-bookings-personal-li,
+#subnav #attending-personal-li { display:none; }
+
+#wp-admin-bar ul.main-nav li ul li a#bp-admin-attending,
+#wp-admin-bar ul.main-nav li ul li a#bp-admin-my-bookings { display:none; }
+
+#sidebar .padder .widget_em_widget { background:#F2CA52; margin:15px 0; padding:10px; border-radius:7px; }
+#sidebar .padder .widget_em_widget h3 { display:none; }
+#sidebar .padder .widget_em_widget ul li { border-top:1px #5A7302 solid; margin-top:5px; padding-top:5px; }
+#sidebar .padder .widget_em_widget ul li:first-child { border:0; margin-top:0; padding-top:0; }
+#sidebar .padder .widget_em_widget ul li ul li { border-top:none; margin-top:0; padding-top:0; }
+#sidebar .padder .widget_em_widget ul li ul li.eventtitle a { font-weight:bold; }
 
 /* PLUGIN: Twitter-Tools
 --------------------------------------------- */
