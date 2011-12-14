@@ -14,10 +14,7 @@
 	echo $EM_Notices;
 	?>
 	<a href="<?php echo $url?>edit/" class="button add-new-h2"><?php _e('Add New','dbem'); ?></a>
-	<a href="<?php echo $url ?>edit/" title="Neue Veranstaltung">
-		<strong>HALLLLLOOOOO!!!!!!</strong>
-	</a>
-	<p>Halllo</p>
+	<a href="<?php echo $url ?>edit/" title="Neue Veranstaltung"></a>
 	<div class="tablenav">
 		<?php
 		if ( $events_count >= $limit ) {
