@@ -11,7 +11,7 @@
 				<li>Deine Inhalte publizierst du als Privatperson und nicht im Namen einer Organisation, Unternehmen, Partei, etc.</li>
 				<li>Alle Inhalte werden unter die Creative Commons Lizenz gestellt</li>
 			</ul>
-			<p><strong>Hinweis:</strong> Alle Daten werden <strong>unverschlüsselt</strong> übertragen. Auch die Passwörter! Daher verwende kein Passwort, das du sonst ggf. für alles andere verwendest.</p>
+			<p><strong>Hinweis:</strong> Alle Daten werden <strong>verschlüsselt</strong> übertragen.</p>
 
 		<?php do_action( 'bp_before_register_page' ) ?>
 
