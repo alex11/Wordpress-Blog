@@ -317,7 +317,7 @@ jQuery(document).ready( function($){
 	if( $('.em-location-map').length > 0 || $('.em-locations-map').length > 0 || $('#em-map').length > 0 ){
 		var script = document.createElement("script");
 		script.type = "text/javascript";
-		script.src = "http://maps.google.com/maps/api/js?v=3.4&sensor=false&callback=em_maps";
+		script.src = "https://maps.google.com/maps/api/js?v=3.4&sensor=false&callback=em_maps";
 		document.body.appendChild(script);
 	}else{
 		em_location_input_ajax();
