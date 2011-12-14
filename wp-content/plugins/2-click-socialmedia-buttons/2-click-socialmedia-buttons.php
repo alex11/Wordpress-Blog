@@ -3,12 +3,12 @@
  * Plugin Name: 2 Click Social Media Buttons
  * Plugin URI: http://blog.ppfeufer.de/wordpress-plugin-2-click-social-media-buttons/
  * Description: Fügt die Buttons für Facebook-Like (Empfehlen), Twitter, Flattr und Googleplus dem deutschen Datenschutz entsprechend in euer WordPress ein.
- * Version: 0.20
+ * Version: 0.21.1
  * Author: H.-Peter Pfeufer
  * Author URI: http://ppfeufer.de
  */
 
-define('TWOCLICK_SOCIALMEDIA_BUTTONS_VERSION', '0.20');
+define('TWOCLICK_SOCIALMEDIA_BUTTONS_VERSION', '0.21.1');
 define('TWOCLICK_DONATE_FLATTR_LINK', 'http://flattr.com/thing/390240/WordPress-Plugin-2-Click-Social-Media-Buttons');
 define('TWOCLICK_DONATE_PAYPAL_LINK', 'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=DC2AEJD2J66RE');
 
@@ -364,6 +364,15 @@ if(!function_exists('twoclick_buttons')) {
 		global $post;
 
 		/**
+		 * RSS-Feeds und Trackbacks nicht berücksichtigen.
+		 *
+		 * @since 0.21
+		 */
+		if(is_feed() || is_trackback()) {
+			return $content;
+		}
+
+		/**
 		 * Post-ID in Konstante speichern, da diese bei einigen Themes
 		 * auf dem Weg vom Content zum Footer verloren geht, wieso auch immer.
 		 */
@@ -429,7 +438,7 @@ if(!function_exists('twoclick_buttons')) {
 							/**
 							 * Vor dem Beitrag einfügen.
 							 */
-							return $var_sHtml . '<p class="claer-after-twoclick"></p>' . $content;
+							return $var_sHtml . '<p class="clear-after-twoclick"></p>' . $content;
 						} elseif(twoclick_buttons_get_option($var_sWhere) == 'after') {
 							/**
 							 * Nach dem Beitrag einfügen.
@@ -455,7 +464,7 @@ if(!function_exists('twoclick_buttons')) {
 						 * Vor dem Beitrag einfügen.
 						 */
 						$var_sJavaScript = twoclick_buttons_get_js(get_the_ID());
-						return twoclick_buttons_generate_html(get_the_ID()) . $var_sJavaScript . '<p class="claer-after-twoclick"></p>' . $content;
+						return twoclick_buttons_generate_html(get_the_ID()) . $var_sJavaScript . '<p class="clear-after-twoclick"></p>' . $content;
 					} elseif(twoclick_buttons_get_option($var_sWhere) == 'after') {
 						/**
 						 * Nach dem Beitrag einfügen.
@@ -551,15 +560,15 @@ if(!function_exists('twoclick_buttons_get_tweettext')) {
 
 		if (twoclick_buttons_get_option('twoclick_buttons_twitter_tweettext') == 'own') {
 			if(twoclick_buttons_get_option('twoclick_buttons_twitter_tweettext') == 'own' && strlen(twoclick_buttons_get_option('twoclick_buttons_twitter_tweettext_owntext')) == 0) {
-				$tweettext = get_the_title(TWOCLICK_POST_ID) . ' » ' . get_bloginfo('name') . $twitter_hashtags;
+				$tweettext = get_the_title() . ' » ' . get_bloginfo('name') . $twitter_hashtags;
 			} else {
 				$tweettext = twoclick_buttons_get_option('twoclick_buttons_twitter_tweettext_owntext') . $twitter_hashtags;
 			}
 		} else {
 			if(twoclick_buttons_get_option('twoclick_buttons_twitter_tweettext_default_as') == 'posttitle-blogtitle') {
-				$tweettext = get_the_title(TWOCLICK_POST_ID) . ' » ' . get_bloginfo('name') . $twitter_hashtags;
+				$tweettext = get_the_title() . ' » ' . get_bloginfo('name') . $twitter_hashtags;
 			} elseif(twoclick_buttons_get_option('twoclick_buttons_twitter_tweettext_default_as') == 'posttitle') {
-				$tweettext = get_the_title(TWOCLICK_POST_ID) . $twitter_hashtags;
+				$tweettext = get_the_title() . $twitter_hashtags;
 			}
 		}
 
@@ -666,7 +675,7 @@ if(!function_exists('get_twoclick_buttons')) {
 				twoclick_buttons_get_js(get_the_ID());
 			}
 
-			echo twoclick_buttons_generate_html($var_sPostId) . '<p class="claer-after-twoclick"></p>';
+			echo twoclick_buttons_generate_html($var_sPostId) . '<p class="clear-after-twoclick"></p>';
 		}
 	}
 }
@@ -1103,6 +1112,19 @@ if(!function_exists('twoclick_buttons_update_options')) {
 }
 
 /**
+ * Link zur Adminseite in der Pluginübersicht hinzufügen.
+ * @since 1.2.0
+ */
+function twoclick_buttons_settings_link($links, $file) {
+ 	if($file == '2-click-socialmedia-buttons/2-click-socialmedia-buttons.php' && function_exists('admin_url')) {
+		$settings_link = '<a href="' . admin_url('options-general.php?page=twoclick-buttons-options') . '">' . __('Settings') . '</a>';
+		array_unshift( $links, $settings_link); // before the other links
+	}
+
+	return $links;
+}
+
+/**
  * Actions abfeuern.
  *
  * @since 0.1
@@ -1136,4 +1158,5 @@ if(is_admin()) {
  * @since 0.1
  */
 add_filter('the_content', 'twoclick_buttons', 8);
+add_filter('plugin_action_links', 'twoclick_buttons_settings_link', 9, 2 );
 ?>
