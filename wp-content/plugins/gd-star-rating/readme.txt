@@ -1,10 +1,10 @@
 === GD Star Rating ===
 Contributors: gdragon
-Version: 1.9.11
+Version: 1.9.13
 Donate link: http://www.dev4press.com/plugins/gd-star-rating/
 Tags: vote, ratings, cache, integration, post, page, widget, thumb, rating, star, gdragon, ajax, templates, trends, comments, review, multi, wpmu
 Requires at least: 2.8
-Tested up to: 3.2
+Tested up to: 3.3
 Stable tag: trunk
 
 Plugin allows you to set up advanced rating and review system for post types and comments in your blog using single, multi and thumbs ratings.
@@ -170,10 +170,19 @@ I can't guarantee that plugin will work on every WordPress setup. In 99.9% of th
 7. Example multi rating block
 
 == Upgrade Notice ==
-= 1.9.11 =
-Minor changes to filters attached to posts. Fixed export script SQL injection exploit.
+= 1.9.13 =
+Changes to some of the rendering functions.
 
 == Changelog ==
+= 1.9.13 =
+* Changes to some of the rendering functions
+
+= 1.9.12 =
+* Plugin is tested with wordpress 3.3, no problems were found
+* Removed some obsolete website links from info files
+* Several minor changes and cleanup of the public functions
+* Fixed validity data check could generate warnings in the gdsr.css.php
+
 = 1.9.11 =
 * Minor changes to filters attached to posts
 * Fixed export script SQL injection exploit ( thanks to Miroslav Stampar for reporting, http://about.me/stamparm )
@@ -243,111 +252,3 @@ Minor changes to filters attached to posts. Fixed export script SQL injection ex
 = 1.9.0 =
 * Google Rich Snippets support for RDF and Microdata formats
 * Improved templates for Google Rich Snippets
-
-= 1.8.9 =
-* More options for google rich snippet
-* Added robots nofollow/noindex for plugin ajax handler
-* Added info on using the gdsr-config.php file
-* Fixed enqueue of js and css for non plugin admin pages
-* Some minor problems with js on admin pages
-
-= 1.8.8 =
-* Fixed invalid header order for export data to csv
-* Fixed invalid default rules for post meta box thumbs
-* Fixed minor problem with loading js datepicker translation
-
-= 1.8.7 =
-* Fixed comment text fails validation due to filter order
-* Fixed URL to the datepicker translation file
-
-= 1.8.6 =
-* Changed JSON response for votes to be jquery 1.4 compatible
-
-= 1.8.5 =
-* Added some new tags for T2 rating blocks
-* Additional CSS classes for rating blocks
-* Several functions improved
-* Proper use of thumbs voting rules
-* Few minor bugs fixes
-
-= 1.8.4 =
-* Global rules tool changed and improved
-* Fixed some integration problems
-* Cache cleanup can fail in some cases
-
-= 1.8.3 =
-* New improved and packed main JS ratings file
-* Replaced noticed WordPress depracted functions
-* Several more php notices fixed
-
-= 1.8.2 =
-* Few new functions and updates to comment integration
-* Improvements in main CSS file
-* Several fixes and changes
-
-= 1.8.1 =
-* Updated several translations
-* Override thumbs no votes percentage not used
-* Minor WP 2.9 issues with datepicker loading
-* Several important fixes and changes
-
-= 1.8.0 MMX =
-* Setting for default percentage value
-* Rewritten multi editor functions
-* Several important fixes and changes
-
-= 1.7.9 =
-* Control output for search engine bots
-* Few fixes and imporovements
-
-= 1.7.8 =
-* Few more tags added into templates
-* Several rendering and other minor issues fixed
-
-= 1.7.7 =
-* Belorussian translation
-* Broken loading of js breaks some admin pages
-
-= 1.7.6 =
-* Rewritten taxonomy based calculation
-* Improved JS and CSS loading for admin pages, JS moved to footer
-* Removed old charts code and dashboard chart widget
-* Some warnings and minor bugs fixed
-
-= 1.7.5 =
-* Integration function for Google Rich Snippets
-* Several more bugs fixed
-
-= 1.7.4 =
-* Permanently solved famous excerpt problem
-* Fully implemented google rich snippets support
-* Controls for google rich snippets integration
-* New templates import and export
-* Loaders optimizations for main CSS file
-* Several more bugs fixed
-
-= 1.7.3 =
-* More code optimizations
-* New config file options
-* Several bugs fixed
-
-= 1.7.2 =
-* Fixed few critical bugs in rating rendering
-* Several more bugs in widgets and javascript
-* More PHP warnings and notices fixed
-
-= 1.7.1 =
-* Major code reorganization, optimization, speed up and less memory usage
-* Redesign for some plugins panels
-* Many multi review and rating bugs bugs fixed
-* Several more problems and notices solved
-
-= 1.7.0 =
-* Removed support for WordPress 2.6.x
-* Many more new filters for results and rendering
-* Cache plugins support for multis ratings
-* Improved category based comment integration
-* Expanded shortcodes and builder elements
-* JavaScript code refactored
-* Many more changes and improvements
-* Number of bugs fixed

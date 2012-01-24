@@ -3,8 +3,8 @@ Contributors: takayukister
 Donate link: http://contactform7.com/donate/
 Tags: captcha
 Requires at least: 2.8
-Tested up to: 3.0.1
-Stable tag: 1.2
+Tested up to: 3.3.1
+Stable tag: 1.4
 
 Really Simple CAPTCHA is a CAPTCHA module intended to be called from other plugins. It is originally created for my Contact Form 7 plugin.
 
@@ -28,35 +28,35 @@ Note: Below are instructions for plugin developers.
 
 First, create an instance of ReallySimpleCaptcha class:
 
-    `$captcha_instance = new ReallySimpleCaptcha();`
+    $captcha_instance = new ReallySimpleCaptcha();
 
 You can change the instance variables as you wish.
 
-    `// Change the background color of CAPTCHA image to black`
-    `$captcha_instance->bg = array(0, 0, 0);`
+    // Change the background color of CAPTCHA image to black
+    $captcha_instance->bg = array( 0, 0, 0 );
 
 See really-simple-captcha.php if you are interested in other variables.
 
 Generate a random word for CAPTCHA.
 
-    `$word = $captcha_instance->generate_random_word();`
+    $word = $captcha_instance->generate_random_word();
 
 Generate an image file and a PHP code file in the temporary directory.
 
-    `$prefix = mt_rand();`
-    `$captcha_instance->generate_image($prefix, $word);`
+    $prefix = mt_rand();
+    $captcha_instance->generate_image( $prefix, $word );
 
 Then, show the image and get an answer from respondent.
 
 Check the correctness of the answer.
 
-    `$correct = $captcha_instance->check($prefix, $the_answer_from_respondent);`
+    $correct = $captcha_instance->check( $prefix, $the_answer_from_respondent );
 
 If the $correct is true, go ahead. Otherwise, block the respondent -- as it would appear not to be human.
 
 And last, remove the temporary image and PHP files, as they are no longer in use.
 
-    `$captcha_instance->remove($prefix);`
+    $captcha_instance->remove( $prefix );
 
 That's all.
 
@@ -88,6 +88,14 @@ If you have any further questions, please submit them [to the support forum](htt
 1. screenshot-1.png
 
 == Changelog ==
+
+= 1.4 =
+
+* Reverted answer file to PHP. As plain text file is visible from client side, that's not good.
+
+= 1.3 =
+
+* Use plain text file as answer file.
 
 = 1.2 =
 * File name sanitization added.

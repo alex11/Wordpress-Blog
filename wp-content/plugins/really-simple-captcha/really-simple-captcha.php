@@ -4,11 +4,11 @@ Plugin Name: Really Simple CAPTCHA
 Plugin URI: http://ideasilo.wordpress.com/2009/03/14/really-simple-captcha/
 Description: Really Simple CAPTCHA is a CAPTCHA module intended to be called from other plugins. It is originally created for my Contact Form 7 plugin.
 Author: Takayuki Miyoshi
-Version: 1.2
+Version: 1.4
 Author URI: http://ideasilo.wordpress.com/
 */
 
-/*  Copyright 2007-2010 Takayuki Miyoshi (email: takayukister at gmail.com)
+/*  Copyright 2007-2012 Takayuki Miyoshi (email: takayukister at gmail.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -155,7 +155,7 @@ class ReallySimpleCaptcha {
 	/* Remove temporary files with $prefix */
 
 	function remove( $prefix ) {
-		$suffixes = array( '.jpeg', '.gif', '.png', '.php' );
+		$suffixes = array( '.jpeg', '.gif', '.png', '.php', '.txt' );
 
 		foreach ( $suffixes as $suffix ) {
 			$filename = sanitize_file_name( $prefix . $suffix );
@@ -177,7 +177,7 @@ class ReallySimpleCaptcha {
 
 		if ( $handle = @opendir( $dir ) ) {
 			while ( false !== ( $filename = readdir( $handle ) ) ) {
-				if ( ! preg_match( '/^[0-9]+\.(php|png|gif|jpeg)$/', $filename ) )
+				if ( ! preg_match( '/^[0-9]+\.(php|txt|png|gif|jpeg)$/', $filename ) )
 					continue;
 
 				$file = $dir . $filename;

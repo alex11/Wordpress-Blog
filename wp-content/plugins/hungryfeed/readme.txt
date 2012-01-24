@@ -1,7 +1,7 @@
 === Plugin Name ===
 Contributors: verysimple
 Donate link: http://verysimple.com/products/hungryfeed/
-Tags: inline,embed,rss,feed,reader,feed reader,page,simplepie,inline rss,rss feed,feed reader,rss reader,inline feed reader,embed feed,inline rss feed
+Tags: inline,embed,rss,feed,reader,feed reader,page,rss import,rss include,simplepie,inline rss,rss feed,feed reader,rss reader,inline feed reader,embed feed,inline rss feed
 Requires at least: 2.8
 Tested up to: 3.2.1
 Stable tag: trunk
@@ -93,10 +93,22 @@ Documentation is available on the plugin homepage at http://wordpress.org/tags/h
 
 == Upgrade Notice ==
 
-= 1.5.6 =
-* added order="none" parameter to not sort feed items
+= 1.5.9 =
+* fixed bug where templates containing html are htmlescaped
 
 == Changelog ==
+
+= 1.5.9 =
+* fixed bug where templates containing html are htmlescaped
+
+= 1.5.8 =
+* parameters in shortcodes are passed through to the templates
+
+= 1.5.7 =
+* templates now use Mustache template engine
+* added ability to enable shortcodes in templates
+* added field for custom javascript
+* added index_#, feed_title and feed_description template tags
 
 = 1.5.6 =
 * added order="none" parameter to not sort feed items
