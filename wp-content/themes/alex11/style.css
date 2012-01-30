@@ -144,21 +144,6 @@ ul#links-list li.linkcat h2 { margin-bottom:5px; }
 
 #blog-archives .archive-meta { margin-bottom:20px; background:#F2CA52; padding:10px; border-radius:7px; }
 
-/* Disabled Sidebars
---------------------------------------------- */
-.page-id-284 .upcoming,
-.page-id-284 #text-21,
-.page-id-284 #tag_cloud-3,
-.page-id-284 #recent-comments-3,
-.page-id-284 #recent-posts-2,
-.page-id-284 #text-16,
-.page-id-284 #text-17,
-.page-id-284 #text-18,
-.page-id-284 #text-19,
-.page-id-284 #text-20,
-.page-id-284 #text-11,
-.page-id-284 #linkcat-9 { display:none; }
-
 /* PLUGIN: The Events Calendar
 --------------------------------------------- */
 #tec-content { 
