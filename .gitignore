@@ -4,3 +4,5 @@
 wp-config.php
 wp-content/uploads/
 wp-content/cache/
+sitemap.xml
+sitemap.xml.gz
