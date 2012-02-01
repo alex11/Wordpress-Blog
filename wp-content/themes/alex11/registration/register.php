@@ -10,6 +10,7 @@
 				<li>Themenbereich: Echte Demokratie Jetzt!, acampadaBLN, 15-M, J14, Occupy[...], ... </li>
 				<li>Deine Inhalte publizierst du als Privatperson und nicht im Namen einer Organisation, Unternehmen, Partei, etc.</li>
 				<li>Alle Inhalte werden unter die Creative Commons Lizenz gestellt</li>
+				<li>Es ist der Datenschutz zu beachten. Ohne Zustimmung der jeweiligen Person d&uuml;rfen keine Personen- oder Kontaktdaten ver&ouml;ffentlicht werden.</li>
 			</ul>
 			<p><strong>Hinweis:</strong> Alle Daten werden <strong>verschlüsselt</strong> übertragen.</p>
 

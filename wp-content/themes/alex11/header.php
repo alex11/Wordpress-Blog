@@ -26,6 +26,7 @@
 		<?php do_action( 'bp_before_header' ) ?>
 
 		<div id="header">
+			<!--
 			<div id="search-bar" role="search">
 				<div class="padder">
 						<form action="<?php echo bp_search_form_action() ?>" method="post" id="search-form">
@@ -38,12 +39,13 @@
 
 							<?php wp_nonce_field( 'bp_search_form' ) ?>
 
-						</form><!-- #search-form -->
+						</form><
 
 				<?php do_action( 'bp_search_login_bar' ) ?>
 
-				</div><!-- .padder -->
-			</div><!-- #search-bar -->
+				</div>
+			</div>
+			-->
 			<h1 id="logo" role="banner"><a href="<?php echo home_url(); ?>" title="<?php _ex( 'Home', 'Home page banner link title', 'buddypress' ); ?>"><span style="display:none;"><?php bp_site_name(); ?></span></a></h1>
 			<div id="navigation" role="navigation">
 				<?php wp_nav_menu( array( 'container' => false, 'menu_id' => 'nav', 'theme_location' => 'primary', 'fallback_cb' => 'bp_dtheme_main_nav' ) ); ?>
@@ -55,6 +57,12 @@
 
 		<?php do_action( 'bp_after_header' ) ?>
 		<?php do_action( 'bp_before_container' ) ?>
+		
+		<div id="info-area">
+			<p style="font-weight:normal;">Wir sind gezwungen die Regeln um eine Regel zu erweitern. Es wurden pers&ouml;nliche Daten ohne Zustimmung der jeweiligen Personen veröffentlicht.</p>
+			<p style="font-weight:normal;">Daher wurde nun folgende Regel hinzugef&uuml;gt:</p>
+			<p>Es ist der Datenschutz zu beachten. Ohne Zustimmung der jeweiligen Person d&uuml;rfen keine Personen- oder Kontaktdaten ver&ouml;ffentlicht werden.</p>
+		</div>
 		
 		<?php if (is_user_logged_in() ) { //only logged in user can see this ?>
 			
