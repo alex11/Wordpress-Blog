@@ -32,7 +32,9 @@ body { background-position: left top;
 #navigation { text-align:left; }
 #nav { margin:0; }
 
-#search-bar { display:none; }
+#search-form { margin-bottom:12px; }
+#search-form input#search-terms { width:123px; height:20px; }
+#search-form input#search-submit { width:41px; height:28px; padding:0; }
 
 div#content .padder { margin-right: 305px; }
 div#sidebar { margin-left:-306px; width:267px; padding:0 19px; }
