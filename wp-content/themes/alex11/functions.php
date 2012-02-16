@@ -731,4 +731,29 @@ function bp_dtheme_content_nav( $nav_id ) {
 	<?php endif;
 }
 endif;
+function block_bulk_comments_actions($actions) {
+  unset($actions['unapprove']);
+  unset($actions['approve']);
+  unset($actions['spam']);
+  unset($actions['trash']);
+ 
+  return $actions;
+}
+ 
+function block_comment_row_actions($actions) {
+  unset($actions['approve']);
+  unset($actions['unapprove']);
+  unset($actions['quickedit']);
+  unset($actions['edit']);
+  unset($actions['spam']);
+  unset($actions['trash']);
+ 
+  return $actions;
+}
+ 
+ 
+if (!current_user_can('moderate_comments')) {
+  add_filter('bulk_actions-edit-comments', 'block_bulk_comments_actions');
+  add_filter('comment_row_actions', 'block_comment_row_actions');
+}
 ?>
