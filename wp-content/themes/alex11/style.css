@@ -146,6 +146,7 @@ ul#links-list li.linkcat h2 { margin-bottom:5px; }
 
 #blog-archives .archive-meta { margin-bottom:20px; background:#F2CA52; padding:10px; border-radius:7px; }
 
+div.activity-comments div.acomment-content { font-size:100%; }
 div.activity-comments form textarea { font-size:14px; }
 
 /* PLUGIN: The Events Calendar
