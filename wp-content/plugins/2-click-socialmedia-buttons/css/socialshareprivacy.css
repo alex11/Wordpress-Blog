@@ -1,11 +1,10 @@
-.social_share_privacy {clear:both; margin:0 auto; width:100%;}
-.social_share_privacy_area {clear:both; margin:20px 0 !important; padding:0; height:25px;}
-.social_share_privacy_area li {margin:0; padding:0; height:20px; float:left; list-style-type:none !important; list-style:none !important; background:none !important;}
-.social_share_privacy_area li .dummy_btn {float:left; margin-left:10px; cursor:pointer;}
-.clear-after-twoclick {clear:both; height:15px; margin:0 !important; padding:0 !important;}
+.social_share_privacy {clear:both; margin:0 auto; width:100%; margin-bottom:15px;}
+.social_share_privacy_area {clear:both; margin:20px 0 !important; padding:0; height:25px; width:100%;}
+.social_share_privacy_area li {margin:0 !important; padding:0; height:20px; float:left; list-style-type:none !important; list-style:none !important; background:none !important;}
+.social_share_privacy_area li .dummy_btn {float:left; margin-left:10px; cursor:pointer; padding:0;}
 
 /* Facebook begin */
-.social_share_privacy_area .facebook {width: 180px; display:inline-block;}
+.social_share_privacy_area .facebook {width: 180px;}
 /* Facebook end */
 
 /* Twitter begin */
@@ -22,6 +21,11 @@
 .social_share_privacy_area .flattr {width:148px;}
 .social_share_privacy_area li div.flattrbtn {width:115px;}
 /* Flattr end */
+
+/* Xing begin */
+.social_share_privacy_area .xing {width:145px;}
+.social_share_privacy_area li div.xing {width:161px;}
+/* Google+ end */
 
 /* Switch begin */
 .social_share_privacy_area li .switch {display: inline-block; text-indent:-9999em; background:transparent url(../images/socialshareprivacy_on_off.png) no-repeat 0 0 scroll; width:23px; height:12px; overflow:hidden; float:left; margin:4px 0 0; cursor:pointer;}
@@ -40,7 +44,7 @@
 /* Tooltips end */
 
 /* Settings/Info begin */
-.social_share_privacy_area li.settings_info {position:relative; top:8px;}
+.social_share_privacy_area li.settings_info {position:relative; top:8px; width:135px;}
 .social_share_privacy_area li.settings_info a {text-decoration:none; margin:0 !important;}
 .social_share_privacy_area li.settings_info .settings_info_menu {background-color:#f3f4f5; border:2px solid #e7e3e3; -moz-border-radius:5px; -webkit-border-radius:5px; border-radius:5px; -moz-box-shadow:2px 2px 3px #c1c1c1; -webkit-box-shadow:2px 2px 3px #c1c1c1; box-shadow:3px 3px 3px #c1c1c1; left:0; position:absolute; top:0; width:135px; z-index:10;}
 .social_share_privacy_area li.settings_info .settings_info_menu.off {border-width:0; -moz-box-shadow:none; -webkit-box-shadow:none; box-shadow:none; background-color:transparent; }
@@ -57,4 +61,15 @@
 #mitte #mitte_links, #mitte #mitte_news {overflow:visible !important; color:#151515;}
 
 /* Remove Imageborders */
-img.tweet_this_dummy, img.fb_like_privacy_dummy, img.gplus_one_dummy, img.flattr_dummy {border:none; margin:0;}
+img.tweet_this_dummy, img.fb_like_privacy_dummy, img.gplus_one_dummy, img.flattr_dummy, img.xing_dummy {border:none; margin:0;}
+
+@media (max-width: 800px) {
+	.social_share_privacy_area .settings_info {clear: left;}
+}
+
+/* Clearfix (as it will come in WP 3.4)
+----------------------------------------------- */
+.clearfix:after {content:"."; display:block; clear:both; visibility:hidden; line-height:0; height:0;}
+.clearfix {/* display:inline-block; */}
+html[xmlns] .clearfix {display:block;}
+* html .clearfix {height:1%;}

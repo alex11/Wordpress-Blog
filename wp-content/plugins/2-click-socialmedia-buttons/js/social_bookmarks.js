@@ -7,7 +7,8 @@
 	// abbreviate at last blank before length and add "\u2026" (horizontal ellipsis)
 	function abbreviateText(text, length) {
 		var abbreviated = decodeURIComponent(text);
-		if (abbreviated.length <= length) {
+
+		if(abbreviated.length <= length) {
 			return text;
 		}
 
@@ -20,6 +21,7 @@
 	// returns content of <meta name="" content=""> tags or '' if empty/non existant
 	function getMeta(name) {
 		var metaContent = $('meta[name="' + name + '"]').attr('content');
+
 		return metaContent || '';
 	}
 
@@ -29,7 +31,7 @@
 		var title = getMeta('DC.title');
 		var creator = getMeta('DC.creator');
 
-		if (title.length > 0 && creator.length > 0) {
+		if((title.length > 0) && (creator.length > 0)) {
 			title += ' - ' + creator;
 		} else {
 			title = $('title').text();
@@ -43,10 +45,11 @@
 		var uri = document.location.href;
 		var canonical = $("link[rel=canonical]").attr("href");
 
-		if (canonical && canonical.length > 0) {
-			if (canonical.indexOf("http") < 0) {
+		if(canonical && (canonical.length > 0)) {
+			if(canonical.indexOf("http") < 0) {
 				canonical = document.location.protocol + "//" + document.location.host + canonical;
 			}
+
 			uri = canonical;
 		}
 
@@ -55,12 +58,14 @@
 
 	function cookieSet(name, value, days, path, domain) {
 		var expires = new Date();
+
 		expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000));
 		document.cookie = name + '=' + value + '; expires=' + expires.toUTCString() + '; path=' + path + '; domain=' + domain;
 	}
 
 	function cookieDel(name, value, path, domain) {
 		var expires = new Date();
+
 		expires.setTime(expires.getTime() - 100);
 		document.cookie = name + '=' + value + '; expires=' + expires.toUTCString() + '; path=' + path + '; domain=' + domain;
 	}
@@ -116,7 +121,19 @@
 					'the_title'			: '',
 					'referrer_track'	: '',
 					'the_excerpt'		: ''
-				}
+				},
+				'xing' : {
+					'status'			: 'on',
+					'dummy_img'			: '',
+					'txt_info'			: '2 Klicks für mehr Datenschutz: Erst wenn Sie hier klicken, wird der Button aktiv und Sie können Ihre Empfehlung an Xing senden. Schon beim Aktivieren werden Daten an Dritte übertragen - siehe <em>i</em>.',
+					'txt_gplus_off'		: 'nicht mit Xing verbunden',
+					'txt_plus_on'		: 'mit Xing verbunden',
+					'perma_option'		: 'on',
+					'display_name'		: 'Xing',
+					'referrer_track'	: '',
+					'language'			: 'de',
+					'xing_lib'			: ''
+				},
 			},
 			'info_link'			: 'http://www.heise.de/ct/artikel/2-Klicks-fuer-mehr-Datenschutz-1333879.html',
 			'txt_help'  		: 'Wenn Sie diese Felder durch einen Klick aktivieren, werden Informationen an Facebook, Twitter, Flattr oder Google ins Ausland übertragen und unter Umständen auch dort gespeichert. Näheres erfahren Sie durch einen Klick auf das <em>i</em>.',
@@ -127,29 +144,31 @@
 			'css_path'			: '',
 			'uri'				: getURI
 		};
-
 		var options = $.extend(true, defaults, options);
 
 		var facebook_on = (options.services.facebook.status === 'on');
 		var twitter_on  = (options.services.twitter.status  === 'on');
 		var gplus_on	= (options.services.gplus.status	=== 'on');
 		var flattr_on	= (options.services.flattr.status	=== 'on');
+		var xing_on		= (options.services.xing.status	=== 'on');
 
 		// check if at least one service is "on"
-		if (!facebook_on && !twitter_on && !gplus_on && !flattr_on) {
+		if(!facebook_on && !twitter_on && !gplus_on && !flattr_on && !xing_on) {
 			return;
 		}
 
 		// insert stylesheet into document and prepend target element
-		if (options.css_path.length > 0) {
+		if(options.css_path.length > 0) {
 			$('head').append('<link rel="stylesheet" type="text/css" href="' + options.css_path + '" />');
 		}
+
 		$(this).prepend('<ul class="social_share_privacy_area"></ul>');
 		var context = $('.social_share_privacy_area', this);
 
 		// canonical uri that will be shared
 		var uri = options.uri;
-		if (typeof uri === 'function') {
+
+		if(typeof uri === 'function') {
 			uri = uri();
 		}
 
@@ -157,7 +176,7 @@
 			//
 			// Facebook
 			//
-			if (facebook_on) {
+			if(facebook_on) {
 //				var fb_enc_uri = encodeURIComponent(options.services.facebook.the_permalink+options.services.facebook.referrer_track);
 				var fb_enc_uri = encodeURIComponent(uri+options.services.facebook.referrer_track);
 				var fb_code = '<iframe src="http://www.facebook.com/plugins/like.php?locale=' + options.services.facebook.language + '&amp;href=' + fb_enc_uri + '&amp;send=false&amp;layout=button_count&amp;width=120&amp;show_faces=false&amp;action=' + options.services.facebook.action + '&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:145px; height:21px;" allowTransparency="true"></iframe>';
@@ -183,11 +202,13 @@
 			//
 			// Twitter
 			//
-			if (twitter_on) {
+			if(twitter_on) {
 				var text = options.services.twitter.tweet_text;
-				if (typeof text === 'function') {
+
+				if(typeof text === 'function') {
 					text = text();
 				}
+
 				// 120 is the max character count left after twitters automatic url shortening with t.co
 				text = abbreviateText(text, '120');
 
@@ -203,7 +224,7 @@
 				var $container_tw = $('li.twitter', context);
 
 				$('li.twitter div.tweet img,li.twitter span.switch', context).live('click', function () {
-					if ($container_tw.find('span.switch').hasClass('off')) {
+					if($container_tw.find('span.switch').hasClass('off')) {
 						$container_tw.addClass('info_off');
 						$container_tw.find('span.switch').addClass('on').removeClass('off').html(options.services.twitter.txt_twitter_on);
 						$container_tw.find('img.tweet_this_dummy').replaceWith(twitter_code);
@@ -218,11 +239,11 @@
 			//
 			// Google+
 			//
-			if (gplus_on) {
+			if(gplus_on) {
 				// fuer G+ wird die URL nicht encoded, da das zu einem Fehler fuehrt
+//				var plusone_lib = options.services.gplus.plusone_lib;
 //				var gplus_uri = options.services.gplus.the_permalink+options.services.gplus.referrer_track;
 				var gplus_uri = uri + options.services.gplus.referrer_track;
-				var plusone_lib = options.services.gplus.plusone_lib;
 
 				// we use the Google+ "asynchronous" code, standard code is flaky if inserted into dom after load
 				var gplus_code = '<div class="g-plusone" data-size="medium" data-href="' + gplus_uri + '"></div><script type="text/javascript">window.___gcfg = {lang: "' + options.services.gplus.language + '"}; (function() { var po = document.createElement("script"); po.type = "text/javascript"; po.async = true; po.src = "https://apis.google.com/js/plusone.js"; var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(po, s); })(); </script>';
@@ -235,7 +256,7 @@
 				var $container_gplus = $('li.gplus', context);
 
 				$('li.gplus div.gplusone img,li.gplus span.switch', context).live('click', function () {
-					if ($container_gplus.find('span.switch').hasClass('off')) {
+					if($container_gplus.find('span.switch').hasClass('off')) {
 						$container_gplus.addClass('info_off');
 						$container_gplus.find('span.switch').addClass('on').removeClass('off').html(options.services.gplus.txt_gplus_on);
 						$container_gplus.find('img.gplus_one_dummy').replaceWith(gplus_code);
@@ -250,9 +271,9 @@
 			//
 			// Flattr
 			//
-			if (flattr_on) {
+			if(flattr_on) {
 				var flattr_title = options.services.flattr.the_title;
-				var flattr_uri = encodeURIComponent(options.services.flattr.the_permalink);
+//				var flattr_uri = encodeURIComponent(options.services.flattr.the_permalink);
 				var flattr_uri = encodeURIComponent(uri);
 				var flattr_excerpt = options.services.flattr.the_excerpt;
 				var flattr_code = '<iframe src="http://api.flattr.com/button/view/?uid=' + options.services.flattr.uid + '&amp;url=' + flattr_uri + '&amp;title=' + flattr_title + '&amp;description=' + flattr_excerpt + '&amp;category=text&amp;language=de_DE&amp;button=compact" style="width:110px; height:22px;" allowtransparency="true" frameborder="0" scrolling="no"></iframe>';
@@ -263,7 +284,7 @@
 				var $container_flattr = $('li.flattr', context);
 
 				$('li.flattr div.flattrbtn img,li.flattr span.switch', context).live('click', function () {
-					if ($container_flattr.find('span.switch').hasClass('off')) {
+					if($container_flattr.find('span.switch').hasClass('off')) {
 						$container_flattr.addClass('info_off');
 						$container_flattr.find('span.switch').addClass('on').removeClass('off').html(options.services.flattr.txt_flattr_on);
 						$container_flattr.find('img.flattr_dummy').replaceWith(flattr_code);
@@ -271,6 +292,33 @@
 						$container_flattr.removeClass('info_off');
 						$container_flattr.find('span.switch').addClass('off').removeClass('on').html(options.services.flattr.txt_flattr_off);
 						$container_flattr.find('.flattrbtn').html(flattr_dummy_btn);
+					}
+				});
+			}
+
+			//
+			// Xing
+			//
+			if(xing_on) {
+				var xing_lib = options.services.xing.xing_lib;
+				var xing_uri = uri + options.services.xing.referrer_track;
+
+				var xing_code = '<iframe allowtransparency="true" src="' + xing_lib + '?xing-url=' + xing_uri + '&amp;size=medium&amp;count=true&amp;lang=de" scrolling="no" frameborder="0" style="border:none; width:110px; height:65px;" align="left"></iframe>';
+				var xing_dummy_btn = '<img src="' + options.services.xing.dummy_img + '" alt="&quot;Xing1&quot;-Dummy" class="xing_dummy" />';
+
+				context.append('<li class="xing help_info"><span class="info">' + options.services.xing.txt_info + '</span><span class="switch off">' + options.services.xing.txt_gplus_off + '</span><div class="xingbtn dummy_btn">' + xing_dummy_btn + '</div></li>');
+
+				var $container_xing = $('li.xing', context);
+
+				$('li.xing div.xingbtn img,li.xing span.switch', context).live('click', function () {
+					if($container_xing.find('span.switch').hasClass('off')) {
+						$container_xing.addClass('info_off');
+						$container_xing.find('span.switch').addClass('on').removeClass('off').html(options.services.xing.txt_xing_on);
+						$container_xing.find('img.xing_dummy').replaceWith(xing_code);
+					} else {
+						$container_xing.removeClass('info_off');
+						$container_xing.find('span.switch').addClass('off').removeClass('on').html(options.services.xing.txt_xing_off);
+						$container_xing.find('.xingbtn').html(xing_dummy_btn);
 					}
 				});
 			}
@@ -289,7 +337,8 @@
 			$('.help_info', context).live('mouseleave', function () {
 				var timeout_id = $(this).data('timeout_id');
 				window.clearTimeout(timeout_id);
-				if ($(this).hasClass('display')) {
+
+				if($(this).hasClass('display')) {
 					$(this).removeClass('display');
 				}
 			});
@@ -298,26 +347,31 @@
 			var twitter_perma	= (options.services.twitter.perma_option	=== 'on');
 			var gplus_perma		= (options.services.gplus.perma_option		=== 'on');
 			var flattr_perma	= (options.services.flattr.perma_option		=== 'on');
+			var xing_perma		= (options.services.xing.perma_option		=== 'on');
 
 			// Menue zum dauerhaften Einblenden der aktiven Dienste via Cookie einbinden
 			// Die IE7 wird hier ausgenommen, da er kein JSON kann und die Cookies hier ueber JSON-Struktur abgebildet werden
-			if (((facebook_on && facebook_perma)
+			if(((facebook_on && facebook_perma)
 				|| (twitter_on && twitter_perma)
 				|| (gplus_on && gplus_perma)
-				|| (flattr_on && flattr_perma))
-					&& (!$.browser.msie || ($.browser.msie && $.browser.version > 7.0))) {
+				|| (flattr_on && flattr_perma)
+				|| (xing_on && xing_perma))
+					&& (!$.browser.msie || ($.browser.msie && ($.browser.version > 7.0)))) {
 
 				// Cookies abrufen
 				var cookie_list = document.cookie.split(';');
 				var cookies = '{';
 				var i = 0;
-				for (; i < cookie_list.length; i += 1) {
+
+				for(; i < cookie_list.length; i += 1) {
 					var foo = cookie_list[i].split('=');
 					cookies += '"' + $.trim(foo[0]) + '":"' + $.trim(foo[1]) + '"';
-					if (i < cookie_list.length - 1) {
+
+					if(i < cookie_list.length - 1) {
 						cookies += ',';
 					}
 				}
+
 				cookies += '}';
 				cookies = JSON.parse(cookies);
 
@@ -333,7 +387,7 @@
 
 				// Die Dienste mit <input> und <label>, sowie checked-Status laut Cookie, schreiben
 				var checked = ' checked="checked"';
-				if (facebook_on && facebook_perma) {
+				if(facebook_on && facebook_perma) {
 					var perma_status_facebook = cookies.socialSharePrivacy_facebook === 'perma_on' ? checked : '';
 					$container_settings_info.find('form fieldset').append(
 						'<input type="checkbox" name="perma_status_facebook" id="perma_status_facebook"'
@@ -342,7 +396,7 @@
 					);
 				}
 
-				if (twitter_on && twitter_perma) {
+				if(twitter_on && twitter_perma) {
 					var perma_status_twitter = cookies.socialSharePrivacy_twitter === 'perma_on' ? checked : '';
 					$container_settings_info.find('form fieldset').append(
 						'<input type="checkbox" name="perma_status_twitter" id="perma_status_twitter"'
@@ -351,7 +405,7 @@
 					);
 				}
 
-				if (gplus_on && gplus_perma) {
+				if(gplus_on && gplus_perma) {
 					var perma_status_gplus = cookies.socialSharePrivacy_gplus === 'perma_on' ? checked : '';
 					$container_settings_info.find('form fieldset').append(
 							'<input type="checkbox" name="perma_status_gplus" id="perma_status_gplus"'
@@ -360,12 +414,21 @@
 					);
 				}
 
-				if (flattr_on && flattr_perma) {
+				if(flattr_on && flattr_perma) {
 					var perma_status_flattr = cookies.socialSharePrivacy_flattr === 'perma_on' ? checked : '';
 					$container_settings_info.find('form fieldset').append(
-						'<input type="checkbox" name="perma_status_flattr" id="perma_status_flattr"'
+							'<input type="checkbox" name="perma_status_flattr" id="perma_status_flattr"'
 							+ perma_status_flattr + ' /><label for="perma_status_flattr">'
 							+ options.services.flattr.display_name + '</label>'
+					);
+				}
+
+				if(xing_on && xing_perma) {
+					var perma_status_xing = cookies.socialSharePrivacy_xing === 'perma_on' ? checked : '';
+					$container_settings_info.find('form fieldset').append(
+						'<input type="checkbox" name="perma_status_xing" id="perma_status_xing"'
+							+ perma_status_xing + ' /><label for="perma_status_xing">'
+							+ options.services.xing.display_name + '</label>'
 					);
 				}
 
@@ -389,7 +452,7 @@
 					var service = click.substr(click.lastIndexOf('_') + 1, click.length);
 					var cookie_name = 'socialSharePrivacy_' + service;
 
-					if ($('#' + event.target.id + ':checked').length) {
+					if($('#' + event.target.id + ':checked').length) {
 						cookieSet(cookie_name, 'perma_on', options.cookie_expires, options.cookie_path, options.cookie_domain);
 						$('form fieldset label[for=' + click + ']', context).addClass('checked');
 					} else {
@@ -400,29 +463,35 @@
 
 				// Dienste automatisch einbinden, wenn entsprechendes Cookie vorhanden ist
 				// Facebook
-				if (facebook_on && facebook_perma && cookies.socialSharePrivacy_facebook === 'perma_on') {
+				if(facebook_on && facebook_perma && cookies.socialSharePrivacy_facebook === 'perma_on') {
 //					$('li.facebook span.switch', context).click();
 					$('li.facebook div.fb_like img', context).click();
 				}
 
 				// Twitter
-				if (twitter_on && twitter_perma && cookies.socialSharePrivacy_twitter === 'perma_on') {
+				if(twitter_on && twitter_perma && cookies.socialSharePrivacy_twitter === 'perma_on') {
 //					$('li.twitter span.switch', context).click();
 					$('li.twitter div.tweet img', context).click();
 				}
 
 				// Googleplus
-				if (gplus_on && gplus_perma && cookies.socialSharePrivacy_gplus === 'perma_on') {
+				if(gplus_on && gplus_perma && cookies.socialSharePrivacy_gplus === 'perma_on') {
 //					$('li.gplus span.switch', context).click();
 					$('li.gplus div.gplusone img', context).click();
 				}
 
 				// Flattr
-				if (flattr_on && flattr_perma && cookies.socialSharePrivacy_flattr === 'perma_on') {
+				if(flattr_on && flattr_perma && cookies.socialSharePrivacy_flattr === 'perma_on') {
 //					$('li.flattr span.switch', context).click();
 					$('li.flattr div.flattrbtn img', context).click();
 				}
+
+				// Xing
+				if(xing_on && xing_perma && cookies.socialSharePrivacy_xing === 'perma_on') {
+//					$('li.flattr span.switch', context).click();
+					$('li.xing div.xingbtn img', context).click();
+				}
 			}
 		});
-	}
+	};
 })(jQuery);
