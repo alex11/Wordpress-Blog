@@ -373,6 +373,8 @@ div.wpcf7-response-output {
 
 h2.pagetitle .category { font-weight:normal; font-size:11px; }
 
+#item-body .em-button.button.add-new-h2 { float:none; margin:0; }
+
 /*
 #event-form .wrap div.event-form-name,
 #event-form .wrap div.event-form-when,
@@ -386,6 +388,7 @@ h2.pagetitle .category { font-weight:normal; font-size:11px; }
 #event-form .wrap .right { width:48%; float:right; }
 #event-form .wrap div.event-form-name select { font-size:14px; margin:15px 0 10px 0; } 
 #event-form .wrap div.event-form-when input.hasDatepicker { width:140px; margin:0 3px;}
+#event-form .wrap div.event-form-when input.hasDatepicker { width:135px; margin:0 3px;}
 #event-form .wrap div.event-form-categories select { width:100%; font-size:14px; }
 #event-form .wrap  input#event-name { font-size:22px; width:96%; }
 #event-form .wrap .group-event { margin:10px 0; }
