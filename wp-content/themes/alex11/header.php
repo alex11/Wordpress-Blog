@@ -20,57 +20,49 @@
 	</head>
 
 	<body <?php body_class() ?> id="bp-default">
-		<div id="header-color">&nbsp;</div>
-		<div id="wrapper">
-
 		<?php do_action( 'bp_before_header' ) ?>
 
 		<div id="header">
-			<!--
-			<div id="search-bar" role="search">
-				<div class="padder">
-						<form action="<?php echo bp_search_form_action() ?>" method="post" id="search-form">
-							<label for="search-terms" class="accessibly-hidden"><?php _e( 'Search for:', 'buddypress' ); ?></label>
-							<input type="text" id="search-terms" name="search-terms" value="<?php echo isset( $_REQUEST['s'] ) ? esc_attr( $_REQUEST['s'] ) : ''; ?>" />
+			<div id="header-content">
+				<h1 id="logo" role="banner"><a href="<?php echo home_url(); ?>" title="<?php _ex( 'Home', 'Home page banner link title', 'buddypress' ); ?>"><span style="display:none;"><?php bp_site_name(); ?></span></a></h1>
 
-							<?php echo bp_search_form_type_select() ?>
-
-							<input type="submit" name="search-submit" id="search-submit" value="<?php _e( 'Search', 'buddypress' ) ?>" />
-
-							<?php wp_nonce_field( 'bp_search_form' ) ?>
-
-						</form><
-
-				<?php do_action( 'bp_search_login_bar' ) ?>
-
+				<div id="search-bar" role="search">
+					<form action="<?php echo bp_search_form_action() ?>" method="post" id="search-form">
+						<label for="search-terms" class="accessibly-hidden"><?php _e( 'Search for:', 'buddypress' ); ?></label>
+						<input type="text" id="search-terms" name="search-terms" value="<?php echo isset( $_REQUEST['s'] ) ? esc_attr( $_REQUEST['s'] ) : ''; ?>" />
+						<?php echo bp_search_form_type_select() ?>
+						<input type="submit" name="search-submit" id="search-submit" value="<?php _e( 'Search', 'buddypress' ) ?>" />
+						<?php wp_nonce_field( 'bp_search_form' ) ?>
+					</form>
+					
+					<a href="http://twitter.com/#!/search/%23occupyberlin%20OR%20%23alex11%20OR%20%23edj%20OR%20%23occupygermany%20OR%20%40acampadabln" class="community twitter">&nbsp;</a>
+					<a href="https://www.facebook.com/aCAMPadaBLN" class="community fb">&nbsp;</a>
+					<a href="https://www.alex11.org/feed/" class="community rss">&nbsp;</a>
+					
+					<?php do_action( 'bp_search_login_bar' ) ?>
+				</div>
+				<div class="clearer">&nbsp;</div>
+				<div id="navigation" role="navigation">
+					<?php wp_nav_menu( array( 'container' => false, 'menu_id' => 'nav', 'theme_location' => 'primary', 'fallback_cb' => 'bp_dtheme_main_nav' ) ); ?>
 				</div>
 			</div>
-			-->
-			<h1 id="logo" role="banner"><a href="<?php echo home_url(); ?>" title="<?php _ex( 'Home', 'Home page banner link title', 'buddypress' ); ?>"><span style="display:none;"><?php bp_site_name(); ?></span></a></h1>
-			<div id="navigation" role="navigation">
-				<?php wp_nav_menu( array( 'container' => false, 'menu_id' => 'nav', 'theme_location' => 'primary', 'fallback_cb' => 'bp_dtheme_main_nav' ) ); ?>
-			</div>
+			<div class="clearer">&nbsp;</div>
 
 			<?php do_action( 'bp_header' ) ?>
-
+			<div class="bottom-shadow">&nbsp;</div>
 		</div><!-- #header -->
 
 		<?php do_action( 'bp_after_header' ) ?>
+		<div id="wrapper">
+
 		<?php do_action( 'bp_before_container' ) ?>
-		
 		<div id="info-area">
-			<p style="font-weight:normal;">Wir sind gezwungen die Regeln um eine Regel zu erweitern. Es wurden pers&ouml;nliche Daten ohne Zustimmung der jeweiligen Personen veröffentlicht.</p>
-			<p style="font-weight:normal;">Daher wurde nun folgende Regel hinzugef&uuml;gt:</p>
-			<p>Es ist der Datenschutz zu beachten. Ohne Zustimmung der jeweiligen Person d&uuml;rfen keine Personen- oder Kontaktdaten ver&ouml;ffentlicht werden.</p>
-		</div>
-		
 		<?php if (is_user_logged_in() ) { //only logged in user can see this ?>
 			
 		<?php } else { ?>
-			<div id="info-area">
-				<p>Willkommen auf alex11. Ein offenes BlogCamp, ein Camp im Internet. Mache und diskutiere Vorschläge und Initiativen. <a href="/info">Hier erfährst du mehr</a></p>
-				<p class="linkbar">Es ist dein/unser Blog, also hau rein und <a href="/register">registriere dich</a> oder melde dich an &darr; </p>
-			</div>
+			
+			<p>Willkommen auf alex11. Ein offenes BlogCamp, ein Camp im Internet. Mache und diskutiere Vorschläge und Initiativen. <a href="/info">Hier erfährst du mehr</a></p>
+			<p class="linkbar">Es ist dein/unser Blog, also hau rein und <a href="/register">registriere dich</a> oder melde dich an &darr; </p>
 		<?php } ?>
-
+		</div>
 		<div id="container">
