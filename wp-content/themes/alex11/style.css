@@ -358,18 +358,18 @@ div.wpcf7-response-output {
 #em-wrapper .dateandtime div { text-align:center; font-size:11px; line-height:21px; background:#F2CA52; margin:0; padding:3px 0; border-radius:7px; }
 #em-wrapper .dateandtime div .date { font-size:14px; font-weight:bold; }
 
-#em-wrapper .titleandcategory { font-size:11px; line-height:21px; }
-#em-wrapper .titleandcategory a:link,
-#em-wrapper .titleandcategory a:visited { text-decoration:none; font-size:14px; font-weight:bold; }
-#em-wrapper .titleandcategory a:hover,
-#em-wrapper .titleandcategory a:focus,
-#em-wrapper .titleandcategory a:active {  }
+#container #content .titleandcategory { font-size:11px; line-height:21px; }
+#container #content .titleandcategory a:link,
+#container #content .titleandcategory a:visited { text-decoration:none; font-size:14px; font-weight:bold; }
+#container #content .titleandcategory a:hover,
+#container #content .titleandcategory a:focus,
+#container #content .titleandcategory a:active {  }
 .pagetitle span.who { float:right; width:50px; margin-top:-30px; }
-#em-wrapper #whenandwhere { width:100%; padding-top:15px; margin-bottom:15px; border-top:1px solid #DDDDDD; border-bottom:1px solid #DDDDDD; }
-#em-wrapper #whenandwhere p { width:45%; float:left; }
-#em-wrapper #whenandwhere p.who { width:50px; float:right; }
-#em-wrapper #flyer img { float:left; width:250px; margin:0 15px 15px 0; }
-#em-wrapper .map { width:600px; margin:30px auto; }
+#container #content #whenandwhere { width:100%; padding-top:15px; margin-bottom:15px; border-top:1px solid #DDDDDD; border-bottom:1px solid #DDDDDD; }
+#container #content #whenandwhere { width:60%; float:left; }
+#container #content p.who { float:right; }
+#container #content #flyer { float:left; width:250px; margin:0 15px 15px 0; }
+#container #content .map { width:600px; margin:30px auto; }
 
 h2.pagetitle .category { font-weight:normal; font-size:11px; }
 
@@ -386,16 +386,15 @@ h2.pagetitle .category { font-weight:normal; font-size:11px; }
 */
 #event-form .wrap .left { width:48%; float:left; }
 #event-form .wrap .right { width:48%; float:right; }
-#event-form .wrap div.event-form-name select { font-size:14px; margin:15px 0 10px 0; } 
-#event-form .wrap div.event-form-when input.hasDatepicker { width:140px; margin:0 3px;}
-#event-form .wrap div.event-form-when input.hasDatepicker { width:135px; margin:0 3px;}
+#event-form .wrap div.event-form-name select { margin:15px 0 10px 0; } 
+#event-form .wrap div.event-form-when input.hasDatepicker { width:33%; margin:0 3px;}
+#event-form .wrap div.event-form-when input#start-time,
+#event-form .wrap div.event-form-when input#end-time { width:30%; }
 #event-form .wrap div.event-form-categories select { width:100%; font-size:14px; }
 #event-form .wrap  input#event-name { font-size:22px; width:96%; }
 #event-form .wrap .group-event { margin:10px 0; }
-#event-form .wrap .group-event select,
-#event-form .wrap .event-form-where select { font-size:16px; }
 #event-form .wrap .event-form-image img { width:100%; }
-#event-form .wrap .event-form-image input#event-image { width:60%; }
+#event-form .wrap .event-form-image input#event-image { width:60%; font-size:100%;}
 #event-form .wrap .event-form-details textarea { height:400px; }
 #event-form .wrap .event-form-details h4,
 #event-form .wrap .event-form-when h4,
