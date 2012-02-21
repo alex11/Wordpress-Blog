@@ -387,8 +387,7 @@ div.wpcf7-response-output {
 #container #content #event-meta { width:100%; padding:15px 0; margin-bottom:15px; border-top:1px solid #DDDDDD; border-bottom:1px solid #DDDDDD; }
 #container #content #whenandwhere { width:60%; float:left; }
 #container #content p.who { float:right; }
-#container #content #flyer { float:left; width:250px; margin:0 15px 15px 0; }
-#container #content #flyer img { width:250px; }
+#container #content #event-content a img { float:left; width:250px; margin:0 15px 15px 0; }
 #container #content .map { width:600px; margin:30px auto; }
 
 h2.pagetitle .category { font-weight:normal; font-size:11px; }
