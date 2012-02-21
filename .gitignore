@@ -4,5 +4,6 @@
 wp-config.php
 wp-content/uploads/
 wp-content/cache/
+wp-content/fv-gravatar-cache/
 sitemap.xml
 sitemap.xml.gz
