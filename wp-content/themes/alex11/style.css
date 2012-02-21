@@ -72,6 +72,11 @@ a:hover,
 a:focus,
 a:active { color:#d93d1a; }
 
+#header #header-content h1 a:link,
+#header #header-content h1 a:visited { display:block; position:absolute; top:0; left:6px; width:120px; height:35px; background-image:url(images/logo.png); background-position:0 0; background-repeat:no-repeat; }
+#header #header-content h1 a:hover,
+#header #header-content h1 a:focus,
+#header #header-content h1 a:active { background-position:0 -36px; }
 div.item-list-tabs ul li a:link span,
 div.item-list-tabs ul li a:visited span { background-color:#5a7302; }
 div.item-list-tabs ul li a:hover span,
@@ -466,3 +471,9 @@ table.widefat a:visited { text-decoration:none; }
 /* PLUGIN: Twitter-Tools
 --------------------------------------------- */
 #text-11 div ul li div { display:none; }
+
+/* PLUGIN: BuddyPress Group Email Subscription
+--------------------------------------------- */
+.group-subscription-div .group-subscription-status { font-weight:bold; color:#D93D1A; }
+.group-subscription-div .group-subscription-status.gemail_icon { color:#5A7302; background:none !important; padding:0 !important; }
+.group-subscription-div .group-subscription-options { width:auto; }
