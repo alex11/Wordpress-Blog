@@ -19,314 +19,365 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Textdomain-Support: yes"
 
-#: 2-click-socialmedia-buttons.php:166
+#: 2-click-socialmedia-buttons.php:173
 #@ twoclick-socialmedia
 msgid "Like this Plugin? Buy me a coffee."
 msgstr "Das Plugin gefällt Dir? Spendier mir nen Kaffee."
 
-#: 2-click-socialmedia-buttons.php:395
+#: 2-click-socialmedia-buttons.php:470
 #@ twoclick-socialmedia
 msgid "Save Changes"
 msgstr "Speichern"
 
-#: 2-click-socialmedia-buttons.php:255
+#: 2-click-socialmedia-buttons.php:279
 #@ twoclick-socialmedia
 msgid "Position"
 msgstr "Position"
 
-#: 2-click-socialmedia-buttons.php:259
+#: 2-click-socialmedia-buttons.php:283
 #@ twoclick-socialmedia
 msgid "Before the Post"
 msgstr "Vor dem Artikel"
 
-#: 2-click-socialmedia-buttons.php:260
+#: 2-click-socialmedia-buttons.php:284
 #@ twoclick-socialmedia
 msgid "After the Post"
 msgstr "Nach dem Artikel"
 
-#: 2-click-socialmedia-buttons.php:261
+#: 2-click-socialmedia-buttons.php:285
 #@ twoclick-socialmedia
 msgid "Manuall (Shortcode)"
 msgstr "Manuell (Shortcode)"
 
-#: 2-click-socialmedia-buttons.php:267
+#: 2-click-socialmedia-buttons.php:291
 #@ twoclick-socialmedia
 msgid "If you choose \"Manuall (Shortcode)\", you can use the shortcode <strong>[twoclick_buttons]</strong> inside your articles."
 msgstr "Ist die Option &quot;Manuell (Shortcode)&quot; gewählt, so können die Buttons mittels des Shortcodes <strong>[twoclick_buttons]</strong> in den Artikel eingebunden werden."
 
-#: 2-click-socialmedia-buttons.php:350
+#: 2-click-socialmedia-buttons.php:405
 #@ twoclick-socialmedia
 msgid "Please use 'yourname', <strong>not</strong> 'RT @yourname'."
 msgstr "Bitte benutze das Format 'deinname', <strong>nicht</strong> 'RT @deinname'."
 
-#: 2-click-socialmedia-buttons.php:215
+#: 2-click-socialmedia-buttons.php:239
 #@ twoclick-socialmedia
 msgid "Display on CMS-Pages"
 msgstr "Auch auf CMS-Seiten anzeigen"
 
-#: 2-click-socialmedia-buttons.php:247
+#: 2-click-socialmedia-buttons.php:271
 #@ twoclick-socialmedia
 msgid "On singleposts the buttons will be shown by default. There is no option needed."
 msgstr "In den Einzelartikeln wird das Plugin per default eingebunden. Dies bedarf keiner Option."
 
-#: 2-click-socialmedia-buttons.php:161
+#: 2-click-socialmedia-buttons.php:168
 #@ twoclick-socialmedia
 msgid "Settings for 2-Click Social Media Buttons"
 msgstr "Einstellungen für 2-Click Social Media Buttons"
 
-#: 2-click-socialmedia-buttons.php:177
+#: 2-click-socialmedia-buttons.php:184
 #@ twoclick-socialmedia
 msgid "Display"
 msgstr "Anzeige"
 
-#: 2-click-socialmedia-buttons.php:183
+#: 2-click-socialmedia-buttons.php:191
 #@ twoclick-socialmedia
 msgid "Enable Facebook"
 msgstr "Facebook anzeigen"
 
-#: 2-click-socialmedia-buttons.php:185
+#: 2-click-socialmedia-buttons.php:193
 #@ twoclick-socialmedia
 msgid "Option for permanent activation for Facebook"
 msgstr "Biete permanente Aktivierung von Facebook an"
 
-#: 2-click-socialmedia-buttons.php:189
+#: 2-click-socialmedia-buttons.php:199
 #@ twoclick-socialmedia
 msgid "Enable Twitter"
 msgstr "Twitter anzeigen"
 
-#: 2-click-socialmedia-buttons.php:191
+#: 2-click-socialmedia-buttons.php:201
 #@ twoclick-socialmedia
 msgid "Option for permanent activation for Twitter"
 msgstr "Biete permanente Aktivierung von Twitter an"
 
-#: 2-click-socialmedia-buttons.php:195
+#: 2-click-socialmedia-buttons.php:207
 #@ twoclick-socialmedia
 msgid "Enable Google+"
 msgstr "Google+ anzeigen"
 
-#: 2-click-socialmedia-buttons.php:197
+#: 2-click-socialmedia-buttons.php:209
 #@ twoclick-socialmedia
 msgid "Option for permanent activation for Google+"
 msgstr "Biete permanente Aktivierung von Google+ an"
 
-#: 2-click-socialmedia-buttons.php:201
+#: 2-click-socialmedia-buttons.php:215
 #@ twoclick-socialmedia
 msgid "Enable Flattr"
 msgstr "Flattr anzeigen"
 
-#: 2-click-socialmedia-buttons.php:203
+#: 2-click-socialmedia-buttons.php:217
 #@ twoclick-socialmedia
 msgid "Option for permanent activation for Flattr"
 msgstr "Biete permanente Aktivierung von Flattr an"
 
-#: 2-click-socialmedia-buttons.php:276
+#: 2-click-socialmedia-buttons.php:300
 #@ twoclick-socialmedia
 msgid "Infotext<br /><em>(optional)</em>"
 msgstr "Infotexte<br /><em>(optional)</em>"
 
-#: 2-click-socialmedia-buttons.php:279
+#: 2-click-socialmedia-buttons.php:304
 #@ twoclick-socialmedia
 msgid "Facebook:"
 msgstr "Facebook:"
 
-#: 2-click-socialmedia-buttons.php:283
+#: 2-click-socialmedia-buttons.php:310
 #@ twoclick-socialmedia
 msgid "Twitter:"
 msgstr "Twitter:"
 
-#: 2-click-socialmedia-buttons.php:287
+#: 2-click-socialmedia-buttons.php:316
 #@ twoclick-socialmedia
 msgid "Google+:"
 msgstr "Google+:"
 
-#: 2-click-socialmedia-buttons.php:291
+#: 2-click-socialmedia-buttons.php:322
 #@ twoclick-socialmedia
 msgid "Flattr:"
 msgstr "Flattr:"
 
-#: 2-click-socialmedia-buttons.php:299
+#: 2-click-socialmedia-buttons.php:340
 #@ twoclick-socialmedia
 msgid "Infobutton:"
 msgstr "Infobutton:"
 
-#: 2-click-socialmedia-buttons.php:303
+#: 2-click-socialmedia-buttons.php:346
 #@ twoclick-socialmedia
 msgid "Permaoption:"
 msgstr "Permaoption:"
 
-#: 2-click-socialmedia-buttons.php:307
+#: 2-click-socialmedia-buttons.php:352
 #@ twoclick-socialmedia
 msgid "Infolink:"
 msgstr "Infolink:"
 
-#: 2-click-socialmedia-buttons.php:309
-#: 2-click-socialmedia-buttons.php:321
+#: 2-click-socialmedia-buttons.php:354
+#: 2-click-socialmedia-buttons.php:367
 #@ twoclick-socialmedia
 msgid "Links starting with http://"
 msgstr "Links beginnen im Übrigen mit http://"
 
-#: 2-click-socialmedia-buttons.php:345
+#: 2-click-socialmedia-buttons.php:400
 #@ twoclick-socialmedia
 msgid "Twitter"
 msgstr "Twitter"
 
-#: 2-click-socialmedia-buttons.php:387
+#: 2-click-socialmedia-buttons.php:442
 #@ twoclick-socialmedia
 msgid "Flattr"
 msgstr "Flattr"
 
-#: 2-click-socialmedia-buttons.php:389
+#: 2-click-socialmedia-buttons.php:444
 #@ twoclick-socialmedia
 msgid "User:"
 msgstr "Nutzer:"
 
-#: 2-click-socialmedia-buttons.php:353
+#: 2-click-socialmedia-buttons.php:408
 #@ twoclick-socialmedia
 msgid "Tweettext:"
 msgstr "Tweettext:"
 
-#: 2-click-socialmedia-buttons.php:358
+#: 2-click-socialmedia-buttons.php:413
 #@ twoclick-socialmedia
 msgid "Posttitle &raquo; Blogtitle"
 msgstr "Posttitel &raquo; Blogtitel"
 
-#: 2-click-socialmedia-buttons.php:359
+#: 2-click-socialmedia-buttons.php:414
+#: 2-click-socialmedia-buttons.php:458
 #@ twoclick-socialmedia
 msgid "Posttitle"
 msgstr "Posttitel"
 
-#: 2-click-socialmedia-buttons.php:361
+#: 2-click-socialmedia-buttons.php:416
 #@ twoclick-socialmedia
 msgid "The title of the page the button is on."
 msgstr "Der Titel der Seite auf der der Button eingebunden ist."
 
-#: 2-click-socialmedia-buttons.php:366
+#: 2-click-socialmedia-buttons.php:421
 #@ twoclick-socialmedia
 msgid "This is the text that people will include in their Tweet when they share from your website."
 msgstr "Dies ist der Text, der automatisch in den Tweet mit eingesetzt wird."
 
-#: 2-click-socialmedia-buttons.php:370
+#: 2-click-socialmedia-buttons.php:425
 #@ twoclick-socialmedia
 msgid "Custom tweettext missing !!!"
 msgstr "Eigener Tweettext nicht angegeben !!!"
 
-#: 2-click-socialmedia-buttons.php:373
+#: 2-click-socialmedia-buttons.php:428
 #@ twoclick-socialmedia
 msgid "Please enter a custom tweettext. Otherweise the plugin will use default settings for tweetext as &quot;<strong>Posttitle &raquo; Blogtitle</strong>&quot;"
 msgstr "Bitte gib einen eigenen Tweettext an. Andernfalls wird das Plugin die Standardeinstellung <strong>Posttitel » Blogtitel</strong> nutzen."
 
-#: 2-click-socialmedia-buttons.php:380
+#: 2-click-socialmedia-buttons.php:435
 #@ twoclick-socialmedia
 msgid "Use tags as #hashtags"
 msgstr "Artikeltags als #Hashtags nutzen."
 
-#: 2-click-socialmedia-buttons.php:333
+#: 2-click-socialmedia-buttons.php:388
 #@ twoclick-socialmedia
 msgid "Facebook"
 msgstr "Facebook"
 
-#: 2-click-socialmedia-buttons.php:335
+#: 2-click-socialmedia-buttons.php:390
 #@ twoclick-socialmedia
 msgid "Button:"
 msgstr "Button:"
 
-#: 2-click-socialmedia-buttons.php:337
+#: 2-click-socialmedia-buttons.php:392
 #@ twoclick-socialmedia
 msgid "Recommend"
 msgstr "Empfehlen"
 
-#: 2-click-socialmedia-buttons.php:338
+#: 2-click-socialmedia-buttons.php:393
 #@ twoclick-socialmedia
 msgid "Like"
 msgstr "Gefällt mir"
 
-#: 2-click-socialmedia-buttons.php:262
+#: 2-click-socialmedia-buttons.php:286
 #@ twoclick-socialmedia
 msgid "Manuall (Template)"
 msgstr "Manuell (Template)"
 
-#: 2-click-socialmedia-buttons.php:268
+#: 2-click-socialmedia-buttons.php:292
 #@ twoclick-socialmedia
 msgid "If you choose \"Manuall (Template)\", you can use the code <strong>&lt;?php if(function_exists('get_twoclick_buttons')) {get_twoclick_buttons(get_the_ID());}?&gt;</strong> inside your template. It's using all settings for \"Display\". <em><strong>Note:</strong> It will only work in single post or page templates. Not in any loop.</em>"
 msgstr "Ist die Option &quot;Manuell (Template)&quot; gewählt, so können die Buttons mit dem PHP-Code <strong>&lt;?php if(function_exists('get_twoclick_buttons')) {get_twoclick_buttons(get_the_ID());}?&gt;</strong> in das Template eingebunden werden. Der Template-Tag berücksichtigt alle Einstellungen, die unter &quot;Anzeige&quot; getätigt wurden. <em><strong>Hinweis:</strong> Dies funktioniert nur bei Einzalartikeln und -seiten, nicht innerhalb des Loops.</em>"
 
-#: 2-click-socialmedia-buttons.php:316
+#: 2-click-socialmedia-buttons.php:361
 #@ twoclick-socialmedia
 msgid "Postthumbnail<br /><em>(optional)</em>"
 msgstr "Artikelbild<br /><em>(optional)</em>"
 
-#: 2-click-socialmedia-buttons.php:319
+#: 2-click-socialmedia-buttons.php:364
 #@ twoclick-socialmedia
 msgid "Link:"
 msgstr "URL:"
 
-#: 2-click-socialmedia-buttons.php:325
-#@ twoclick-socialmedia
-msgid "This image is taken for Facebook and/or Google+ if there is no postthumbnail or other image inside the article or page. If empty, no image will be used for."
-msgstr "Dieses Bild wird für Facebook und/oder Google+ hergenommen, falls im Artikel oder der Seite kein Artikelbild oder sonstiges Bild im Artikel gefunden wurde. Bleibt diese Zeile leer, wird kein Bild verwendet."
-
-#: 2-click-socialmedia-buttons.php:219
+#: 2-click-socialmedia-buttons.php:243
 #@ twoclick-socialmedia
 msgid "Display on Index"
 msgstr "Auch im Artikelindex anzeigen"
 
-#: 2-click-socialmedia-buttons.php:207
+#: 2-click-socialmedia-buttons.php:223
 #@ twoclick-socialmedia
 msgid "Enable Xing"
 msgstr "Xing anzeigen"
 
-#: 2-click-socialmedia-buttons.php:209
+#: 2-click-socialmedia-buttons.php:225
 #@ twoclick-socialmedia
 msgid "Option for permanent activation for Xing"
 msgstr "Biete permanente Aktivierung von Xing an"
 
-#: 2-click-socialmedia-buttons.php:235
+#: 2-click-socialmedia-buttons.php:259
 #@ twoclick-socialmedia
 msgid "Display on Search-Pages"
 msgstr "Auch in Suchergebnissen anzeigen"
 
-#: 2-click-socialmedia-buttons.php:223
-#: 2-click-socialmedia-buttons.php:227
-#: 2-click-socialmedia-buttons.php:231
-#: 2-click-socialmedia-buttons.php:235
-#: 2-click-socialmedia-buttons.php:239
-#: 2-click-socialmedia-buttons.php:243
+#: 2-click-socialmedia-buttons.php:247
+#: 2-click-socialmedia-buttons.php:251
+#: 2-click-socialmedia-buttons.php:255
+#: 2-click-socialmedia-buttons.php:259
+#: 2-click-socialmedia-buttons.php:263
+#: 2-click-socialmedia-buttons.php:267
 #@ twoclick-socialmedia
 msgid "Note: Not every theme supports this option."
 msgstr "Hinweis: Nicht jedes Theme unterstützt diese Option."
 
-#: 2-click-socialmedia-buttons.php:239
+#: 2-click-socialmedia-buttons.php:263
 #@ twoclick-socialmedia
 msgid "Display on Category-Archive"
 msgstr "Auch in Kategoriearchiven anzeigen"
 
-#: 2-click-socialmedia-buttons.php:243
+#: 2-click-socialmedia-buttons.php:267
 #@ twoclick-socialmedia
 msgid "Display on Tag-Archive"
 msgstr "Auch in Tagarchiven anzeigen"
 
-#: 2-click-socialmedia-buttons.php:295
+#: 2-click-socialmedia-buttons.php:328
 #@ twoclick-socialmedia
 msgid "Xing:"
 msgstr "Xing:"
 
-#: 2-click-socialmedia-buttons.php:1144
+#: 2-click-socialmedia-buttons.php:1315
 #@ twoclick-socialmedia
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: 2-click-socialmedia-buttons.php:223
+#: 2-click-socialmedia-buttons.php:247
 #@ twoclick-socialmedia
 msgid "Display on Yearly Archives"
 msgstr "Auch im Jahresarchiv anzeigen"
 
-#: 2-click-socialmedia-buttons.php:227
+#: 2-click-socialmedia-buttons.php:251
 #@ twoclick-socialmedia
 msgid "Display on Monthly Archives"
 msgstr "Auch im Monatsarchiv anzeigen"
 
-#: 2-click-socialmedia-buttons.php:231
+#: 2-click-socialmedia-buttons.php:255
 #@ twoclick-socialmedia
 msgid "Display on Daily Archives"
 msgstr "Auch im Tagesarchiv anzeigen"
+
+#: 2-click-socialmedia-buttons.php:231
+#@ twoclick-socialmedia
+msgid "Enable Pinterest"
+msgstr "Pinterest anzeigen"
+
+#: 2-click-socialmedia-buttons.php:233
+#@ twoclick-socialmedia
+msgid "Option for permanent activation for Pinterest"
+msgstr "Biete Permanente Aktivierung von Pinterest an"
+
+#: 2-click-socialmedia-buttons.php:334
+#@ twoclick-socialmedia
+msgid "Pinterest:"
+msgstr "Pinterest:"
+
+#: 2-click-socialmedia-buttons.php:366
+#@ twoclick-socialmedia
+msgid "Upload Image"
+msgstr "Bild hochladen"
+
+#: 2-click-socialmedia-buttons.php:877
+#@ twoclick-socialmedia
+msgid "Use This Image"
+msgstr "Dieses Bild nutzen"
+
+#: 2-click-socialmedia-buttons.php:371
+#@ twoclick-socialmedia
+msgid "This image is taken for Facebook, Google+ and Pinterest if there is no postthumbnail or other image inside the article or page. If empty, no image will be used for and the pinterest-button will be disabled for this article."
+msgstr "Dieses Bild wird für Facebook, Google+ und Pinterest hergenommen, falls im Artikel oder der Seite kein Artikelbild oder sonstiges Bild im Artikel gefunden wurde. Bleibt diese Zeile leer, wird kein Bild verwendet und der Pinterest-Button wird in diesem Artikel nicht angezeigt."
+
+#: 2-click-socialmedia-buttons.php:451
+#@ twoclick-socialmedia
+msgid "Pinterest"
+msgstr "Pinterest"
+
+#: 2-click-socialmedia-buttons.php:454
+#@ twoclick-socialmedia
+msgid "Description:"
+msgstr "Beschreibung:"
+
+#: 2-click-socialmedia-buttons.php:459
+#@ twoclick-socialmedia
+msgid "Posttitle and #Tags"
+msgstr "Posttitel und #Tags"
+
+#: 2-click-socialmedia-buttons.php:460
+#@ twoclick-socialmedia
+msgid "Posttitle &raquo; Excerpt"
+msgstr "Posttitel &raquo; Auszug"
+
+#: 2-click-socialmedia-buttons.php:462
+#@ twoclick-socialmedia
+msgid "The description wich is send to Pinterest."
+msgstr "Diese Beschreibung wird zu Pinterest gesendet."
 

@@ -163,6 +163,10 @@ class EM_Events extends EM_Object implements Iterator {
 		$EM_Event_old = $EM_Event; //When looping, we can replace EM_Event global with the current event in the loop
 		//Can be either an array for the get search or an array of EM_Event objects
 		$func_args = func_get_args();
+		$page = 1; //default
+		if( !array_key_exists('page',$args) && !empty($_REQUEST['page']) && is_numeric($_REQUEST['page']) ){
+			$page = $args['page'] = $_REQUEST['page'];
+		}
 		if( is_object(current($args)) && get_class((current($args))) == 'EM_Event' ){
 			$func_args = func_get_args();
 			$events = $func_args[0];
@@ -170,14 +174,14 @@ class EM_Events extends EM_Object implements Iterator {
 			$args = apply_filters('em_events_output_args', self::get_default_search($args), $events);
 			$limit = ( !empty($args['limit']) && is_numeric($args['limit']) ) ? $args['limit']:false;
 			$offset = ( !empty($args['offset']) && is_numeric($args['offset']) ) ? $args['offset']:0;
-			$page = ( !empty($args['page']) && is_numeric($args['page']) ) ? $args['page']:1;
+			$page = ( !empty($args['page']) && is_numeric($args['page']) ) ? $args['page']:$page;
 			$events_count = count($events);
 		}else{
 			//Firstly, let's check for a limit/offset here, because if there is we need to remove it and manually do this
 			$args = apply_filters('em_events_output_args', self::get_default_search($args) );
 			$limit = ( !empty($args['limit']) && is_numeric($args['limit']) ) ? $args['limit']:false;
 			$offset = ( !empty($args['offset']) && is_numeric($args['offset']) ) ? $args['offset']:0;
-			$page = ( !empty($args['page']) && is_numeric($args['page']) ) ? $args['page']:1;
+			$page = ( !empty($args['page']) && is_numeric($args['page']) ) ? $args['page']:$page;
 			$args_count = $args;
 			$args_count['limit'] = false;
 			$args_count['offset'] = false;
@@ -235,7 +239,7 @@ class EM_Events extends EM_Object implements Iterator {
 	}
 	
 	function get_post_search($args = array()){
-		if( !empty($args['em_search']) && empty($args['search']) ) $args['search'] = $args['em_search'];
+		if( !empty($_REQUEST['em_search']) && empty($args['search']) ) $_REQUEST['search'] = $_REQUEST['em_search'];
 		$accepted_searches = apply_filters('em_accepted_searches', array('scope','search','category','country','state','region','town'), $args);
 		foreach($_REQUEST as $post_key => $post_value){
 			if( in_array($post_key, $accepted_searches) && !empty($post_value) ){
@@ -263,15 +267,15 @@ class EM_Events extends EM_Object implements Iterator {
 			$null = ($args['status'] == 0) ? ' OR `event_status` = 0':'';
 			$conditions['status'] = "(`event_status`={$args['status']}{$null} )";
 		}elseif( empty($args['status']) || $args['status'] != 'all'){
-			$conditions['status'] = "(`event_status` IS NOT NULL )"; //by default, we don't show deleted items
+			$conditions['status'] = "(`event_status` IS NOT NULL )"; //by default, we don't ever show deleted items
 		}
 		//private events
-		if( !empty($args['private']) ){
+		if( empty($args['private']) ){
 			$conditions['private'] = "(`event_private`=0)";			
 		}elseif( !empty($args['private_only']) ){
 			$conditions['private_only'] = "(`event_private`=1)";
 		}
-		if( is_multisite() && array_key_exists('blog',$args) && is_numeric($args['blog']) ){
+		if( EM_MS_GLOBAL && array_key_exists('blog',$args) && is_numeric($args['blog']) ){
 			if( is_main_site($args['blog']) ){
 				$conditions['blog'] = "(".EM_EVENTS_TABLE.".blog_id={$args['blog']} OR ".EM_EVENTS_TABLE.".blog_id IS NULL)";
 			}else{
@@ -325,11 +329,11 @@ class EM_Events extends EM_Object implements Iterator {
 			'country' => false,
 			'region' => false,
 			'blog' => get_current_blog_id(),
-			'private' => !current_user_can('read_private_events'),
+			'private' => current_user_can('read_private_events'),
 			'private_only' => false,
 			'post_id' => false
 		);
-		if(is_multisite()){
+		if(EM_MS_GLOBAL){
 			global $bp;
 			if( !is_main_site() && !array_key_exists('blog', $array) ){
 				$array['blog'] = get_current_blog_id();

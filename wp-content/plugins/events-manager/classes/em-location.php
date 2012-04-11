@@ -349,7 +349,11 @@ class EM_Location extends EM_Object {
 			$location_array = $this->to_array(true);
 			if( $this->post_status == 'private' ) $location_array['location_private'] = 1;
 			unset($location_array['location_id']);
-			$loc_truly_exists = $wpdb->get_var('SELECT location_id FROM '.EM_LOCATIONS_TABLE." WHERE location_id={$this->location_id}") == $this->location_id;
+			if( !empty($this->location_id) ){
+				$loc_truly_exists = $wpdb->get_var('SELECT post_id FROM '.EM_LOCATIONS_TABLE." WHERE location_id={$this->location_id}") == $this->post_id;
+			}else{
+				$loc_truly_exists = false;
+			}
 			if( empty($this->location_id) || !$loc_truly_exists ){
 				$this->previous_status = 0; //for sure this was previously status 0
 				if ( !$wpdb->insert(EM_LOCATIONS_TABLE, $location_array) ){
@@ -547,7 +551,7 @@ class EM_Location extends EM_Object {
 			//Strip string of placeholder and just leave the reference
 			$attRef = substr( substr($result, 0, strpos($result, '}')), 7 );
 			$attString = '';
-			if( is_array($this->location_attributes) && array_key_exists($attRef, $this->location_attributes) ){
+			if( is_array($this->location_attributes) && array_key_exists($attRef, $this->location_attributes) && !empty($this->location_attributes[$attRef]) ){
 				$attString = $this->location_attributes[$attRef];
 			}elseif( !empty($results[3][$resultKey]) ){
 				//Check to see if we have a second set of braces;
@@ -592,18 +596,18 @@ class EM_Location extends EM_Object {
 					$replace = $this->get_country();
 					break;
 				case '#_LOCATIONFULLLINE':
-					$replace = $this->location_address.', ';
-					$replace = empty($this->location_town) ? '':', '.$this->location_town;
-					$replace = empty($this->location_state) ? '':', '.$this->location_state;
-					$replace = empty($this->location_postcode) ? '':', '.$this->location_postcode;
-					$replace = empty($this->location_region) ? '':', '.$this->location_region;
+					$replace = $this->location_address;
+					$replace .= empty($this->location_town) ? '':', '.$this->location_town;
+					$replace .= empty($this->location_state) ? '':', '.$this->location_state;
+					$replace .= empty($this->location_postcode) ? '':', '.$this->location_postcode;
+					$replace .= empty($this->location_region) ? '':', '.$this->location_region;
 					break;
 				case '#_LOCATIONFULLBR':
-					$replace = $this->location_address.'<br /> ';
-					$replace = empty($this->location_town) ? '':'<br /> '.$this->location_town;
-					$replace = empty($this->location_state) ? '':'<br /> '.$this->location_state;
-					$replace = empty($this->location_postcode) ? '':'<br /> '.$this->location_postcode;
-					$replace = empty($this->location_region) ? '':'<br /> '.$this->location_region;
+					$replace = $this->location_address;
+					$replace .= empty($this->location_town) ? '':'<br />'.$this->location_town;
+					$replace .= empty($this->location_state) ? '':'<br />'.$this->location_state;
+					$replace .= empty($this->location_postcode) ? '':'<br />'.$this->location_postcode;
+					$replace .= empty($this->location_region) ? '':'<br />'.$this->location_region;
 					break;
 				case '#_MAP': //Depreciated
 				case '#_LOCATIONMAP':
@@ -679,6 +683,13 @@ class EM_Location extends EM_Object {
 						$replace .= get_option('dbem_location_event_list_item_footer_format');
 					} else {
 						$replace = get_option('dbem_location_no_events_message');
+					}
+					break;
+				case '#_LOCATIONNEXTEVENT':
+					$events = EM_Events::get( array('location'=>$this->location_id, 'scope'=>'future', 'limit'=>1, 'orderby'=>'event_start_date,event_start_time') );
+					$replace = get_option('dbem_location_no_events_message');
+					foreach($events as $EM_Event){
+						$replace = $EM_Event->output('#_EVENTLINK');
 					}
 					break;
 				default:

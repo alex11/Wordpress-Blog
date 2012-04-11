@@ -126,7 +126,7 @@ class EM_Ticket extends EM_Object{
 		$this->ticket_id = ( !empty($_POST['ticket_id']) ) ? $_POST['ticket_id']:'';
 		$this->event_id = ( !empty($_POST['event_id']) ) ? $_POST['event_id']:'';
 		$this->ticket_name = ( !empty($_POST['ticket_name']) ) ? wp_kses_data(stripslashes($_POST['ticket_name'])):'';
-		$this->ticket_description = ( !empty($_POST['ticket_description']) ) ? wp_kses(stripslashes($_POST['ticket_description'], $allowedposttags)):'';
+		$this->ticket_description = ( !empty($_POST['ticket_description']) ) ? wp_kses(stripslashes($_POST['ticket_description']), $allowedposttags):'';
 		$this->ticket_price = ( !empty($_POST['ticket_price']) ) ? $_POST['ticket_price']:'';
 		$this->ticket_start = ( !empty($_POST['ticket_start']) ) ? $_POST['ticket_start']:'';
 		$this->ticket_end = ( !empty($_POST['ticket_end']) ) ? $_POST['ticket_end']:'';
@@ -165,10 +165,11 @@ class EM_Ticket extends EM_Object{
 	
 	function is_available(){
 		$timestamp = current_time('timestamp');
+		$EM_Event = $this->get_event();
 		$available_spaces = $this->get_available_spaces();
 		$condition_1 = (empty($this->ticket_start) || $this->start_timestamp <= $timestamp);
-		$condition_2 = ($this->end_timestamp >= $timestamp || empty($this->ticket_end));
-		$condition_3 = $this->get_event()->end > $timestamp;
+		$condition_2 = $this->end_timestamp + 86400 >= $timestamp || empty($this->ticket_end);
+		$condition_3 = $EM_Event->start > $timestamp || strtotime($EM_Event->event_rsvp_date) > $timestamp;
 		if( $condition_1 && $condition_2 && $condition_3 ){
 			//Time Constraints met, now quantities
 			if( $available_spaces > 0 && ($available_spaces >= $this->ticket_min || empty($this->ticket_min)) ){
@@ -187,7 +188,7 @@ class EM_Ticket extends EM_Object{
 		if( is_numeric(get_option('dbem_bookings_tax')) && get_option('dbem_bookings_tax') > 0 ){
 			//tax could be added here
 			if( $add_tax === true || ($add_tax !== false && get_option('dbem_bookings_tax_auto_add')) ){
-				$price = number_format($price * (1 + get_option('dbem_bookings_tax')/100),2);				
+				$price = round($price * (1 + get_option('dbem_bookings_tax')/100),2);				
 			}
 		}
 		if($format){
@@ -290,7 +291,7 @@ class EM_Ticket extends EM_Object{
 		if( $this->is_available() ) {
 			ob_start();
 			?>
-			<select name="em_tickets[<?php echo $this->ticket_id ?>][spaces]" class="em-ticket-select">
+			<select name="em_tickets[<?php echo $this->ticket_id ?>][spaces]" class="em-ticket-select" id="em-ticket-spaces-<?php echo $this->ticket_id ?>">
 				<?php 
 					$min = ($this->ticket_min > 0) ? $this->ticket_min:1;
 					$max = ($this->ticket_max > 0) ? $this->ticket_max:get_option('dbem_bookings_form_max');

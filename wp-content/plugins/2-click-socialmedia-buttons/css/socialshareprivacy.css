@@ -24,8 +24,13 @@
 
 /* Xing begin */
 .social_share_privacy_area .xing {width:145px;}
-.social_share_privacy_area li div.xing {width:161px;}
-/* Google+ end */
+.social_share_privacy_area li div.xingbtn {width:110px;}
+/* Xing end */
+
+/* Pinterest begin */
+.social_share_privacy_area .pinterest {width:130px;}
+.social_share_privacy_area li div.pinterestbtn {width:95px;}
+/* Pinterest end */
 
 /* Switch begin */
 .social_share_privacy_area li .switch {display: inline-block; text-indent:-9999em; background:transparent url(../images/socialshareprivacy_on_off.png) no-repeat 0 0 scroll; width:23px; height:12px; overflow:hidden; float:left; margin:4px 0 0; cursor:pointer;}

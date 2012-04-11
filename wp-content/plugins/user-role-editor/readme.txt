@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=vladi
 Tags: user, role, editor, security, access, permission, capability
 Requires at least: 3.0
 Tested up to: 3.3.1
-Stable tag: 3.5
+Stable tag: 3.5.4
 
 User Role Editor WordPress plugin makes the role capabilities changing easy. You can change any standard WordPress user role (except administrator).
 
@@ -13,7 +13,7 @@ User Role Editor WordPress plugin makes the role capabilities changing easy. You
 With User Role Editor WordPress plugin you can change user role (except Administrator) capabilities easy, with a few clicks.
 Just turn on check boxes of capabilities you wish to add to the selected role and click "Update" button to save your changes. That's done. 
 Add new roles and customize its capabilities according to your needs, from scratch of as a copy of other existing role. 
-Unnecessary self-made role can be deleted if there are no users whome such role is assigned.
+Unnecessary self-made role can be deleted if there are no users whom such role is assigned.
 Role assigned every new created user by default may be changed too.
 Capabilities could be assigned on per user basis. You can add new capabilities and remove unnecessary capabilities which could be left from uninstalled plugins.
 Multi-site support is provided.
@@ -53,22 +53,23 @@ To read more about 'User Role Editor' visit [this page](http://www.shinephp.com/
 * [FullThrottle](http://fullthrottledevelopment.com/how-to-hide-the-adminstrator-on-the-wordpress-users-screen) - For the code to hide administrator role at admin backend.
 
 = Translations =
+* Dutch: [Frank Groeneveld](http://ivaldi.nl), [Rémi Bruggeman](http://www.remisan.be)
+* French: [Presse et Multimedia](http://presse-et-multimedia.fr/blog/), [Whiler](http://blogs.wittwer.fr/whiler)
+* Hebrew: [Aryo Digital](http://www.aryo.co.il), [Sagive](http://www.sagive.co.il)
+* Lithuanian: [Vincent G](http://host1free.com)
 * Persian: [Parsa](http://parsa.ws), [Good Life](http://good-life.ir)
 * Russian: [Vladimir Garagulya](http://shinephp.com)
-* Spanish: [Dario Ferrer](http://www.darioferrer.com)
+* Spanish: [Victor Ricardo Díaz (INFOMED)](http://www.sld.cu), [Dario Ferrer](http://www.darioferrer.com)
 * Swedish: [Christer Dahlbacka](www.startlinks.eu), [Andréas Lundgren](http://adevade.com/)
+* Turkish: [Muhammed YILDIRIM](http://ben.muhammed.im)
 * -----------------------------------------------------
 * translations below are included to the package, but all of them are outdated and every file needs to be updated. You are welcome!
-* French: [Whiler](http://blogs.wittwer.fr/whiler)
 * Finnish: [Lauri Merisaari](http://www.viidakkorumpu.fi)
 * Japanese: Kaz, [Technolog.jp](http://technolog.jp)
-* Hebrew: [Sagive](http://www.sagive.co.il)
-* Italian: [Umberto Sartori](http://venezialog.net), [Talksina](http://www.iadkiller.org), [Alessandro Mariani](http://technodin.org), [Tristano Ajmone ](http://www.zenfactor.org)
-* Turkish: [Muhammed YILDIRIM](http://ben.muhammed.im), [Sadri Ercan](http://www.faydaliweb.com), [Can KAYA](http://www.kartaca.com)
+* Italian: [Umberto Sartori](http://venezialog.net), [Talksina](http://www.iadkiller.org), [Alessandro Mariani](http://technodin.org)
 * Belorussian: [Marsis G.](http://pc.de) - needs update
 * Brasilian Portuguese: [Rafael Galdencio](http://www.arquiteturailustrada.com.br) - needs update
 * Chinese: [Yackytsu](http://www.jackytsu.com) - needs update
-* Dutch: [Rémi Bruggeman](http://www.remisan.be) - needs update
 * German: [Peter](http://www.red-socks-reinbek.de) - needs update
 * Hungarian: [István](http://www.blacksnail.hu) - needs update
 * Polish: [TagSite](http://www.tagsite.eu) - needs update
@@ -80,6 +81,28 @@ Share with me new ideas about plugin further development and link to your site w
 
 
 == Changelog ==
+= 3.5.4 =
+* 4.04.2012
+* Lithuanian translation is added, thanks to Vincent G.
+* Spanish translation is updated, thanks to Victor Ricardo Díaz.
+
+= 3.5.3 =
+* 24.03.2012
+* French translation is updated, thanks to Presse et Multimedia.
+* Hebrew translation is updated, thanks to Aryo Digital.  
+* Persian translation is updated, thanks to Parsa.  
+* Minor CSS fix to provide compatibility with RTL languages.
+
+= 3.5.2 =
+* 17.03.2012
+* Turkish translation is updated, thanks to Muhammed YILDIRIM.
+* Dutch translation is updated, thanks to Frank Groeneveld.  
+
+= 3.5.1 =
+* 24.02.2012
+* Bugs for multi-site WordPress network installation were discovered and fixed: 1) blocked login to admin back-end; 2) empty users list for administrators of single sites; 3) empty authors drop down list at the post editor page.
+* If URE plugin is not enabled for single site administrator, then URE is automatically excluded from plugins list available to that administrator.
+
 = 3.5 =
 * 19.02.2012
 * User Role Editor could be available now for single site administrators (Administrator role) under multi-site environment. You should define URE_ENABLE_SIMPLE_ADMIN_FOR_MULTISITE constant in your blog wp-config.php file for that. Insert this line "define('URE_ENABLE_SIMPLE_ADMIN_FOR_MULTISITE', 1);" there, if you decide to give single site admin such opportunity.

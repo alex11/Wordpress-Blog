@@ -78,6 +78,7 @@ function em_docs_init($force_init = false){
 							'#_EVENTIMAGE' => array( 'desc' => 'Shows the event image, if available.' ),
 							'#_EVENTIMAGE{x,y}' => array( 'desc' => 'Shows the event image thumbnail, x and y are width and height respectively, both being numbers e.g. <code>#_EVENTIMAGE{100,100}</code>' ),
 							'#_EVENTCATEGORIES' => array( 'desc' => 'Shows a list of category links this event belongs to.' ),
+							'#_EVENTCATEGORIESIMAGES'  => array( 'desc' => 'Shows a list of category images this event belongs to. Categories without an image will be ignored.' ),
 							'#_EVENTTAGS' => array( 'desc' => 'Shows a list of tag links this event belongs to.' ),
 						)
 					),			
@@ -127,7 +128,10 @@ function em_docs_init($force_init = false){
 							'#_SPACES' => array( 'desc' => 'Shows the total spaces for the event.' ),
 							'#_ATTENDEES' => array( 'desc' => 'Shows the list of user avatars attending events.' ),
 							'#_BOOKINGSURL' => array( 'desc' => 'Shows the url to the admin, front-end or buddypress (if activated) bookings management page for this event. Only shown if user is logged in and able to manage bookings.' ),
-							'#_BOOKINGSLINK' => array( 'desc' => 'Shows a link to the admin, front-end or buddypress (if activated) bookings management page for this event. Only shown if user is logged in and able to manage bookings.' )							
+							'#_BOOKINGSLINK' => array( 'desc' => 'Shows a link to the admin, front-end or buddypress (if activated) bookings management page for this event. Only shown if user is logged in and able to manage bookings.' ),
+							'#_EVENTPRICERANGE' => array( 'desc' => 'Shows a "maximum - minimum" price range, or a single price if there is no range. Price is formatted according to currency formatting in your settings page.' ),
+							'#_EVENTPRICEMIN' => array( 'desc' => 'Shows the lowest ticket price for this event.' ),
+							'#_EVENTPRICEMAX' => array( 'desc' => 'Shows the highest ticket price for this event.' ),								
 						)
 					),
 					'Contact Details' => array(
@@ -140,7 +144,8 @@ function em_docs_init($force_init = false){
 							'#_CONTACTAVATAR' => array( 'desc' => 'Contact person\'s avatar.' ),
 							'#_CONTACTPROFILELINK' => array( 'desc' => 'Contact person\'s "Profile" link. Only works with BuddyPress enabled.' ),
 							'#_CONTACTPROFILEURL' => array( 'desc' => 'Contact person\'s profile url. Only works with BuddyPress enabled.' ),
-							'#_CONTACTID' => array( 'desc' => 'Contact person\'s WordPress user ID.')
+							'#_CONTACTID' => array( 'desc' => 'Contact person\'s WordPress user ID.'),
+							'#_CONTACTMETA' => array( 'desc' => 'Display any user meta of a WordPress account by including the meta key, e.g. #_CONTACTMETA{dbem_phone}'),
 						)
 					),
 					'iCal/Calendar' => array(
@@ -190,9 +195,8 @@ function em_docs_init($force_init = false){
 							'#_LOCATIONEXCERPT' => array( 'desc' => 'If you added a <a href="http://en.support.wordpress.com/splitting-content/more-tag/">more tag</a> to your location description, only the content before this tag will show (currently, no read more link is added).' ),
 							'#_LOCATIONIMAGE' => array( 'desc' => 'Shows the location image.' ),
 							'#_LOCATIONIMAGE{x,y}' => array( 'desc' => 'Shows the location image thumbnail, x and y are width and height respectively, both being numbers e.g. <code>#_LOCATIONIMAGE{100,100}</code>' ),
-							'#_LOCATIONIMAGEURL' => array( 'desc' => 'Shows the cattegory image url, if available.' ),
+							'#_LOCATIONIMAGEURL' => array( 'desc' => 'Shows the location image url, if available.' ),
 							'#_LOCATIONFULLLINE' => array( 'desc' => 'Shows a comma-seperated line of location information, ommitting blanks (format of address, town, state, postcode, region' ),
-							'#_LOCATIONFULLBR' => array( 'desc' => 'Shows the cattegory image url, if available.' ),
 							'#_LOCATIONFULLBR' => array( 'desc' => 'Shows a line-break (br tag) seperated location information, ommitting blanks (format of address, town, state, postcode, region' ),
 						)
 					),
@@ -217,7 +221,8 @@ function em_docs_init($force_init = false){
 						'placeholders' => array(
 							'#_LOCATIONPASTEVENTS' => array( 'desc' => 'Will show a list of all past events at this location.' ),
 							'#_LOCATIONNEXTEVENTS' => array( 'desc' => 'Will show a list of all future events at this location.' ),
-							'#_LOCATIONALLEVENTS' => array( 'desc' => 'Will show a list of all events at this location.' )
+							'#_LOCATIONALLEVENTS' => array( 'desc' => 'Will show a list of all events at this location.' ),
+							'#_LOCATIONNEXTEVENT' => array( 'desc' => 'Will show a link to the next event at this location, or the no events message.' ),
 						)
 					),
 				),
@@ -225,6 +230,7 @@ function em_docs_init($force_init = false){
 					'Booking Person Information' => array(
 						'desc' => 'When a specific booking is displayed (on screen and on email), you can use these placeholders to show specific information about the booking. Event and Location placeholders are also available in these cases.',
 						'placeholders' => array(
+							'#_BOOKINGID' => array( 'desc' => 'The unique ID of this booking, useful if you are making your own customizations to this plugin.' ),
 							'#_BOOKINGNAME' => array( 'desc' => 'Name of person who made the booking.' ),
 							'#_BOOKINGEMAIL' => array( 'desc' => 'Email of person who made the booking.' ),
 							'#_BOOKINGPHONE' => array( 'desc' => 'Phone number of person who made the booking.' ),

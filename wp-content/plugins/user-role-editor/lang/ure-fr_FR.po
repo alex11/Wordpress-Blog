@@ -1,21 +1,22 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: User Role Editor Plugin 2.0\n"
+"Project-Id-Version: User Role Editor Plugin 3.5.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-12-10 19:15+0700\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Vladimir <vladimir@shinephp.com>\n"
-"Language-Team: Whiler <webmaster@blogs.wittwer.fr>\n"
+"Language-Team: Presse et Multimedia <presseetmultimedia@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: French\n"
 "X-Poedit-Country: FRANCE\n"
+"Plural-Forms: nplurals=2;plural=n>2\n"
+"X-Poedit-SourceCharset: utf-8\n"
 
 #: ../ure-role-edit.php:27
-#, fuzzy
 msgid "None"
-msgstr "Faire un don"
+msgstr "Aucun"
 
 #: ../ure-role-edit.php:92
 msgid " Name can not be empty!"
@@ -36,7 +37,7 @@ msgstr "Changer le rôle par défaut"
 
 #: ../ure-role-edit.php:105
 msgid "Restore Roles from backup copy. Be careful, backup was created when you started URE 1st time. All changes you made after that will be lost"
-msgstr ""
+msgstr "Restaurer les rôles depuis une sauvegarde. Attention, cette sauvegarde a été créée quand vous avez lancé URE pour le 1re fois. Toutes les modifications que vous avez effectuées depuis seront perdues"
 
 #: ../ure-role-edit.php:107
 msgid "Warning! Be careful - removing critical capability could crash some plugin or other custom code"
@@ -67,7 +68,7 @@ msgstr "Afficher les capacités en langage humain"
 #: ../ure-role-edit.php:175
 #: ../ure-user-edit.php:95
 msgid "Show deprecated capabilities"
-msgstr ""
+msgstr "Montrer les capacités obsolètes"
 
 #: ../ure-role-edit.php:179
 msgid "If checked, then apply action to ALL sites of this Network"
@@ -111,11 +112,11 @@ msgstr "Ajouter un nouveau rôle"
 
 #: ../ure-role-edit.php:263
 msgid "Name: "
-msgstr ""
+msgstr "Nom :"
 
 #: ../ure-role-edit.php:267
 msgid "Make copy of: "
-msgstr ""
+msgstr "Faire une copie de :"
 
 #: ../ure-role-edit.php:270
 #: ../ure-role-edit.php:299
@@ -181,13 +182,12 @@ msgid "Add capabilities to this user:"
 msgstr "Ajouter des capacités à cet utilisateur&nbsp;:"
 
 #: ../ure-options.php:59
-#, fuzzy
 msgid "User Roles are restored from the backup data. "
-msgstr "Les capacités des rôles sont restaurées depuis les données de sauvegarde"
+msgstr "Les rôles des utilisateurs sont restaurés depuis les données de sauvegarde."
 
 #: ../ure-options.php:125
 msgid "Error: "
-msgstr ""
+msgstr "Erreur :"
 
 #: ../ure-options.php:125
 #: ../ure-options.php:143
@@ -196,7 +196,7 @@ msgstr "Rôle "
 
 #: ../ure-options.php:125
 msgid "does not exist"
-msgstr ""
+msgstr "n'existe pas"
 
 #: ../ure-options.php:143
 msgid "is updated successfully"
@@ -692,7 +692,7 @@ msgstr "Capacité %s a été supprimée avec succès"
 
 #: ../ure-lib.php:825
 msgid "Help"
-msgstr ""
+msgstr "Aide"
 
 #~ msgid "Roles list reading error is encountered"
 #~ msgstr "Erreur lors de la lecture des rôles"

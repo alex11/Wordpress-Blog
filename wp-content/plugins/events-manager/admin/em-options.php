@@ -114,6 +114,26 @@ function em_options_save(){
 			exit();
 		}
 	}
+	//Force Update Recheck - Workaround for now
+	if( !empty($_REQUEST['action']) && $_REQUEST['action'] == 'recheck_updates' && check_admin_referer('em_recheck_updates_'.get_current_user_id().'_wpnonce') && is_super_admin() ){
+		//force recheck of plugin updates, to refresh dl links
+		delete_transient('update_plugins');
+		delete_site_transient('update_plugins');
+		$EM_Notices->add_confirm(__('If there are any new updates, you should now see them in your Plugins or Updates admin pages.','dbem'), true);
+		wp_redirect(wp_get_referer());
+		exit();
+	}
+	//Flag version checking to look at trunk, not tag
+	if( !empty($_REQUEST['action']) && $_REQUEST['action'] == 'check_devs' && check_admin_referer('em_check_devs_'.get_current_user_id().'_wpnonce') && is_super_admin() ){
+		//delete transients, and add a flag to recheck dev version next time round
+		delete_transient('update_plugins');
+		delete_site_transient('update_plugins');
+		update_option('em_check_dev_version', true);
+		$EM_Notices->add_confirm(__('Checking for dev versions.','dbem').' '. __('If there are any new updates, you should now see them in your Plugins or Updates admin pages.','dbem'), true);
+		wp_redirect(wp_get_referer());
+		exit();
+	}
+	
 }
 add_action('admin_init', 'em_options_save');
 
@@ -219,33 +239,26 @@ function em_admin_options_page() {
 				}else{
 					$('tbody.em-event-archive-sub-options').hide();
 				}
-			});
+			}).trigger('change');
 			$('select[name="dbem_events_page"]').change(function(){
 				if( $('select[name="dbem_events_page"]').val() == 0 ){
 					$('tbody.em-event-page-options').hide();
-					$('tbody.em-event-archive-options').show();
-					$('input:radio[name="dbem_cp_events_has_archive"]:checked').trigger('change');
 				}else{
 					$('tbody.em-event-page-options').show();
-					$('tbody.em-event-archive-options').hide();
 				}
 			}).trigger('change');
 			$('input[name="dbem_cp_locations_has_archive"]').change(function(){ //location archives
-				console.log('changed!');
 				if( $('input:radio[name="dbem_cp_locations_has_archive"]:checked').val() == 1 ){
 					$('tbody.em-location-archive-sub-options').show();
 				}else{
 					$('tbody.em-location-archive-sub-options').hide();
 				}
-			});
+			}).trigger('change');
 			$('select[name="dbem_locations_page"]').change(function(){
 				if( $('select[name="dbem_locations_page"]').val() == 0 ){
 					$('tbody.em-location-page-options').hide();
-					$('tbody.em-location-archive-options').show();
-					$('input:radio[name="dbem_cp_locations_has_archive"]:checked').trigger('change');
 				}else{
 					$('tbody.em-location-page-options').show();
-					$('tbody.em-location-archive-options').hide();
 				}
 			}).trigger('change');
 			//For rewrite titles
@@ -364,7 +377,30 @@ function em_admin_options_page() {
 				
 				<?php if ( !is_multisite() ){ em_admin_option_box_caps(); } ?>
 				
-				<?php if ( !is_multisite() ) { em_admin_option_box_anon_events(); } ?>
+				<div  class="postbox" >
+				<div class="handlediv" title="<?php __('Click to toggle', 'dbem'); ?>"><br /></div><h3><span><?php _e ( 'Event Submission Forms', 'dbem' ); ?></span></h3>
+				<div class="inside">
+			            <table class="form-table">
+			            <tr><td colspan="2">
+			            	<?php echo sprintf(__('You can allow users to publicly submit events on your blog by using the %s shortcode, and enabling anonymous submissions below.','dbem'), '<code>[event_form]</code>'); ?>
+						</td></tr>
+						<?php
+							em_options_radio_binary ( __( 'Use Visual Editor?', 'dbem' ), 'dbem_events_form_editor', __( 'Users can now use the WordPress editor for easy HTML entry in the submission form.', 'dbem' ) );
+							em_options_radio_binary ( __( 'Show form again?', 'dbem' ), 'dbem_events_form_reshow', __( 'When a user submits their event, you can display a new event form again.', 'dbem' ) );
+							em_options_textarea ( __( 'Success Message', 'dbem' ), 'dbem_events_form_result_success', __( 'Customize the message your user sees when they submitted their event.', 'dbem' ).$events_placeholder_tip );
+						?>
+			            <tr><td colspan="2">
+			            	<strong><?php echo sprintf(__('Anonymous event submissions','dbem'), '<code>[event_form]</code>'); ?></strong>
+						</td></tr>
+			            <?php
+							em_options_radio_binary ( __( 'Allow anonymous event submissions?', 'dbem' ), 'dbem_events_anonymous_submissions', __( 'Would you like to allow users to submit bookings anonymously? If so, you can use the new [event_form] shortcode or <code>em_event_form()</code> template tag with this enabled.', 'dbem' ) );
+			            	em_options_select ( __('Guest Default User', 'dbem'), 'dbem_events_anonymous_user', em_get_wp_users (), __( 'Events require a user to own them. In order to allow events to be submitted anonymously you need to assign that event a specific user. We recommend you create a "Anonymous" subscriber with a very good password and use that. Guests will have the same event permissions as this user when submitting.', 'dbem' ) );
+			            	em_options_textarea ( __( 'Success Message', 'dbem' ), 'dbem_events_anonymous_result_success', __( 'Anonymous submitters cannot see or modify their event once submitted. You can customize the success message they see here.', 'dbem' ).$events_placeholder_tip );
+						?>
+				        <?php echo $save_button; ?>
+					</table>
+				</div> <!-- . inside --> 
+				</div> <!-- .postbox --> 
 
 				<?php do_action('em_options_page_footer'); ?>
 				
@@ -455,6 +491,13 @@ function em_admin_options_page() {
 						em_options_radio_binary ( __( 'Show events search?', 'dbem' ), 'dbem_events_page_search', __( "If set to yes, a search form will appear just above your list of events.", 'dbem' ) );
 						?>				
 					</tbody>
+					<tr>
+						<td colspan="2">
+							<h4><?php echo sprintf(__('WordPress %s Archives','dbem'), __('Event','dbem')); ?></h4>
+							<p><?php echo sprintf(__('%s custom post types can have archives, just like normal WordPress posts. If enabled, should you visit your base slug url %s and you will see an post-formatted archive of previous %s'), __('Event','dbem'), '<code>'.home_url().'/'.get_option('dbem_cp_events_slug',EM_POST_TYPE_EVENT_SLUG).'/</code>', __('events','dbem')); ?></p>
+							<p><?php echo sprintf(__('Note that assigning a %s page above will override this archive if the URLs collide (which is the default settings, and is recommended). You can have both at the same time, but you must ensure that your page and %s slugs are different.'), __('events','dbem'), __('event','dbem')); ?></p>
+						</td>
+					</tr>
 					<tbody class="em-event-archive-options">
 						<?php
 						em_options_radio_binary ( __( 'Enable Archives?', 'dbem' ), 'dbem_cp_events_has_archive', __( "Allow WordPress post-style archives.", 'dbem' ) );
@@ -606,6 +649,13 @@ function em_admin_options_page() {
 						em_options_radio_binary ( sprintf(__( 'Show %s page in lists?', 'dbem' ),__('locations','dbem')), 'dbem_list_locations_page', sprintf(__( 'Check this option if you want the %s page to appear together with other pages in pages lists.', 'dbem' ),__('locations','dbem')) );
 						?>				
 					</tbody>
+					<tr>
+						<td colspan="2">
+							<h4><?php echo sprintf(__('WordPress %s Archives','dbem'), __('Location','dbem')); ?></h4>
+							<p><?php echo sprintf(__('%s custom post types can have archives, just like normal WordPress posts. If enabled, should you visit your base slug url %s and you will see an post-formatted archive of previous %s'), __('Location','dbem'), '<code>'.home_url().'/'.get_option('dbem_cp_events_slug',EM_POST_TYPE_EVENT_SLUG).'/</code>', __('locations','dbem')); ?></p>
+							<p><?php echo sprintf(__('Note that assigning a %s page above will override this archive if the URLs collide (which is the default settings, and is recommended for maximum plugin compatability). You can have both at the same time, but you must ensure that your page and %s slugs are different.'), __('locations','dbem'), __('location','dbem')); ?></p>
+						</td>
+					</tr>
 					<tbody class="em-location-archive-options">
 						<?php
 						em_options_radio_binary ( __( 'Enable Archives?', 'dbem' ), 'dbem_cp_locations_has_archive', __( "Allow WordPress post-style archives.", 'dbem' ) );						
@@ -836,16 +886,55 @@ function em_admin_options_page() {
 					<?php
 					$other_pages_tip = 'Using the %s shortcode, you can allow users to manage %s outside the admin area.';
 					$events_page_options[0] = '['.__('None', 'dbem').']';
-	            	em_options_select ( sprintf(__( '%s page', 'dbem' ),__('Edit events','dbem')), 'dbem_edit_events_page', $events_page_options, '' );
-	            	em_options_select ( sprintf(__( '%s page', 'dbem' ),__('Edit locations','dbem')), 'dbem_edit_locations_page', $events_page_options, '' );
-	            	em_options_select ( sprintf(__( '%s page', 'dbem' ),__('Manage bookings','dbem')), 'dbem_edit_bookings_page', $events_page_options, '' );
+					?><tr><td colspan="2"><h4><?php echo _e('My Bookings','dbem'); ?></h4></td></tr><?php
 	            	em_options_select ( sprintf(__( '%s page', 'dbem' ),__('My bookings','dbem')), 'dbem_my_bookings_page', $events_page_options, sprintf(__('Users can view their bookings for other events on this page.','dbem' ),'<code>[my_bookings]</code>',__('bookings','dbem')) );
+					?>	
+					<tr valign="top" id='dbem_bookings_default_orderby_row'>
+				   		<th scope="row"><?php _e('Default list ordering','dbem'); ?></th>
+				   		<td>   
+							<select name="dbem_bookings_default_orderby" >
+								<?php 
+									$orderby_options = apply_filters('em_settings_bookings_default_orderby_ddm', array(
+										'event_name' => sprintf(__('Order by %s','dbem'),__('Event Name','dbem')),
+										'event_start_date' => sprintf(__('Order by %s','dbem'),__('Start Date','dbem')),
+										'booking_date' => sprintf(__('Order by %s','dbem'),__('Booking Date','dbem'))
+									)); 
+								?>
+								<?php foreach($orderby_options as $key => $value) : ?>
+				 				<option value='<?php echo $key ?>' <?php echo ($key == get_option('dbem_bookings_default_orderby')) ? "selected='selected'" : ''; ?>>
+				 					<?php echo $value; ?>
+				 				</option>
+								<?php endforeach; ?>
+							</select> 
+							<select name="dbem_bookings_default_order" >
+								<?php 
+								$ascending = __('Ascending','dbem');
+								$descending = __('Descending','dbem');
+								$order_options = apply_filters('em_settings_bookings_default_order_ddm', array(
+									'ASC' => __('Ascending','dbem'),
+									'DESC' => __('Descending','dbem')
+								));
+								?>
+								<?php foreach( $order_options as $key => $value) : ?>   
+				 				<option value='<?php echo $key ?>' <?php echo ($key == get_option('dbem_bookings_default_order')) ? "selected='selected'" : ''; ?>>
+				 					<?php echo $value; ?>
+				 				</option>
+								<?php endforeach; ?>
+							</select>
+						</td>
+				   	</tr>
+					<tr><td colspan="2"><h4><?php echo _e('Front-end management pages','dbem'); ?></h4></td></tr><?php
+	            	em_options_select ( sprintf(__( '%s page', 'dbem' ),__('Edit events','dbem')), 'dbem_edit_events_page', $events_page_options, sprintf(__('Users can view, add and edit their %s on this page.','dbem'),__('events','dbem')) );
+	            	em_options_select ( sprintf(__( '%s page', 'dbem' ),__('Edit locations','dbem')), 'dbem_edit_locations_page', $events_page_options, sprintf(__('Users can view, add and edit their %s on this page.','dbem'),__('locations','dbem')) );
+	            	em_options_select ( sprintf(__( '%s page', 'dbem' ),__('Manage bookings','dbem')), 'dbem_edit_bookings_page', $events_page_options, sprintf(__('Users can manage their %s on this page.','dbem'),__('bookings','dbem')) );
 					echo $save_button;
 					?>
 	            	</table>
 				</div> <!-- . inside --> 
 				</div> <!-- .postbox -->
-					  	
+				
+				<?php do_action('em_options_page_footer_pages'); ?>
+				
 			</div> <!-- .em-menu-pages -->
 			
 			<!-- FORMAT OPTIONS -->
@@ -908,7 +997,8 @@ function em_admin_options_page() {
 						em_options_input_text ( __( 'Date Seperator', 'dbem' ), 'dbem_dates_seperator', sprintf(__( 'For when start/end %s are present, this will seperate the two (include spaces here if necessary).', 'dbem' ), __('dates','dbem')) );
 						em_options_input_text ( __( 'Time Format', 'dbem' ), 'dbem_time_format', sprintf(__('For use with the %s placeholder'),'<code>#_EVENTTIMES</code>') );
 						em_options_input_text ( __( 'Time Seperator', 'dbem' ), 'dbem_times_seperator', sprintf(__( 'For when start/end %s are present, this will seperate the two (include spaces here if necessary).', 'dbem' ), __('times','dbem')) );
-						em_options_input_text ( __( 'Time Seperator', 'dbem' ), 'dbem_event_all_day_message', sprintf(__( 'If an event lasts all day, this text will show if using the %s placeholder', 'dbem' ), '<code>#_EVENTTIMES</code>') );
+						em_options_input_text ( __( 'All Day Message', 'dbem' ), 'dbem_event_all_day_message', sprintf(__( 'If an event lasts all day, this text will show if using the %s placeholder', 'dbem' ), '<code>#_EVENTTIMES</code>') );
+						em_options_radio_binary ( __( 'Use 24h Format?', 'dbem' ), 'dbem_time_24h', __( 'When creating events, would you like your times to be shown in 24 hour format?', 'dbem' ) );
 						echo $save_button;
 						?>
 					</table>
@@ -924,6 +1014,7 @@ function em_admin_options_page() {
 						em_options_input_text ( __( 'Small calendar title separator', 'dbem' ), 'dbem_small_calendar_event_title_separator', __( 'The separator appearing on the above title when more than one events are taking place on the same day.', 'dbem' ) );         
 					    em_options_input_text ( __( 'Full calendar events format', 'dbem' ), 'dbem_full_calendar_event_format', __( 'The format of each event when displayed in the full calendar. Remember to include <code>li</code> tags before and after the event.', 'dbem' ).$events_placeholder_tip );
 					    em_options_radio_binary ( __( 'Show long events on calendar pages?', 'dbem' ), 'dbem_full_calendar_long_events', __( "If you are showing a calendar on the events page (see Events format section on this page), you have the option of showing events that span over days on each day it occurs.",'dbem' ) );
+					    em_options_radio_binary ( __( 'Link directly to event on day with single event?', 'dbem' ), 'dbem_calendar_direct_links', __( "If a calendar day has only one event, you can force a direct link to the event (recommended to avoid duplicate content).",'dbem' ) );
 					    em_options_radio_binary ( __( 'Show list on day with single event?', 'dbem' ), 'dbem_display_calendar_day_single', __( "By default, if a calendar day only has one event, it display a single event when clicking on the link of that calendar date. If you select Yes here, you will get always see a list of events.",'dbem' ) );
 					    ?>		
 					    <tr><td><strong><?php echo __('Calendar Day Event List Settings','dbem'); ?></strong></td></tr>			
@@ -1098,6 +1189,8 @@ function em_admin_options_page() {
 				</div> <!-- . inside -->
 				</div> <!-- .postbox -->
 				
+				<?php do_action('em_options_page_footer_formats'); ?>
+				
 			</div> <!-- .em-menu-formats -->
 			
 			<?php if( get_option('dbem_rsvp_enabled') ): ?>
@@ -1109,6 +1202,7 @@ function em_admin_options_page() {
 				<div class="inside">
 					<table class='form-table'> 
 						<?php 
+						em_options_radio_binary ( __( 'Allow guest bookings?', 'dbem' ), 'dbem_bookings_anonymous', __( 'If enabled, guest visitors can supply an email address and a user account will automatically be created for them along with their booking. They will be also be able to log back in with that newly created account.', 'dbem' ) );
 						em_options_radio_binary ( __( 'Approval Required?', 'dbem' ), 'dbem_bookings_approval', __( 'Bookings will not be confirmed until the event administrator approves it.', 'dbem' ) );
 						em_options_radio_binary ( __( 'Reserved unconfirmed spaces?', 'dbem' ), 'dbem_bookings_approval_reserved', __( 'By default, event spaces become unavailable once there are enough CONFIRMED bookings. To reserve spaces even if unnapproved, choose yes.', 'dbem' ) );
 						em_options_radio_binary ( __( 'Can users cancel their booking?', 'dbem' ), 'dbem_bookings_user_cancellation', __( 'If enabled, users can cancel their bookings themselves from their bookings page.', 'dbem' ) );
@@ -1139,12 +1233,22 @@ function em_admin_options_page() {
 				</div> <!-- .postbox --> 
 				
 				<div  class="postbox " >
-				<div class="handlediv" title="<?php __('Click to toggle', 'dbem'); ?>"><br /></div><h3><span><?php echo sprintf(__( '%s Options', 'dbem' ),__('Booking Form','dbem')); ?> </span></h3>
+				<div class="handlediv" title="<?php __('Click to toggle', 'dbem'); ?>"><br /></div><h3><span><?php _e( 'Customize Feedback Messages', 'dbem' ); ?> </span></h3>
 				<div class="inside">
+					<p><?php _e('Below you will find texts that will be displayed to users in various areas during the bookings process, particularly on booking forms.','dbem'); ?></p>
 					<table class='form-table'>
+						<tr><td colspan='2'><h4><?php _e('My Bookings messages','dbem') ?></h4></td></tr>
+						<?php 
+						em_options_input_text ( __( 'Booking Cancelled', 'dbem' ), 'dbem_booking_feedback_cancelled', __( 'When a user cancels their booking, this message will be displayed confirming the cancellation.', 'dbem' ) );
+						em_options_input_text ( __( 'Booking Cancellation Warning', 'dbem' ), 'dbem_booking_warning_cancel', __( 'When a user chooses to cancel a booking, this warning is displayed for them to confirm.', 'dbem' ) );
+						?>
+						<tr><td colspan='2'><h4><?php _e('Booking form texts/messages','dbem') ?></h4></td></tr>
 						<?php
-						em_options_radio_binary ( __( 'Allow guest bookings?', 'dbem' ), 'dbem_bookings_anonymous', __( 'If enabled, guest visitors can supply an email address and a user account will automatically be created for them along with their booking. They will be also be able to log back in with that newly created account.', 'dbem' ) );
-						em_options_radio_binary ( __( 'Display login form?', 'dbem' ), 'dbem_bookings_login_form', __( 'Choose whether or not to display a login form in the booking form area to remind your members to log in before booking.', 'dbem' ) );
+						em_options_input_text ( __( 'Bookings disabled', 'dbem' ), 'dbem_bookings_form_msg_disabled', __( 'An event with no bookings.', 'dbem' ) );
+						em_options_input_text ( __( 'Bookings closed', 'dbem' ), 'dbem_bookings_form_msg_closed', __( 'Bookings have closed (e.g. event has started).', 'dbem' ) );
+						em_options_input_text ( __( 'Fully booked', 'dbem' ), 'dbem_bookings_form_msg_full', __( 'Event is fully booked.', 'dbem' ) );
+						em_options_input_text ( __( 'Already attending', 'dbem' ), 'dbem_bookings_form_msg_attending', __( 'If already attending and double bookings are disabled, this message will be displayed, followed by a link to the users booking page.', 'dbem' ) );
+						em_options_input_text ( __( 'Manage bookings link text', 'dbem' ), 'dbem_bookings_form_msg_bookings_link', __( 'Link text used for link to user bookings.', 'dbem' ) );
 						?>
 						<tr><td colspan='2'><h4><?php _e('Booking form feedback messages','dbem') ?></h4></td></tr>
 						<tr><td colspan='2'><?php _e('When a booking is made by a user, a feedback message is shown depending on the result, which can be customized below.','dbem'); ?></td></tr>
@@ -1153,11 +1257,24 @@ function em_admin_options_page() {
 						em_options_input_text ( __( 'Successful pending booking', 'dbem' ), 'dbem_booking_feedback_pending', __( 'When a booking is registered but pending.', 'dbem' ) );
 						em_options_input_text ( __( 'Not enough spaces', 'dbem' ), 'dbem_booking_feedback_full', __( 'When a booking cannot be made due to lack of spaces.', 'dbem' ) );
 						em_options_input_text ( __( 'Errors', 'dbem' ), 'dbem_booking_feedback_error', __( 'When a booking cannot be made due to an error when filling the form. Below this, there will be a dynamic list of errors.', 'dbem' ) );
+						em_options_input_text ( __( 'Email Exists', 'dbem' ), 'dbem_booking_feedback_email_exists', __( 'When a guest tries to book using an email registered with a user account.', 'dbem' ) );
 						em_options_input_text ( __( 'User must log in', 'dbem' ), 'dbem_booking_feedback_log_in', __( 'When a user must log in before making a booking.', 'dbem' ) );
 						em_options_input_text ( __( 'Error mailing user', 'dbem' ), 'dbem_booking_feedback_nomail', __( 'If a booking is made and an email cannot be sent, this is added to the success message.', 'dbem' ) );
 						em_options_input_text ( __( 'Already booked', 'dbem' ), 'dbem_booking_feedback_already_booked', __( 'If the user made a previous booking and cannot double-book.', 'dbem' ) );
 						em_options_input_text ( __( 'No spaces booked', 'dbem' ), 'dbem_booking_feedback_min_space', __( 'If the user tries to make a booking without requesting any spaces.', 'dbem' ) );
 						echo $save_button; 
+						?>
+					</table>
+				</div> <!-- . inside -->
+				</div> <!-- .postbox --> 
+				
+				<div  class="postbox " >
+				<div class="handlediv" title="<?php __('Click to toggle', 'dbem'); ?>"><br /></div><h3><span><?php echo sprintf(__( '%s Options', 'dbem' ),__('Booking Form','dbem')); ?> </span></h3>
+				<div class="inside">
+					<table class='form-table'>
+						<?php
+						em_options_radio_binary ( __( 'Display login form?', 'dbem' ), 'dbem_bookings_login_form', __( 'Choose whether or not to display a login form in the booking form area to remind your members to log in before booking.', 'dbem' ) );
+						em_options_input_text ( __( 'Submit button text', 'dbem' ), 'dbem_bookings_submit_button', sprintf(__( 'The text used by the submit button. To use an image instead, enter the full url starting with %s or %s.', 'dbem' ), '<code>http://</code>','<code>https://</code>') );
 						?>
 					</table>
 				</div> <!-- . inside -->
@@ -1206,7 +1323,9 @@ function em_admin_options_page() {
 						?>
 					</table>
 				</div> <!-- . inside -->
-				</div> <!-- .postbox --> 
+				</div> <!-- .postbox -->
+				
+				<?php do_action('em_options_page_footer_bookings'); ?>
 				
 			</div> <!-- .em-menu-bookings -->
 			<?php endif; ?>
@@ -1222,45 +1341,46 @@ function em_admin_options_page() {
 				<div class="inside">
 					<table class='form-table'>
 						<?php
+						$email_subject_tip = __('You can disable this email by leaving the subject blank.','dbem');
 						em_options_select ( __( 'Default contact person', 'dbem' ), 'dbem_default_contact_person', em_get_wp_users(), __( 'Select the default contact person. This user will be employed whenever a contact person is not explicitly specified for an event', 'dbem' ) );
-						em_options_input_text ( __( 'Email events admin?', 'dbem' ), 'dbem_bookings_notify_admin', __( "If you would like every event booking confirmation email sent to an administrator write their email here (leave blank to not send an email).", 'dbem' ) );
+						em_options_input_text ( __( 'Email events admin?', 'dbem' ), 'dbem_bookings_notify_admin', __( "If you would like every event booking confirmation email sent to an administrator write their email here (leave blank to not send an email).", 'dbem' ).' '.__('For multiple emails, seperate by commas (e.g. email1@test.com,email2@test.com,etc.)','dbem') );
 						em_options_radio_binary ( __( 'Email contact person?', 'dbem' ), 'dbem_bookings_contact_email', __( 'Check this option if you want the event contact to receive an email when someone books places. An email will be sent when a booking is first made (regardless if confirmed or pending)', 'dbem' ) );
 						em_options_radio_binary ( __( 'Disable new registration email?', 'dbem' ), 'dbem_email_disable_registration', __( 'Check this option if you want to prevent the WordPress registration email from going out when a user anonymously books an event.', 'dbem' ) );
 						?>
 						<tr><td colspan='2'><h4><?php _e('Contact person booking confirmed','dbem') ?></h4></td></tr>
 						<tr><td colspan='2'><?php echo __('An email will be sent to the event contact when a booking is first made.','dbem').$bookings_placeholder_tip ?></td></tr>
 						<?php
-						em_options_input_text ( __( 'Contact person email subject', 'dbem' ), 'dbem_bookings_contact_email_subject', '' );
+						em_options_input_text ( __( 'Contact person email subject', 'dbem' ), 'dbem_bookings_contact_email_subject', $email_subject_tip );
 						em_options_textarea ( __( 'Contact person email', 'dbem' ), 'dbem_bookings_contact_email_body', '' );
 						?>
 						<tr><td colspan='2'><h4><?php _e('Contact person booking cancelled','dbem') ?></h4></td></tr>
 						<tr><td colspan='2'><?php echo __('An email will be sent to the event contact if someone cancels their booking.','dbem').$bookings_placeholder_tip ?></td></tr>
 						<?php
-						em_options_input_text ( __( 'Contact person cancellation subject', 'dbem' ), 'dbem_contactperson_email_cancelled_subject', '' );
+						em_options_input_text ( __( 'Contact person cancellation subject', 'dbem' ), 'dbem_contactperson_email_cancelled_subject', $email_subject_tip );
 						em_options_textarea ( __( 'Contact person cancellation email', 'dbem' ), 'dbem_contactperson_email_cancelled_body', '' );
 						?>
 						<tr><td colspan='2'><h4><?php _e('Confirmed booking email','dbem') ?></h4></td></tr>
 						<tr><td colspan='2'><?php echo __('This is sent when a person\'s booking is confirmed. This will be sent automatically if approvals are required and the booking is approved. If approvals are disabled, this is sent out when a user first submits their booking.','dbem').$bookings_placeholder_tip ?></td></tr>
 						<?php
-						em_options_input_text ( __( 'Booking confirmed email subject', 'dbem' ), 'dbem_bookings_email_confirmed_subject', '' );
+						em_options_input_text ( __( 'Booking confirmed email subject', 'dbem' ), 'dbem_bookings_email_confirmed_subject', $email_subject_tip );
 						em_options_textarea ( __( 'Booking confirmed email', 'dbem' ), 'dbem_bookings_email_confirmed_body', '' );
 						?>
 						<tr><td colspan='2'><h4><?php _e('Pending booking email','dbem') ?></h4></td></tr>
 						<tr><td colspan='2'><?php echo __( 'This will be sent to the person when they first submit their booking. Not relevant if bookings don\'t require approval.', 'dbem' ).$bookings_placeholder_tip ?></td></tr>
 						<?php
-						em_options_input_text ( __( 'Booking pending email subject', 'dbem' ), 'dbem_bookings_email_pending_subject', '');
+						em_options_input_text ( __( 'Booking pending email subject', 'dbem' ), 'dbem_bookings_email_pending_subject', $email_subject_tip);
 						em_options_textarea ( __( 'Booking pending email', 'dbem' ), 'dbem_bookings_email_pending_body','') ;
 						?>
 						<tr><td colspan='2'><h4><?php _e('Rejected booking email','dbem') ?></h4></td></tr>
 						<tr><td colspan='2'><?php echo __( 'This will be sent automatically when a booking is rejected. Not relevant if bookings don\'t require approval.', 'dbem' ).$bookings_placeholder_tip ?></td></tr>
 						<?php
-						em_options_input_text ( __( 'Booking rejected email subject', 'dbem' ), 'dbem_bookings_email_rejected_subject', __( "The subject of the email sent to the person making a booking that is awaiting administrator approval. Not relevant if bookings don't require approval.", 'dbem' ).$bookings_placeholder_tip );
-						em_options_textarea ( __( 'Booking rejected email', 'dbem' ), 'dbem_bookings_email_rejected_body', __( 'The body of the email which will be sent to the person if the booking is rejected. Not relevant if bookings don\'t require approval.', 'dbem' ).$bookings_placeholder_tip );
+						em_options_input_text ( __( 'Booking rejected email subject', 'dbem' ), 'dbem_bookings_email_rejected_subject', $email_subject_tip );
+						em_options_textarea ( __( 'Booking rejected email', 'dbem' ), 'dbem_bookings_email_rejected_body', '' );
 						?>
 						<tr><td colspan='2'><h4><?php _e('Booking cancelled','dbem') ?></h4></td></tr>
 						<tr><td colspan='2'><?php echo __('This will be sent when a user cancels their booking.','dbem').$bookings_placeholder_tip ?></td></tr>
 						<?php
-						em_options_input_text ( __( 'Booking cancelled email subject', 'dbem' ), 'dbem_bookings_email_cancelled_subject', '' );
+						em_options_input_text ( __( 'Booking cancelled email subject', 'dbem' ), 'dbem_bookings_email_cancelled_subject', $email_subject_tip );
 						em_options_textarea ( __( 'Booking cancelled email', 'dbem' ), 'dbem_bookings_email_cancelled_body', '' );
 						?>
 						<?php echo $save_button; ?>
@@ -1290,6 +1410,8 @@ function em_admin_options_page() {
 					</table>
 				</div> <!-- . inside -->
 				</div> <!-- .postbox -->
+				
+				<?php do_action('em_options_page_footer_emails'); ?>
 				
 			</div><!-- .em-group-emails --> 
 			<?php /*
@@ -1322,39 +1444,6 @@ function em_admin_options_page() {
 }
 
 /**
- * Meta options box for anonymous events. Shared in both MS and Normal options page, hence it's own function 
- */
-function em_admin_option_box_anon_events(){
-	global $save_button, $events_placeholder_tip;
-	?>
-	<div  class="postbox" >
-	<div class="handlediv" title="<?php __('Click to toggle', 'dbem'); ?>"><br /></div><h3><span><?php _e ( 'Event Submission Forms', 'dbem' ); ?></span></h3>
-	<div class="inside">
-            <table class="form-table">
-            <tr><td colspan="2">
-            	<?php echo sprintf(__('You can allow users to publicly submit events on your blog by using the %s shortcode, and enabling anonymous submissions below.','dbem'), '<code>[event_form]</code>'); ?>
-			</td></tr>
-			<?php
-				em_options_radio_binary ( __( 'Use Visual Editor?', 'dbem' ), 'dbem_events_form_editor', __( 'Users can now use the WordPress editor for easy HTML entry in the submission form.', 'dbem' ) );
-				em_options_radio_binary ( __( 'Show form again?', 'dbem' ), 'dbem_events_form_reshow', __( 'When a user submits their event, you can display a new event form again.', 'dbem' ) );
-				em_options_textarea ( __( 'Success Message', 'dbem' ), 'dbem_events_form_result_success', __( 'Customize the message your user sees when they submitted their event.', 'dbem' ).$events_placeholder_tip );
-			?>
-            <tr><td colspan="2">
-            	<strong><?php echo sprintf(__('Anonymous event submissions','dbem'), '<code>[event_form]</code>'); ?></strong>
-			</td></tr>
-            <?php
-				em_options_radio_binary ( __( 'Allow anonymous event submissions?', 'dbem' ), 'dbem_events_anonymous_submissions', __( 'Would you like to allow users to submit bookings anonymously? If so, you can use the new [event_form] shortcode or <code>em_event_form()</code> template tag with this enabled.', 'dbem' ) );
-            	em_options_select ( __('Guest Default User', 'dbem'), 'dbem_events_anonymous_user', em_get_wp_users (), __( 'Events require a user to own them. In order to allow events to be submitted anonymously you need to assign that event a specific user. We recommend you create a "Anonymous" subscriber with a very good password and use that. Guests will have the same event permissions as this user when submitting.', 'dbem' ) );
-            	em_options_textarea ( __( 'Success Message', 'dbem' ), 'dbem_events_anonymous_result_success', __( 'Anonymous submitters cannot see or modify their event once submitted. You can customize the success message they see here.', 'dbem' ).$events_placeholder_tip );
-			?>
-	        <?php echo $save_button; ?>
-		</table>
-	</div> <!-- . inside --> 
-	</div> <!-- .postbox --> 	
-	<?php	
-}
-
-/**
  * Meta options box for image sizes. Shared in both MS and Normal options page, hence it's own function 
  */
 function em_admin_option_box_image_sizes(){
@@ -1366,7 +1455,9 @@ function em_admin_option_box_image_sizes(){
 		<table class='form-table'>
 			<?php
 			em_options_input_text ( __( 'Maximum width (px)', 'dbem' ), 'dbem_image_max_width', __( 'The maximum allowed width for images uploades', 'dbem' ) );
+			em_options_input_text ( __( 'Minimum width (px)', 'dbem' ), 'dbem_image_min_width', __( 'The minimum allowed width for images uploades', 'dbem' ) );
 			em_options_input_text ( __( 'Maximum height (px)', 'dbem' ), 'dbem_image_max_height', __( "The maximum allowed height for images uploaded, in pixels", 'dbem' ) );
+			em_options_input_text ( __( 'Minimum height (px)', 'dbem' ), 'dbem_image_min_height', __( "The minimum allowed height for images uploaded, in pixels", 'dbem' ) );
 			em_options_input_text ( __( 'Maximum size (bytes)', 'dbem' ), 'dbem_image_max_size', __( "The maximum allowed size for images uploaded, in bytes", 'dbem' ) );
 			echo $save_button;
 			?>
@@ -1387,18 +1478,36 @@ function em_admin_option_box_email(){
 	<div class="inside">
 		<table class='form-table'>
 			<?php
-			em_options_radio_binary ( __( 'Send HTML Emails?', 'dbem' ), 'dbem_smtp_html', __( 'If set to yes, your emails will be sent in HTML format, otherwise plaintext.', 'dbem' ) );
 			em_options_input_text ( __( 'Notification sender name', 'dbem' ), 'dbem_mail_sender_name', __( "Insert the display name of the notification sender.", 'dbem' ) );
 			em_options_input_text ( __( 'Notification sender address', 'dbem' ), 'dbem_mail_sender_address', __( "Insert the address of the notification sender.", 'dbem' ) );
-			em_options_input_text ( 'Mail sending port', 'dbem_rsvp_mail_port', __( "The port through which you e-mail notifications will be sent. Make sure the firewall doesn't block this port", 'dbem' ) );
 			em_options_select ( __( 'Mail sending method', 'dbem' ), 'dbem_rsvp_mail_send_method', array ('smtp' => 'SMTP', 'mail' => __( 'PHP mail function', 'dbem' ), 'sendmail' => 'Sendmail', 'qmail' => 'Qmail', 'wp_mail' => 'WP Mail' ), __( 'Select the method to send email notification.', 'dbem' ) );
-			em_options_radio_binary ( __( 'Use SMTP authentication?', 'dbem' ), 'dbem_rsvp_mail_SMTPAuth', __( 'SMTP authentication is often needed. If you use GMail, make sure to set this parameter to Yes', 'dbem' ) );
-			em_options_input_text ( 'SMTP host', 'dbem_smtp_host', __( "The SMTP host. Usually it corresponds to 'localhost'. If you use GMail, set this value to 'ssl://smtp.gmail.com:465'.", 'dbem' ) );
-			em_options_input_text ( __( 'SMTP username', 'dbem' ), 'dbem_smtp_username', __( "Insert the username to be used to access your SMTP server.", 'dbem' ) );
-			em_options_input_password ( __( 'SMTP password', 'dbem' ), "dbem_smtp_password", __( "Insert the password to be used to access your SMTP server", 'dbem' ) );
+			em_options_radio_binary ( __( 'Send HTML Emails?', 'dbem' ), 'dbem_smtp_html', __( 'If set to yes, your emails will be sent in HTML format, otherwise plaintext.', 'dbem' ).' '.__( 'Depending on server settings, some sending methods may ignore this settings.', 'dbem' ) );
+			?>
+			<tbody class="em-email-settings-smtp">
+				<?php
+				em_options_input_text ( 'Mail sending port', 'dbem_rsvp_mail_port', __( "The port through which you e-mail notifications will be sent. Make sure the firewall doesn't block this port", 'dbem' ) );
+				em_options_radio_binary ( __( 'Use SMTP authentication?', 'dbem' ), 'dbem_rsvp_mail_SMTPAuth', __( 'SMTP authentication is often needed. If you use GMail, make sure to set this parameter to Yes', 'dbem' ) );
+				em_options_input_text ( 'SMTP host', 'dbem_smtp_host', __( "The SMTP host. Usually it corresponds to 'localhost'. If you use GMail, set this value to 'ssl://smtp.gmail.com:465'.", 'dbem' ) );
+				em_options_input_text ( __( 'SMTP username', 'dbem' ), 'dbem_smtp_username', __( "Insert the username to be used to access your SMTP server.", 'dbem' ) );
+				em_options_input_password ( __( 'SMTP password', 'dbem' ), "dbem_smtp_password", __( "Insert the password to be used to access your SMTP server", 'dbem' ) );
+				?>
+			</tbody>
+			<?php
 			echo $save_button;
 			?>
 		</table>
+		<script type="text/javascript" charset="utf-8">
+			jQuery(document).ready(function($){
+				$('#dbem_rsvp_mail_send_method_row select').change(function(){
+					el = $(this);
+					if( el.find(':selected').val() == 'smtp' ){
+						$('.em-email-settings-smtp').show();
+					}else{
+						$('.em-email-settings-smtp').hide();
+					}
+				}).trigger('change');
+			});
+		</script>
 	</div> <!-- . inside -->
 	</div> <!-- .postbox --> 
 	<?php
@@ -1501,8 +1610,8 @@ function em_admin_option_box_caps(){
 	        </td></tr>
 	        <?php echo $save_button; ?>
 		</table>
-	</div> <!-- . inside --> 
-	</div> <!-- .postbox -->    
+	</div> <!-- . inside -->
+	</div> <!-- .postbox -->
 	<?php
 }
 
@@ -1510,14 +1619,27 @@ function em_admin_option_box_uninstall(){
 	if( is_multisite() ){
 		$uninstall_url = admin_url().'network/admin.php?page=events-manager-options&amp;action=uninstall&amp;_wpnonce='.wp_create_nonce('em_uninstall_'.get_current_user_id().'_wpnonce');
 		$reset_url = admin_url().'network/admin.php?page=events-manager-options&amp;action=reset&amp;_wpnonce='.wp_create_nonce('em_reset_'.get_current_user_id().'_wpnonce');
+		$recheck_updates_url = admin_url().'network/admin.php?page=events-manager-options&amp;action=recheck_updates&amp;_wpnonce='.wp_create_nonce('em_recheck_updates_'.get_current_user_id().'_wpnonce');
+		$check_devs = admin_url().'network/admin.php?page=events-manager-options&amp;action=check_devs&amp;_wpnonce='.wp_create_nonce('em_check_devs'.get_current_user_id().'_wpnonce');
 	}else{
 		$uninstall_url = EM_ADMIN_URL.'&amp;page=events-manager-options&amp;action=uninstall&amp;_wpnonce='.wp_create_nonce('em_uninstall_'.get_current_user_id().'_wpnonce');
 		$reset_url = EM_ADMIN_URL.'&amp;page=events-manager-options&amp;action=reset&amp;_wpnonce='.wp_create_nonce('em_reset_'.get_current_user_id().'_wpnonce');
+		$recheck_updates_url = EM_ADMIN_URL.'&amp;page=events-manager-options&amp;action=recheck_updates&amp;_wpnonce='.wp_create_nonce('em_recheck_updates_'.get_current_user_id().'_wpnonce');
+		$check_devs = EM_ADMIN_URL.'&amp;page=events-manager-options&amp;action=check_devs&amp;_wpnonce='.wp_create_nonce('em_check_devs_'.get_current_user_id().'_wpnonce');
 	}
 	?>
 	<div  class="postbox" >
-		<div class="handlediv" title="<?php __('Click to toggle', 'dbem'); ?>"><br /></div><h3><span><?php _e ( 'Uninstall/Reset', 'dbem' ); ?></span></h3>
+		<div class="handlediv" title="<?php __('Click to toggle', 'dbem'); ?>"><br /></div><h3><span><?php _e ( 'Admin Tools', 'dbem' ); ?> (<?php _e ( 'Uninstall/Reset', 'dbem' ); ?>)</span></h3>
 		<div class="inside">
+			<h4 style="font-size:1.1em;"><?php _e ( 'Development Versions &amp; Updates', 'dbem' ); ?></h4>
+			<p><?php _e('We\'re always making improvements, adding features and fixing bugs between releases. We incrementally make these changes in between updates and make it available as a development version. You can download these manually, but we\'ve made it easy for you. <strong>Warning:</strong> Development versions are not always fully tested before release, use wisely!'); ?></p>
+			<table class="form-table">
+				<?php em_options_radio_binary ( __( 'Enable Dev Updates?', 'dbem' ), 'dbem_pro_dev_updates', __('If enabled, the latest dev version will always be checked instead of the latest stable version of the plugin.') ); ?>
+			</table>
+			<p><a href="<?php echo $recheck_updates_url; ?>" class="button-secondary"><?php _e('Re-Check Updates','dbem'); ?></a> - <?php _e('If you would like to check and see if there is a new stable update.','dbem'); ?></p>
+			<p><a href="<?php echo $check_devs; ?>" class="button-secondary"><?php _e('Check Dev Versions','dbem'); ?></a> - <?php _e('If you would like to download a dev version, but just as a one-off, you can force a dev version check by clicking the button below. If there is one available, it should appear in your plugin updates page as a regular update.','dbem'); ?></p>
+			
+			<h4 style="font-size:1.1em;"><?php _e ( 'Uninstall/Reset', 'dbem' ); ?></h4>
 			<p><?php _e('Use the buttons below to uninstall Events Manager completely from your system or reset Events Manager to original settings and keep your event data.','dbem'); ?></p>
 			<a href="<?php echo $uninstall_url; ?>" class="button-secondary"><?php _e('Uninstall','dbem'); ?></a>
 			<a href="<?php echo $reset_url; ?>" class="button-secondary"><?php _e('Reset','dbem'); ?></a>

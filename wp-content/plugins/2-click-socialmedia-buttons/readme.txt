@@ -1,16 +1,16 @@
 ﻿=== 2 Click Social Media Buttons ===
 Contributors: ppfeufer
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=DC2AEJD2J66RE
-Tags: twitter, facebook, googleplus, button, flattr, social, privacy, xing
+Tags: twitter, facebook, googleplus, button, flattr, social, privacy, xing, pinterest
 Requires at least: 3.0.1
-Tested up to: 3.3
-Stable tag: 0.29
+Tested up to: 3.4-alpha
+Stable tag: 0.32.2
 
-Fügt die Buttons für Facebook-Like (Empfehlen), Twitter, Flattr, Xing und Googleplus dem deutschen Datenschutz entsprechend in euer WordPress ein.
+Facebook-Like/Empfehlen, Twitter, Flattr, Xing, Pinterest und Googleplus dem deutschen Datenschutz entsprechend in WordPress.
 
 == Description ==
 
-Fügt die Buttons für Facebook-Like (Empfehlen), Twitter, Flattr, Xing und Googleplus dem deutschen Datenschutz entsprechend in euer WordPress ein.
+Fügt die Buttons für Facebook-Like (Empfehlen), Twitter, Flattr, Xing, Pinterest und Googleplus dem deutschen Datenschutz entsprechend in euer WordPress ein.
 Dies wird leider durch immer verwirrendere Datenschutzbestimmungen notwendig. Das Plugin ist eine WordPress-Adaption der Lösung von heise.de wie in ihrem Artikel [2 Klicks für mehr Datenschutz](http://www.heise.de/ct/artikel/2-Klicks-fuer-mehr-Datenschutz-1333879.html "2 Klicks für mehr Datenschutz auf heise online") beschrieben.
 Bisher werden die Buttons einfach in den Einzelartikeln und -seiten unter dem Artikel eingebunden. Einige Einstellungsmöglichkeiten sind noch in Planung.
 
@@ -19,11 +19,25 @@ Bisher werden die Buttons einfach in den Einzelartikeln und -seiten unter dem Ar
 * Einfache Installation.
 * Einstellungen speicherbar.
 * Dein Twittername als @-reply im Tweettext.
+* Description für Pinterest wählbar
 * Position der Buttons wählbar (vor oder nach dem Artikel).
 * Wählbar welcher Button angezeigt werden soll.
 * Wählbar ob es dem Besucher möglich sein soll, die Buttons permanent anzeigen zu lassen.
 * Anzeige auf den Artikelseiten (default, nicht änderbar).
 * Optionale Anzeige auf CMS-Seiten.
+* Optionale Anzeige im Artikelindex.
+* Optionale Anzeige in Archiven. (Jahresarchiv, Monatsarchiv, Tagesarchiv)
+* Optionale Anzeige in der Kategorieansicht.
+* Optionale Anzeige in den Suchergebnissen.
+* Facebook Like/Recommend Button
+* Twitter Button
+* Google+ Button
+* Flattr Button
+* Xing Button
+* Pinterest Button
+* Eigene Hinweistexte möglich.
+* Eigener Infolink möglich.
+
 
 == Installation ==
 
@@ -46,6 +60,49 @@ Nutze dafür einfach dein Dashboard
 3. Einstellungsmenü der Buttons.
 
 == Changelog ==
+
+= 0.32.2 =
+* (03. April 2012)
+* Debugausgaben entfernt :-)
+
+= 0.32.1 =
+* (03. April 2012)
+* Fix: Facebook Like/Gefällt mir ist nurn wieder einstellbar.
+
+= 0.32 =
+* (02. April 2012)
+* Neu: Pinterest hinzugefügt. (Danke an <a href="http://kkoepke.de/">Kai</a> fürs betatesten)
+* Update: Erkennung der Sprache für Dummyimages verbessert. Namenskonvention für Dummyimages eingeführt, so dass diese je nach verwendeter Sprache geladen werden. Fallback: Englisch
+* Update: Imageupload für Artikelbildfeld hinzugefügt. Dieses Bild wird für Facebok, Google+ und Pinterest verwendet, wenn der Artikel / die Seite weder ein eigenes Artikelbild noch Bilder im Content hat.
+* Hinweis: Nach dem Update bitte die Einstellungen prüfen und speichern.
+
+= 0.31.3 =
+* (28. März 2012)
+* Fix: Ersetzung der Standardtexte durch die in den Plugineinstellungen gegebenen.
+* Fix: Infolink ist wieder Info und auch Link. (Danke an <a href="http://www.fob-marketing.de/">Oliver B.</a>)
+* Bei dieser Gelegenheit auch gleich mal wieder den Quelltext etwas aufgeräumt :-)
+
+= 0.31.2 =
+* (27. März 2012)
+* Fix: Post ID im Loop wurde nicht korrekt übergeben.
+* Fix: Permalink im Loop wurde nicht korrekt übergeben.
+* Sorry für die kleinen Pannen :-)
+
+= 0.31.1 =
+* (27. März 2012)
+* bump
+
+= 0.31 =
+* (27. März 2012)
+* Array mit Optionen wird via jSon an das jQuery übergeben.
+* Fix: Formatierung des Tweettextes. Sonderzeichen werden nun nicht mehr als Entität ausgegeben. (Also – statt & #8211; und so weiter.)
+
+= 0.30 =
+* (22. März 2012)
+* Fix: Buttongrößen sind nun im Imagetag mit enthalten.
+* Neu: Deutscher Dummy für Twitter (Danke an <a href="http://www.felix-griewald.de/">Felix</a>).
+* Update: Google+ Dummy an das neue Design des Google+ Buttons angepasst (Nochmals danke an <a href="http://www.felix-griewald.de/">Felix</a>).
+* Test: Sonderzeichen im Artikeltitel. Funktioniert und gibt keine Probleme bei meinen Tests.
 
 = 0.29 =
 * (21. Februar 2012)
@@ -264,7 +321,13 @@ Nutze dafür einfach dein Dashboard
 
 == Frequently Asked Questions ==
 
-Bisher keine.
+= Wieso kann ich in den Einstellungen ein Bild hochladen. Wofür wird dieses verwendet? =
+Facebook, Google+ und Pinterest nutzen Bilder aus den Artikeln. Das Plugin erkennt, ob ein Artikel ein Artikelbild hat und stellt dieses für diese Dienste zur Verfügung. Sollte kein Artikelbild vorhanden sein, so sucht das Plugin im Artikel selbst und holt das erste Bild aus dem Artikel. Sollte auch hier kein Bild im Artikel sein, dann würde das dort hinterlegte Bild an diese drei Dienste geleitet werden. Wichtig ist hier zu wissen, dass Pinterest ein Bild voraussetzt. Sollte also absolut kein Bild für den Artikel zu finden sein. dann funktioniert auch Pinterest nicht.
+
+Oder einfacher ausgedrückt, dies ist die Möglichkeit ein Platzhalterbild an diese Dienste zu übermitteln. Euer Logo zum Beispiel.
+
+= Wieso sehe ich Optionen für die permanente aktivierung auf der Startseite nicht? =
+Nicht nur auf der Startseite. Auf jeder Seite auf der mehrere Artikel angezeigt werden, ist diese Funktion deaktiviert, da sie dort nicht richtig funktioniert.
 
 Falls Du jedoch eine Frage hast, dann stell diese unter [http://blog.ppfeufer.de/wordpress-plugin-2-click-social-media-buttons/](http://blog.ppfeufer.de/wordpress-plugin-2-click-social-media-buttons/) in den Kommentaren. Aber bitte schau vorher einmal grob durch die Kommentare, ob es dieses Anliegen schon gab.
 

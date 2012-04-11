@@ -4,7 +4,7 @@ Plugin Name: Really Simple CAPTCHA
 Plugin URI: http://ideasilo.wordpress.com/2009/03/14/really-simple-captcha/
 Description: Really Simple CAPTCHA is a CAPTCHA module intended to be called from other plugins. It is originally created for my Contact Form 7 plugin.
 Author: Takayuki Miyoshi
-Version: 1.4
+Version: 1.5
 Author URI: http://ideasilo.wordpress.com/
 */
 
@@ -42,7 +42,7 @@ class ReallySimpleCaptcha {
 			dirname( __FILE__ ) . '/gentium/GenI102.TTF',
 			dirname( __FILE__ ) . '/gentium/GenR102.TTF' );
 
-		/* Directory temporary keeping CAPTCHA images and corresponding codes */
+		/* Directory temporary keeping CAPTCHA images and corresponding text files */
 		$this->tmp_dir = dirname( __FILE__ ) . '/tmp/';
 
 		/* Array of CAPTCHA image size. Width and height */
@@ -66,19 +66,24 @@ class ReallySimpleCaptcha {
 		/* Image type. 'png', 'gif' or 'jpeg' */
 		$this->img_type = 'png';
 
-		/* Mode of temporary files */
-		$this->file_mode = 0755;
+		/* Mode of temporary image files */
+		$this->file_mode = 0444;
+
+		/* Mode of temporary answer text files */
+		$this->answer_file_mode = 0440;
 	}
 
 	/* Generate and return random word with $chars characters x $char_length length */
 
 	function generate_random_word() {
 		$word = '';
+
 		for ( $i = 0; $i < $this->char_length; $i++ ) {
 			$pos = mt_rand( 0, strlen( $this->chars ) - 1 );
 			$char = $this->chars[$pos];
 			$word .= $char;
 		}
+
 		return $word;
 	}
 
@@ -125,30 +130,51 @@ class ReallySimpleCaptcha {
 			@chmod( $dir . $filename, $this->file_mode );
 		}
 
-		$answer_file = $dir . sanitize_file_name( $prefix . '.php' );
+		$this->generate_answer_file( $prefix, $word );
+
+		return $filename;
+	}
+
+	/* Generate answer file corresponding to CAPTCHA image. */
+
+	function generate_answer_file( $prefix, $word ) {
+		$dir = trailingslashit( $this->tmp_dir );
+		$answer_file = $dir . sanitize_file_name( $prefix . '.txt' );
 
 		if ( $fh = fopen( $answer_file, 'w' ) ) {
-			@chmod( $answer_file, $this->file_mode );
-			fwrite( $fh, '<?php $captcha = "' . $word . '"; ?>' );
+			$word = strtoupper( $word );
+			$salt = wp_generate_password( 64 );
+			$hash = hash_hmac( 'md5', $word, $salt );
+
+			$code = $salt . '|' . $hash;
+
+			fwrite( $fh, $code );
 			fclose( $fh );
 		}
 
-		return $filename;
+		@chmod( $answer_file, $this->answer_file_mode );
 	}
 
 	/* Check a $response against the code kept in the temporary file with $prefix
 	Return true if the two match, otherwise return false. */
 
 	function check( $prefix, $response ) {
+		$response = strtoupper( $response );
+
 		$dir = trailingslashit( $this->tmp_dir );
-		$filename = sanitize_file_name( $prefix . '.php' );
+		$filename = sanitize_file_name( $prefix . '.txt' );
 		$file = $dir . $filename;
 
-		if ( is_readable( $file ) ) {
-			include( $file );
-			if ( 0 == strcasecmp( $response, $captcha ) )
+		if ( is_readable( $file ) && ( $code = file_get_contents( $file ) ) ) {
+			$code = explode( '|', $code, 2 );
+
+			$salt = $code[0];
+			$hash = $code[1];
+
+			if ( hash_hmac( 'md5', $response, $salt ) == $hash )
 				return true;
 		}
+
 		return false;
 	}
 
@@ -195,6 +221,30 @@ class ReallySimpleCaptcha {
 		return $count;
 	}
 
+	/* Make a temporary directory and generate .htaccess file in it */
+
+	function make_tmp_dir() {
+		$dir = trailingslashit( $this->tmp_dir );
+
+		if ( ! wp_mkdir_p( $dir ) )
+			return false;
+
+		$htaccess_file = $dir . '.htaccess';
+
+		if ( file_exists( $htaccess_file ) )
+			return true;
+
+		if ( $handle = @fopen( $htaccess_file, 'w' ) ) {
+			fwrite( $handle, 'Order deny,allow' . "\n" );
+			fwrite( $handle, 'Deny from all' . "\n" );
+			fwrite( $handle, '<Files ~ "^[0-9A-Za-z]+\\.(jpeg|gif|png)$">' . "\n" );
+			fwrite( $handle, '    Allow from all' . "\n" );
+			fwrite( $handle, '</Files>' . "\n" );
+			fclose( $handle );
+		}
+
+		return true;
+	}
 }
 
 ?>

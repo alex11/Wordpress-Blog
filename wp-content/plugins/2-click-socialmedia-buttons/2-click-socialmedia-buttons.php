@@ -3,7 +3,7 @@
  * Plugin Name: 2 Click Social Media Buttons
  * Plugin URI: http://blog.ppfeufer.de/wordpress-plugin-2-click-social-media-buttons/
  * Description: Fügt die Buttons für Facebook-Like (Empfehlen), Twitter, Flattr, Xing und Googleplus dem deutschen Datenschutz entsprechend in euer WordPress ein.
- * Version: 0.29
+ * Version: 0.32.2
  * Author: H.-Peter Pfeufer
  * Author URI: http://ppfeufer.de
  */
@@ -79,7 +79,7 @@ if(!function_exists('twoclick_buttons_options_page')) {
 			 */
 			check_admin_referer('twoclick-buttons-options');
 
-			if($_REQUEST['twoclick_buttons_settings']['twoclick_buttons_maintenance_reset']) {
+			if($_REQUEST['twoclick_buttons_maintenance_reset']) {
 				/**
 				 * Resetting options to defaults.
 				 */
@@ -90,7 +90,7 @@ if(!function_exists('twoclick_buttons_options_page')) {
 //				_e('Settings resetted.', 'twoclick-buttons');
 //				echo '</strong></p>';
 //				echo '</div>';
-			} elseif($_REQUEST['twoclick_buttons_settings']['twoclick_buttons_maintenance_clear']) {
+			} elseif($_REQUEST['twoclick_buttons_maintenance_clear']) {
 				/**
 				 * Deleting all options from database.
 				 */
@@ -109,46 +109,50 @@ if(!function_exists('twoclick_buttons_options_page')) {
 				 */
 				$array_Options = array(
 					'twoclick_buttons_plugin_version' => (string) TWOCLICK_SOCIALMEDIA_BUTTONS_VERSION,
-					'twoclick_buttons_where' => (string) (@$_REQUEST['twoclick_buttons_settings']['twoclick_buttons_where']),
-					'twoclick_buttons_twitter_reply' => (string) (@$_REQUEST['twoclick_buttons_settings']['twoclick_buttons_twitter_reply']),
-					'twoclick_buttons_twitter_tweettext' => (string) (@$_REQUEST['twoclick_buttons_settings']['twoclick_buttons_twitter_tweettext']),
-					'twoclick_buttons_twitter_tweettext_owntext' => (string) (@$_REQUEST['twoclick_buttons_settings']['twoclick_buttons_twitter_tweettext_owntext']),
-					'twoclick_buttons_twitter_hashtags' => (int) (!empty($_REQUEST['twoclick_buttons_settings']['twoclick_buttons_twitter_hashtags'])),
-					'twoclick_buttons_twitter_tweettext_default_as' => (string) (@$_REQUEST['twoclick_buttons_settings']['twoclick_buttons_twitter_tweettext_default_as']),
-					'twoclick_buttons_flattr_uid' => (string) (@$_REQUEST['twoclick_buttons_settings']['twoclick_buttons_flattr_uid']),
+					'twoclick_buttons_where' => (string) (@$_REQUEST['twoclick_buttons_where']),
+					'twoclick_buttons_twitter_reply' => (string) (@$_REQUEST['twoclick_buttons_twitter_reply']),
+					'twoclick_buttons_twitter_tweettext' => (string) (@$_REQUEST['twoclick_buttons_twitter_tweettext']),
+					'twoclick_buttons_twitter_tweettext_owntext' => (string) (@$_REQUEST['twoclick_buttons_twitter_tweettext_owntext']),
+					'twoclick_buttons_twitter_hashtags' => (int) (!empty($_REQUEST['twoclick_buttons_twitter_hashtags'])),
+					'twoclick_buttons_twitter_tweettext_default_as' => (string) (@$_REQUEST['twoclick_buttons_twitter_tweettext_default_as']),
+					'twoclick_buttons_flattr_uid' => (string) (@$_REQUEST['twoclick_buttons_flattr_uid']),
+					'twoclick_buttons_pinterest_description' => (string) (@$_REQUEST['twoclick_buttons_pinterest_description']),
 
-					'twoclick_buttons_display_page' => (int) (!empty($_REQUEST['twoclick_buttons_settings']['twoclick_buttons_display_page'])),
-					'twoclick_buttons_display_index' => (int) (!empty($_REQUEST['twoclick_buttons_settings']['twoclick_buttons_display_index'])),
-					'twoclick_buttons_display_year' => (int) (!empty($_REQUEST['twoclick_buttons_settings']['twoclick_buttons_display_year'])),
-					'twoclick_buttons_display_month' => (int) (!empty($_REQUEST['twoclick_buttons_settings']['twoclick_buttons_display_month'])),
-					'twoclick_buttons_display_day' => (int) (!empty($_REQUEST['twoclick_buttons_settings']['twoclick_buttons_display_day'])),
-					'twoclick_buttons_display_search' => (int) (!empty($_REQUEST['twoclick_buttons_settings']['twoclick_buttons_display_search'])),
-					'twoclick_buttons_display_tag' => (int) (!empty($_REQUEST['twoclick_buttons_settings']['twoclick_buttons_display_tag'])),
-					'twoclick_buttons_display_category' => (int) (!empty($_REQUEST['twoclick_buttons_settings']['twoclick_buttons_display_category'])),
+					'twoclick_buttons_display_page' => (int) (!empty($_REQUEST['twoclick_buttons_display_page'])),
+					'twoclick_buttons_display_index' => (int) (!empty($_REQUEST['twoclick_buttons_display_index'])),
+					'twoclick_buttons_display_year' => (int) (!empty($_REQUEST['twoclick_buttons_display_year'])),
+					'twoclick_buttons_display_month' => (int) (!empty($_REQUEST['twoclick_buttons_display_month'])),
+					'twoclick_buttons_display_day' => (int) (!empty($_REQUEST['twoclick_buttons_display_day'])),
+					'twoclick_buttons_display_search' => (int) (!empty($_REQUEST['twoclick_buttons_display_search'])),
+					'twoclick_buttons_display_tag' => (int) (!empty($_REQUEST['twoclick_buttons_display_tag'])),
+					'twoclick_buttons_display_category' => (int) (!empty($_REQUEST['twoclick_buttons_display_category'])),
 
-					'twoclick_buttons_display_facebook' => (int) (!empty($_REQUEST['twoclick_buttons_settings']['twoclick_buttons_display_facebook'])),
-					'twoclick_buttons_display_twitter' => (int) (!empty($_REQUEST['twoclick_buttons_settings']['twoclick_buttons_display_twitter'])),
-					'twoclick_buttons_display_flattr' => (int) (!empty($_REQUEST['twoclick_buttons_settings']['twoclick_buttons_display_flattr'])),
-					'twoclick_buttons_display_xing' => (int) (!empty($_REQUEST['twoclick_buttons_settings']['twoclick_buttons_display_xing'])),
-					'twoclick_buttons_display_googleplus' => (int) (!empty($_REQUEST['twoclick_buttons_settings']['twoclick_buttons_display_googleplus'])),
+					'twoclick_buttons_display_facebook' => (int) (!empty($_REQUEST['twoclick_buttons_display_facebook'])),
+					'twoclick_buttons_display_twitter' => (int) (!empty($_REQUEST['twoclick_buttons_display_twitter'])),
+					'twoclick_buttons_display_googleplus' => (int) (!empty($_REQUEST['twoclick_buttons_display_googleplus'])),
+					'twoclick_buttons_display_flattr' => (int) (!empty($_REQUEST['twoclick_buttons_display_flattr'])),
+					'twoclick_buttons_display_xing' => (int) (!empty($_REQUEST['twoclick_buttons_display_xing'])),
+					'twoclick_buttons_display_pinterest' => (int) (!empty($_REQUEST['twoclick_buttons_display_pinterest'])),
 
-					'twoclick_buttons_display_facebook_perm' => (int) (!empty($_REQUEST['twoclick_buttons_settings']['twoclick_buttons_display_facebook_perm'])),
-					'twoclick_buttons_display_twitter_perm' => (int) (!empty($_REQUEST['twoclick_buttons_settings']['twoclick_buttons_display_twitter_perm'])),
-					'twoclick_buttons_display_googleplus_perm' => (int) (!empty($_REQUEST['twoclick_buttons_settings']['twoclick_buttons_display_googleplus_perm'])),
-					'twoclick_buttons_display_flattr_perm' => (int) (!empty($_REQUEST['twoclick_buttons_settings']['twoclick_buttons_display_flattr_perm'])),
-					'twoclick_buttons_display_xing_perm' => (int) (!empty($_REQUEST['twoclick_buttons_settings']['twoclick_buttons_display_xing_perm'])),
+					'twoclick_buttons_display_facebook_perm' => (int) (!empty($_REQUEST['twoclick_buttons_display_facebook_perm'])),
+					'twoclick_buttons_display_twitter_perm' => (int) (!empty($_REQUEST['twoclick_buttons_display_twitter_perm'])),
+					'twoclick_buttons_display_googleplus_perm' => (int) (!empty($_REQUEST['twoclick_buttons_display_googleplus_perm'])),
+					'twoclick_buttons_display_flattr_perm' => (int) (!empty($_REQUEST['twoclick_buttons_display_flattr_perm'])),
+					'twoclick_buttons_display_xing_perm' => (int) (!empty($_REQUEST['twoclick_buttons_display_xing_perm'])),
+					'twoclick_buttons_display_pinterest_perm' => (int) (!empty($_REQUEST['twoclick_buttons_display_pinterest_perm'])),
 
-					'twoclick_buttons_infotext_facebook' => (string) (@$_REQUEST['twoclick_buttons_settings']['twoclick_buttons_infotext_facebook']),
-					'twoclick_buttons_infotext_twitter' => (string) (@$_REQUEST['twoclick_buttons_settings']['twoclick_buttons_infotext_twitter']),
-					'twoclick_buttons_infotext_googleplus' => (string) (@$_REQUEST['twoclick_buttons_settings']['twoclick_buttons_infotext_googleplus']),
-					'twoclick_buttons_infotext_flattr' => (string) (@$_REQUEST['twoclick_buttons_settings']['twoclick_buttons_infotext_flattr']),
-					'twoclick_buttons_infotext_xing' => (string) (@$_REQUEST['twoclick_buttons_settings']['twoclick_buttons_infotext_xing']),
-					'twoclick_buttons_infotext_infobutton' => (string) (@$_REQUEST['twoclick_buttons_settings']['twoclick_buttons_infotext_infobutton']),
-					'twoclick_buttons_infotext_permaoption' => (string) (@$_REQUEST['twoclick_buttons_settings']['twoclick_buttons_infotext_permaoption']),
-					'twoclick_buttons_infolink' => (string) (@$_REQUEST['twoclick_buttons_settings']['twoclick_buttons_infolink']),
+					'twoclick_buttons_infotext_facebook' => (string) (@$_REQUEST['twoclick_buttons_infotext_facebook']),
+					'twoclick_buttons_infotext_twitter' => (string) (@$_REQUEST['twoclick_buttons_infotext_twitter']),
+					'twoclick_buttons_infotext_googleplus' => (string) (@$_REQUEST['twoclick_buttons_infotext_googleplus']),
+					'twoclick_buttons_infotext_flattr' => (string) (@$_REQUEST['twoclick_buttons_infotext_flattr']),
+					'twoclick_buttons_infotext_xing' => (string) (@$_REQUEST['twoclick_buttons_infotext_xing']),
+					'twoclick_buttons_infotext_pinterest' => (string) (@$_REQUEST['twoclick_buttons_infotext_pinterest']),
+					'twoclick_buttons_infotext_infobutton' => (string) (@$_REQUEST['twoclick_buttons_infotext_infobutton']),
+					'twoclick_buttons_infotext_permaoption' => (string) (@$_REQUEST['twoclick_buttons_infotext_permaoption']),
+					'twoclick_buttons_infolink' => (string) (@$_REQUEST['twoclick_buttons_infolink']),
 
-					'twoclick_buttons_facebook_action' => (string) (@$_REQUEST['twoclick_buttons_settings']['twoclick_buttons_facebook_action']),
-					'twoclick_buttons_postthumbnail' => (string) (@$_REQUEST['twoclick_buttons_settings']['twoclick_buttons_postthumbnail']),
+					'twoclick_buttons_facebook_action' => (string) (@$_REQUEST['twoclick_buttons_facebook_action']),
+					'twoclick_buttons_postthumbnail' => (string) (@$_REQUEST['twoclick_buttons_postthumbnail']),
 				);
 
 				twoclick_buttons_update_options($array_Options);
@@ -181,69 +185,86 @@ if(!function_exists('twoclick_buttons_options_page')) {
 					<div style="margin-left:100px;">
 
 						<!-- Welche Buttons sollen angezeigt werden -->
+						<!-- Facebook -->
 						<div>
-							<input type="checkbox" value="1" <?php if(twoclick_buttons_get_option('twoclick_buttons_display_facebook') == '1') echo 'checked="checked"'; ?> name="twoclick_buttons_settings[twoclick_buttons_display_facebook]" id="twoclick_buttons_settings[twoclick_buttons_display_facebook]" group="twoclick_buttons_display" />
-							<label for="twoclick_buttons_settings[twoclick_buttons_display_facebook]" style="display:inline-block; width:150px;"><?php _e('Enable Facebook', 'twoclick-socialmedia'); ?></label>
-							<input type="checkbox" value="1" <?php if(twoclick_buttons_get_option('twoclick_buttons_display_facebook_perm') == '1') echo 'checked="checked"'; ?> name="twoclick_buttons_settings[twoclick_buttons_display_facebook_perm]" id="twoclick_buttons_settings[twoclick_buttons_display_facebook_perm]" group="twoclick_buttons_display" />
-							<label for="twoclick_buttons_settings[twoclick_buttons_display_facebook_perm]"><?php _e('Option for permanent activation for Facebook', 'twoclick-socialmedia'); ?></label>
+							<input type="checkbox" value="1" <?php if(twoclick_buttons_get_option('twoclick_buttons_display_facebook') == '1') echo 'checked="checked"'; ?> name="twoclick_buttons_display_facebook" id="twoclick_buttons_display_facebook" group="twoclick_buttons_display" />
+							<label for="twoclick_buttons_display_facebook" style="display:inline-block; width:150px;"><?php _e('Enable Facebook', 'twoclick-socialmedia'); ?></label>
+							<input type="checkbox" value="1" <?php if(twoclick_buttons_get_option('twoclick_buttons_display_facebook_perm') == '1') echo 'checked="checked"'; ?> name="twoclick_buttons_display_facebook_perm" id="twoclick_buttons_display_facebook_perm" group="twoclick_buttons_display" />
+							<label for="twoclick_buttons_display_facebook_perm"><?php _e('Option for permanent activation for Facebook', 'twoclick-socialmedia'); ?></label>
 						</div>
+
+						<!-- Twitter -->
 						<div>
-							<input type="checkbox" value="1" <?php if(twoclick_buttons_get_option('twoclick_buttons_display_twitter') == '1') echo 'checked="checked"'; ?> name="twoclick_buttons_settings[twoclick_buttons_display_twitter]" id="twoclick_buttons_settings[twoclick_buttons_display_twitter]" group="twoclick_buttons_display" />
-							<label for="twoclick_buttons_settings[twoclick_buttons_display_twitter]" style="display:inline-block; width:150px;"><?php _e('Enable Twitter', 'twoclick-socialmedia'); ?></label>
-							<input type="checkbox" value="1" <?php if(twoclick_buttons_get_option('twoclick_buttons_display_twitter_perm') == '1') echo 'checked="checked"'; ?> name="twoclick_buttons_settings[twoclick_buttons_display_twitter_perm]" id="twoclick_buttons_settings[twoclick_buttons_display_twitter_perm]" group="twoclick_buttons_display" />
-							<label for="twoclick_buttons_settings[twoclick_buttons_display_twitter_perm]"><?php _e('Option for permanent activation for Twitter', 'twoclick-socialmedia'); ?></label>
+							<input type="checkbox" value="1" <?php if(twoclick_buttons_get_option('twoclick_buttons_display_twitter') == '1') echo 'checked="checked"'; ?> name="twoclick_buttons_display_twitter" id="twoclick_buttons_display_twitter" group="twoclick_buttons_display" />
+							<label for="twoclick_buttons_display_twitter" style="display:inline-block; width:150px;"><?php _e('Enable Twitter', 'twoclick-socialmedia'); ?></label>
+							<input type="checkbox" value="1" <?php if(twoclick_buttons_get_option('twoclick_buttons_display_twitter_perm') == '1') echo 'checked="checked"'; ?> name="twoclick_buttons_display_twitter_perm" id="twoclick_buttons_display_twitter_perm" group="twoclick_buttons_display" />
+							<label for="twoclick_buttons_display_twitter_perm"><?php _e('Option for permanent activation for Twitter', 'twoclick-socialmedia'); ?></label>
 						</div>
+
+						<!-- Google+ -->
 						<div>
-							<input type="checkbox" value="1" <?php if(twoclick_buttons_get_option('twoclick_buttons_display_googleplus') == '1') echo 'checked="checked"'; ?> name="twoclick_buttons_settings[twoclick_buttons_display_googleplus]" id="twoclick_buttons_settings[twoclick_buttons_display_googleplus]" group="twoclick_buttons_display" />
-							<label for="twoclick_buttons_settings[twoclick_buttons_display_googleplus]" style="display:inline-block; width:150px;"><?php _e('Enable Google+', 'twoclick-socialmedia'); ?></label>
-							<input type="checkbox" value="1" <?php if(twoclick_buttons_get_option('twoclick_buttons_display_googleplus_perm') == '1') echo 'checked="checked"'; ?> name="twoclick_buttons_settings[twoclick_buttons_display_googleplus_perm]" id="twoclick_buttons_settings[twoclick_buttons_display_googleplus_perm]" group="twoclick_buttons_display" />
-							<label for="twoclick_buttons_settings[twoclick_buttons_display_googleplus_perm]"><?php _e('Option for permanent activation for Google+', 'twoclick-socialmedia'); ?></label>
+							<input type="checkbox" value="1" <?php if(twoclick_buttons_get_option('twoclick_buttons_display_googleplus') == '1') echo 'checked="checked"'; ?> name="twoclick_buttons_display_googleplus" id="twoclick_buttons_display_googleplus" group="twoclick_buttons_display" />
+							<label for="twoclick_buttons_display_googleplus" style="display:inline-block; width:150px;"><?php _e('Enable Google+', 'twoclick-socialmedia'); ?></label>
+							<input type="checkbox" value="1" <?php if(twoclick_buttons_get_option('twoclick_buttons_display_googleplus_perm') == '1') echo 'checked="checked"'; ?> name="twoclick_buttons_display_googleplus_perm" id="twoclick_buttons_display_googleplus_perm" group="twoclick_buttons_display" />
+							<label for="twoclick_buttons_display_googleplus_perm"><?php _e('Option for permanent activation for Google+', 'twoclick-socialmedia'); ?></label>
 						</div>
+
+						<!-- Flattr -->
 						<div>
-							<input type="checkbox" value="1" <?php if(twoclick_buttons_get_option('twoclick_buttons_display_flattr') == '1') echo 'checked="checked"'; ?> name="twoclick_buttons_settings[twoclick_buttons_display_flattr]" id="twoclick_buttons_settings[twoclick_buttons_display_flattr]" group="twoclick_buttons_display" />
-							<label for="twoclick_buttons_settings[twoclick_buttons_display_flattr]" style="display:inline-block; width:150px;"><?php _e('Enable Flattr', 'twoclick-socialmedia'); ?></label>
-							<input type="checkbox" value="1" <?php if(twoclick_buttons_get_option('twoclick_buttons_display_flattr_perm') == '1') echo 'checked="checked"'; ?> name="twoclick_buttons_settings[twoclick_buttons_display_flattr_perm]" id="twoclick_buttons_settings[twoclick_buttons_display_flattr_perm]" group="twoclick_buttons_display" />
-							<label for="twoclick_buttons_settings[twoclick_buttons_display_flattr_perm]"><?php _e('Option for permanent activation for Flattr', 'twoclick-socialmedia'); ?></label>
+							<input type="checkbox" value="1" <?php if(twoclick_buttons_get_option('twoclick_buttons_display_flattr') == '1') echo 'checked="checked"'; ?> name="twoclick_buttons_display_flattr" id="twoclick_buttons_display_flattr" group="twoclick_buttons_display" />
+							<label for="twoclick_buttons_display_flattr" style="display:inline-block; width:150px;"><?php _e('Enable Flattr', 'twoclick-socialmedia'); ?></label>
+							<input type="checkbox" value="1" <?php if(twoclick_buttons_get_option('twoclick_buttons_display_flattr_perm') == '1') echo 'checked="checked"'; ?> name="twoclick_buttons_display_flattr_perm" id="twoclick_buttons_display_flattr_perm" group="twoclick_buttons_display" />
+							<label for="twoclick_buttons_display_flattr_perm"><?php _e('Option for permanent activation for Flattr', 'twoclick-socialmedia'); ?></label>
 						</div>
+
+						<!-- Xing -->
 						<div>
-							<input type="checkbox" value="1" <?php if(twoclick_buttons_get_option('twoclick_buttons_display_xing') == '1') echo 'checked="checked"'; ?> name="twoclick_buttons_settings[twoclick_buttons_display_xing]" id="twoclick_buttons_settings[twoclick_buttons_display_xing]" group="twoclick_buttons_display" />
-							<label for="twoclick_buttons_settings[twoclick_buttons_display_xing]" style="display:inline-block; width:150px;"><?php _e('Enable Xing', 'twoclick-socialmedia'); ?></label>
-							<input type="checkbox" value="1" <?php if(twoclick_buttons_get_option('twoclick_buttons_display_xing_perm') == '1') echo 'checked="checked"'; ?> name="twoclick_buttons_settings[twoclick_buttons_display_xing_perm]" id="twoclick_buttons_settings[twoclick_buttons_display_flattr_xing]" group="twoclick_buttons_display" />
-							<label for="twoclick_buttons_settings[twoclick_buttons_display_xing_perm]"><?php _e('Option for permanent activation for Xing', 'twoclick-socialmedia'); ?></label>
+							<input type="checkbox" value="1" <?php if(twoclick_buttons_get_option('twoclick_buttons_display_xing') == '1') echo 'checked="checked"'; ?> name="twoclick_buttons_display_xing" id="twoclick_buttons_display_xing" group="twoclick_buttons_display" />
+							<label for="twoclick_buttons_display_xing" style="display:inline-block; width:150px;"><?php _e('Enable Xing', 'twoclick-socialmedia'); ?></label>
+							<input type="checkbox" value="1" <?php if(twoclick_buttons_get_option('twoclick_buttons_display_xing_perm') == '1') echo 'checked="checked"'; ?> name="twoclick_buttons_display_xing_perm" id="twoclick_buttons_display_xing_perm" group="twoclick_buttons_display" />
+							<label for="twoclick_buttons_display_xing_perm"><?php _e('Option for permanent activation for Xing', 'twoclick-socialmedia'); ?></label>
+						</div>
+
+						<!-- Pinterest -->
+						<div>
+							<input type="checkbox" value="1" <?php if(twoclick_buttons_get_option('twoclick_buttons_display_pinterest') == '1') echo 'checked="checked"'; ?> name="twoclick_buttons_display_pinterest" id="twoclick_buttons_display_xing" group="twoclick_buttons_display" />
+							<label for="twoclick_buttons_display_pinterest" style="display:inline-block; width:150px;"><?php _e('Enable Pinterest', 'twoclick-socialmedia'); ?></label>
+							<input type="checkbox" value="1" <?php if(twoclick_buttons_get_option('twoclick_buttons_display_pinterest_perm') == '1') echo 'checked="checked"'; ?> name="twoclick_buttons_display_pinterest_perm" id="twoclick_buttons_display_pinterest_perm" group="twoclick_buttons_display" />
+							<label for="twoclick_buttons_display_pinterest_perm"><?php _e('Option for permanent activation for Pinterest', 'twoclick-socialmedia'); ?></label>
 						</div>
 
 						<!-- Auf welchen Seiten sollen die Buttons angezeigt werden -->
 						<div style="margin-top:10px;">
-							<input type="checkbox" value="1" <?php if(twoclick_buttons_get_option('twoclick_buttons_display_page') == '1') echo 'checked="checked"'; ?> name="twoclick_buttons_settings[twoclick_buttons_display_page]" id="twoclick_buttons_settings[twoclick_buttons_display_page]" group="twoclick_buttons_display" />
-							<label for="twoclick_buttons_settings[twoclick_buttons_display_page]"><?php _e('Display on CMS-Pages', 'twoclick-socialmedia'); ?></label>
+							<input type="checkbox" value="1" <?php if(twoclick_buttons_get_option('twoclick_buttons_display_page') == '1') echo 'checked="checked"'; ?> name="twoclick_buttons_display_page" id="twoclick_buttons_display_page" group="twoclick_buttons_display" />
+							<label for="twoclick_buttons_display_page"><?php _e('Display on CMS-Pages', 'twoclick-socialmedia'); ?></label>
 						</div>
 						<div>
-							<input type="checkbox" value="1" <?php if(twoclick_buttons_get_option('twoclick_buttons_display_index') == '1') echo 'checked="checked"'; ?> name="twoclick_buttons_settings[twoclick_buttons_display_index]" id="twoclick_buttons_settings[twoclick_buttons_display_index]" group="twoclick_buttons_display" />
-							<label for="twoclick_buttons_settings[twoclick_buttons_display_index]"><?php _e('Display on Index', 'twoclick-socialmedia'); ?></label>
+							<input type="checkbox" value="1" <?php if(twoclick_buttons_get_option('twoclick_buttons_display_index') == '1') echo 'checked="checked"'; ?> name="twoclick_buttons_display_index" id="twoclick_buttons_display_index" group="twoclick_buttons_display" />
+							<label for="twoclick_buttons_display_index"><?php _e('Display on Index', 'twoclick-socialmedia'); ?></label>
 						</div>
 						<div style="margin-top:10px;">
-							<input type="checkbox" value="1" <?php if(twoclick_buttons_get_option('twoclick_buttons_display_year') == '1') echo 'checked="checked"'; ?> name="twoclick_buttons_settings[twoclick_buttons_display_year]" id="twoclick_buttons_settings[twoclick_buttons_display_year]" group="twoclick_buttons_display" />
-							<label for="twoclick_buttons_settings[twoclick_buttons_display_year]"><?php _e('Display on Yearly Archives', 'twoclick-socialmedia'); ?></label> <span class="description">(<?php _e('Note: Not every theme supports this option.',  'twoclick-socialmedia'); ?>)</span>
+							<input type="checkbox" value="1" <?php if(twoclick_buttons_get_option('twoclick_buttons_display_year') == '1') echo 'checked="checked"'; ?> name="twoclick_buttons_display_year" id="twoclick_buttons_display_year" group="twoclick_buttons_display" />
+							<label for="twoclick_buttons_display_year"><?php _e('Display on Yearly Archives', 'twoclick-socialmedia'); ?></label> <span class="description">(<?php _e('Note: Not every theme supports this option.',  'twoclick-socialmedia'); ?>)</span>
 						</div>
 						<div>
-							<input type="checkbox" value="1" <?php if(twoclick_buttons_get_option('twoclick_buttons_display_month') == '1') echo 'checked="checked"'; ?> name="twoclick_buttons_settings[twoclick_buttons_display_month]" id="twoclick_buttons_settings[twoclick_buttons_display_month]" group="twoclick_buttons_display" />
-							<label for="twoclick_buttons_settings[twoclick_buttons_display_month]"><?php _e('Display on Monthly Archives', 'twoclick-socialmedia'); ?></label> <span class="description">(<?php _e('Note: Not every theme supports this option.',  'twoclick-socialmedia'); ?>)</span>
+							<input type="checkbox" value="1" <?php if(twoclick_buttons_get_option('twoclick_buttons_display_month') == '1') echo 'checked="checked"'; ?> name="twoclick_buttons_display_month" id="twoclick_buttons_display_month" group="twoclick_buttons_display" />
+							<label for="twoclick_buttons_display_month"><?php _e('Display on Monthly Archives', 'twoclick-socialmedia'); ?></label> <span class="description">(<?php _e('Note: Not every theme supports this option.',  'twoclick-socialmedia'); ?>)</span>
 						</div>
 						<div>
-							<input type="checkbox" value="1" <?php if(twoclick_buttons_get_option('twoclick_buttons_display_day') == '1') echo 'checked="checked"'; ?> name="twoclick_buttons_settings[twoclick_buttons_display_day]" id="twoclick_buttons_settings[twoclick_buttons_display_day]" group="twoclick_buttons_display" />
-							<label for="twoclick_buttons_settings[twoclick_buttons_display_day]"><?php _e('Display on Daily Archives', 'twoclick-socialmedia'); ?></label> <span class="description">(<?php _e('Note: Not every theme supports this option.',  'twoclick-socialmedia'); ?>)</span>
+							<input type="checkbox" value="1" <?php if(twoclick_buttons_get_option('twoclick_buttons_display_day') == '1') echo 'checked="checked"'; ?> name="twoclick_buttons_display_day" id="twoclick_buttons_display_day" group="twoclick_buttons_display" />
+							<label for="twoclick_buttons_display_day"><?php _e('Display on Daily Archives', 'twoclick-socialmedia'); ?></label> <span class="description">(<?php _e('Note: Not every theme supports this option.',  'twoclick-socialmedia'); ?>)</span>
 						</div>
 						<div style="margin-top:10px;">
-							<input type="checkbox" value="1" <?php if(twoclick_buttons_get_option('twoclick_buttons_display_search') == '1') echo 'checked="checked"'; ?> name="twoclick_buttons_settings[twoclick_buttons_display_search]" id="twoclick_buttons_settings[twoclick_buttons_display_search]" group="twoclick_buttons_display" />
-							<label for="twoclick_buttons_settings[twoclick_buttons_display_search]"><?php _e('Display on Search-Pages', 'twoclick-socialmedia'); ?></label> <span class="description">(<?php _e('Note: Not every theme supports this option.',  'twoclick-socialmedia'); ?>)</span>
+							<input type="checkbox" value="1" <?php if(twoclick_buttons_get_option('twoclick_buttons_display_search') == '1') echo 'checked="checked"'; ?> name="twoclick_buttons_display_search" id="twoclick_buttons_display_search" group="twoclick_buttons_display" />
+							<label for="twoclick_buttons_display_search"><?php _e('Display on Search-Pages', 'twoclick-socialmedia'); ?></label> <span class="description">(<?php _e('Note: Not every theme supports this option.',  'twoclick-socialmedia'); ?>)</span>
 						</div>
 						<div>
-							<input type="checkbox" value="1" <?php if(twoclick_buttons_get_option('twoclick_buttons_display_category') == '1') echo 'checked="checked"'; ?> name="twoclick_buttons_settings[twoclick_buttons_display_category]" id="twoclick_buttons_settings[twoclick_buttons_display_category]" group="twoclick_buttons_display" />
-							<label for="twoclick_buttons_settings[twoclick_buttons_display_category]"><?php _e('Display on Category-Archive', 'twoclick-socialmedia'); ?></label> <span class="description">(<?php _e('Note: Not every theme supports this option.',  'twoclick-socialmedia'); ?>)</span>
+							<input type="checkbox" value="1" <?php if(twoclick_buttons_get_option('twoclick_buttons_display_category') == '1') echo 'cheched="checked"'; ?> name="twoclick_buttons_display_category" id="twoclick_buttons_display_category" group="twoclick_buttons_display" />
+							<label for="twoclick_buttons_display_category"><?php _e('Display on Category-Archive', 'twoclick-socialmedia'); ?></label> <span class="description">(<?php _e('Note: Not every theme supports this option.',  'twoclick-socialmedia'); ?>)</span>
 						</div>
 						<div>
-							<input type="checkbox" value="1" <?php if(twoclick_buttons_get_option('twoclick_buttons_display_tag') == '1') echo 'checked="checked"'; ?> name="twoclick_buttons_settings[twoclick_buttons_display_tag]" id="twoclick_buttons_settings[twoclick_buttons_display_tag]" group="twoclick_buttons_display" />
-							<label for="twoclick_buttons_settings[twoclick_buttons_display_tag]"><?php _e('Display on Tag-Archive', 'twoclick-socialmedia'); ?></label> <span class="description">(<?php _e('Note: Not every theme supports this option.',  'twoclick-socialmedia'); ?>)</span>
+							<input type="checkbox" value="1" <?php if(twoclick_buttons_get_option('twoclick_buttons_display_tag') == '1') echo 'checked="checked"'; ?> name="twoclick_buttons_display_tag" id="twoclick_buttons_display_tag" group="twoclick_buttons_display" />
+							<label for="twoclick_buttons_display_tag"><?php _e('Display on Tag-Archive', 'twoclick-socialmedia'); ?></label> <span class="description">(<?php _e('Note: Not every theme supports this option.',  'twoclick-socialmedia'); ?>)</span>
 						</div>
 						<div>
 							<p>
@@ -258,7 +279,7 @@ if(!function_exists('twoclick_buttons_options_page')) {
 					<div style="float:left; width:100px"><?php _e('Position', 'twoclick-socialmedia'); ?></div>
 					<div style="margin-left:100px;">
 						<div>
-							<select name="twoclick_buttons_settings[twoclick_buttons_where]">
+							<select name="twoclick_buttons_where">
 								<option <?php if(twoclick_buttons_get_option('twoclick_buttons_where') == 'before') echo 'selected="selected"'; ?> value="before"><?php _e('Before the Post', 'twoclick-socialmedia'); ?></option>
 								<option <?php if(twoclick_buttons_get_option('twoclick_buttons_where') == 'after') echo 'selected="selected"'; ?> value="after"><?php _e('After the Post', 'twoclick-socialmedia'); ?></option>
 								<option <?php if(twoclick_buttons_get_option('twoclick_buttons_where') == 'shortcode') echo 'selected="selected"'; ?> value="shortcode"><?php _e('Manuall (Shortcode)', 'twoclick-socialmedia'); ?></option>
@@ -278,37 +299,58 @@ if(!function_exists('twoclick_buttons_options_page')) {
 				<div style="clear:both; padding-top:25px;">
 					<div style="float:left; width:100px"><?php _e('Infotext<br /><em>(optional)</em>', 'twoclick-socialmedia'); ?></div>
 					<div style="float:left;">
+						<!-- Facebook -->
 						<div>
-							<label for="twoclick_buttons_settings[twoclick_buttons_infotext_facebook]" style="display:inline-block; width:80px;"><?php _e('Facebook:', 'twoclick-socialmedia'); ?></label>
-							<input type="text" value="<?php echo twoclick_buttons_get_option('twoclick_buttons_infotext_facebook'); ?>" name="twoclick_buttons_settings[twoclick_buttons_infotext_facebook]" id="twoclick_buttons_settings[twoclick_buttons_infotext_facebook]" minlength="2" />
+							<label for="twoclick_buttons_infotext_facebook" style="display:inline-block; width:80px;"><?php _e('Facebook:', 'twoclick-socialmedia'); ?></label>
+							<input type="text" value="<?php echo twoclick_buttons_get_option('twoclick_buttons_infotext_facebook'); ?>" name="twoclick_buttons_infotext_facebook" id="twoclick_buttons_infotext_facebook" minlength="2" />
 						</div>
+
+						<!-- Twitter -->
 						<div>
-							<label for="twoclick_buttons_settings[twoclick_buttons_infotext_twitter]" style="display:inline-block; width:80px;"><?php _e('Twitter:', 'twoclick-socialmedia'); ?></label>
-							<input type="text" value="<?php echo twoclick_buttons_get_option('twoclick_buttons_infotext_twitter'); ?>" name="twoclick_buttons_settings[twoclick_buttons_infotext_twitter]" id="twoclick_buttons_settings[twoclick_buttons_infotext_twitter]" minlength="2" />
+							<label for="twoclick_buttons_infotext_twitter" style="display:inline-block; width:80px;"><?php _e('Twitter:', 'twoclick-socialmedia'); ?></label>
+							<input type="text" value="<?php echo twoclick_buttons_get_option('twoclick_buttons_infotext_twitter'); ?>" name="twoclick_buttons_infotext_twitter" id="twoclick_buttons_infotext_twitter" minlength="2" />
 						</div>
+
+						<!-- Google+ -->
 						<div>
-							<label for="twoclick_buttons_settings[twoclick_buttons_infotext_googleplus]" style="display:inline-block; width:80px;"><?php _e('Google+:', 'twoclick-socialmedia'); ?></label>
-							<input type="text" value="<?php echo twoclick_buttons_get_option('twoclick_buttons_infotext_googleplus'); ?>" name="twoclick_buttons_settings[twoclick_buttons_infotext_googleplus]" id="twoclick_buttons_settings[twoclick_buttons_infotext_googleplus]" minlength="2" />
+							<label for="twoclick_buttons_infotext_googleplus" style="display:inline-block; width:80px;"><?php _e('Google+:', 'twoclick-socialmedia'); ?></label>
+							<input type="text" value="<?php echo twoclick_buttons_get_option('twoclick_buttons_infotext_googleplus'); ?>" name="twoclick_buttons_infotext_googleplus" id="twoclick_buttons_infotext_googleplus" minlength="2" />
 						</div>
+
+						<!-- Flattr -->
 						<div>
-							<label for="twoclick_buttons_settings[twoclick_buttons_infotext_flattr]" style="display:inline-block; width:80px;"><?php _e('Flattr:', 'twoclick-socialmedia'); ?></label>
-							<input type="text" value="<?php echo twoclick_buttons_get_option('twoclick_buttons_infotext_flattr'); ?>" name="twoclick_buttons_settings[twoclick_buttons_infotext_flattr]" id="twoclick_buttons_settings[twoclick_buttons_infotext_flattr]" minlength="2" />
+							<label for="twoclick_buttons_infotext_flattr" style="display:inline-block; width:80px;"><?php _e('Flattr:', 'twoclick-socialmedia'); ?></label>
+							<input type="text" value="<?php echo twoclick_buttons_get_option('twoclick_buttons_infotext_flattr'); ?>" name="twoclick_buttons_infotext_flattr" id="twoclick_buttons_infotext_flattr" minlength="2" />
 						</div>
+
+						<!-- Xing -->
 						<div>
-							<label for="twoclick_buttons_settings[twoclick_buttons_infotext_xing]" style="display:inline-block; width:80px;"><?php _e('Xing:', 'twoclick-socialmedia'); ?></label>
-							<input type="text" value="<?php echo twoclick_buttons_get_option('twoclick_buttons_infotext_xing'); ?>" name="twoclick_buttons_settings[twoclick_buttons_infotext_xing]" id="twoclick_buttons_settings[twoclick_buttons_infotext_xing]" minlength="2" />
+							<label for="twoclick_buttons_infotext_xing" style="display:inline-block; width:80px;"><?php _e('Xing:', 'twoclick-socialmedia'); ?></label>
+							<input type="text" value="<?php echo twoclick_buttons_get_option('twoclick_buttons_infotext_xing'); ?>" name="twoclick_buttons_infotext_xing" id="twoclick_buttons_infotext_xing" minlength="2" />
 						</div>
+
+						<!-- Pinterest -->
 						<div>
-							<label for="twoclick_buttons_settings[twoclick_buttons_infotext_infobutton]" style="display:inline-block; width:80px;"><?php _e('Infobutton:', 'twoclick-socialmedia'); ?></label>
-							<input type="text" value="<?php echo twoclick_buttons_get_option('twoclick_buttons_infotext_infobutton'); ?>" name="twoclick_buttons_settings[twoclick_buttons_infotext_infobutton]" id="twoclick_buttons_settings[twoclick_buttons_infotext_infobutton]" minlength="2" />
+							<label for="twoclick_buttons_infotext_pinterest" style="display:inline-block; width:80px;"><?php _e('Pinterest:', 'twoclick-socialmedia'); ?></label>
+							<input type="text" value="<?php echo twoclick_buttons_get_option('twoclick_buttons_infotext_pinterest'); ?>" name="twoclick_buttons_infotext_pinterest" id="twoclick_buttons_infotext_pinterest" minlength="2" />
 						</div>
+
+						<!-- Infobutton -->
 						<div>
-							<label for="twoclick_buttons_settings[twoclick_buttons_infotext_permaoption]" style="display:inline-block; width:80px;"><?php _e('Permaoption:', 'twoclick-socialmedia'); ?></label>
-							<input type="text" value="<?php echo twoclick_buttons_get_option('twoclick_buttons_infotext_permaoption'); ?>" name="twoclick_buttons_settings[twoclick_buttons_infotext_permaoption]" id="twoclick_buttons_settings[twoclick_buttons_infotext_permaoption]" minlength="2" />
+							<label for="twoclick_buttons_infotext_infobutton" style="display:inline-block; width:80px;"><?php _e('Infobutton:', 'twoclick-socialmedia'); ?></label>
+							<input type="text" value="<?php echo twoclick_buttons_get_option('twoclick_buttons_infotext_infobutton'); ?>" name="twoclick_buttons_infotext_infobutton" id="twoclick_buttons_infotext_infobutton" minlength="2" />
 						</div>
+
+						<!--  Permaoption -->
 						<div>
-							<label for="twoclick_buttons_settings[twoclick_buttons_infolink]" style="display:inline-block; width:80px;"><?php _e('Infolink:', 'twoclick-socialmedia'); ?></label>
-							<input type="text" value="<?php echo twoclick_buttons_get_option('twoclick_buttons_infolink'); ?>" name="twoclick_buttons_settings[twoclick_buttons_infolink]" id="twoclick_buttons_settings[twoclick_buttons_infolink]" minlength="2" />
+							<label for="twoclick_buttons_infotext_permaoption" style="display:inline-block; width:80px;"><?php _e('Permaoption:', 'twoclick-socialmedia'); ?></label>
+							<input type="text" value="<?php echo twoclick_buttons_get_option('twoclick_buttons_infotext_permaoption'); ?>" name="twoclick_buttons_infotext_permaoption" id="twoclick_buttons_infotext_permaoption" minlength="2" />
+						</div>
+
+						<!-- Infolink -->
+						<div>
+							<label for="twoclick_buttons_infolink" style="display:inline-block; width:80px;"><?php _e('Infolink:', 'twoclick-socialmedia'); ?></label>
+							<input type="text" value="<?php echo twoclick_buttons_get_option('twoclick_buttons_infolink'); ?>" name="twoclick_buttons_infolink" id="twoclick_buttons_infolink" minlength="2" /><br />
 							<span class="description"><?php _e('Links starting with http://', 'twoclick-socialmedia'); ?></span>
 						</div>
 					</div>
@@ -319,14 +361,24 @@ if(!function_exists('twoclick_buttons_options_page')) {
 					<div style="float:left; width:100px"><?php _e('Postthumbnail<br /><em>(optional)</em>', 'twoclick-socialmedia'); ?></div>
 					<div style="margin-left:100px;">
 						<div>
-							<label for="twoclick_buttons_settings[twoclick_buttons_postthumbnail]" style="display:inline-block; width:80px;"><?php _e('Link:', 'twoclick-socialmedia'); ?></label>
-							<input type="text" value="<?php echo twoclick_buttons_get_option('twoclick_buttons_postthumbnail'); ?>" name="twoclick_buttons_settings[twoclick_buttons_postthumbnail]" id="twoclick_buttons_settings[twoclick_buttons_postthumbnail]" minlength="2" />
+							<label for="twoclick_buttons_postthumbnail" style="display:inline-block; width:80px;"><?php _e('Link:', 'twoclick-socialmedia'); ?></label>
+							<input type="text" value="<?php echo twoclick_buttons_get_option('twoclick_buttons_postthumbnail'); ?>" name="twoclick_buttons_postthumbnail" id="twoclick_buttons_postthumbnail" minlength="2" />
+							<input id="upload-image-button" type="button" value="<?php _e('Upload Image', 'twoclick-socialmedia'); ?>" /><br />
 							<span class="description"><?php _e('Links starting with http://', 'twoclick-socialmedia'); ?></span>
 						</div>
 						<div>
 							<p>
-								<?php _e('This image is taken for Facebook and/or Google+ if there is no postthumbnail or other image inside the article or page. If empty, no image will be used for.', 'twoclick-socialmedia'); ?>
+								<?php _e('This image is taken for Facebook, Google+ and Pinterest if there is no postthumbnail or other image inside the article or page. If empty, no image will be used for and the pinterest-button will be disabled for this article.', 'twoclick-socialmedia'); ?>
 							</p>
+						</div>
+						<div>
+							<?php
+							if(twoclick_buttons_get_option('twoclick_buttons_postthumbnail') != '') {
+								?>
+								<p><img src="<?php echo twoclick_buttons_get_option('twoclick_buttons_postthumbnail'); ?>" /></p>
+								<?php
+							}
+							?>
 						</div>
 					</div>
 				</div>
@@ -335,8 +387,8 @@ if(!function_exists('twoclick_buttons_options_page')) {
 				<div style="clear:both; padding-top:25px;">
 					<div style="float:left; width:100px"><?php _e('Facebook', 'twoclick-socialmedia'); ?></div>
 					<div style="float:left;">
-						<label for="twoclick_buttons_settings[twoclick_buttons_facebook_action]" style="display:inline-block; width:80px;"><?php _e('Button:', 'twoclick-socialmedia'); ?></label>
-						<select name=twoclick_buttons_settings[twoclick_buttons_facebook_action]">
+						<label for="twoclick_buttons_facebook_action" style="display:inline-block; width:80px;"><?php _e('Button:', 'twoclick-socialmedia'); ?></label>
+						<select name="twoclick_buttons_facebook_action">
 							<option <?php if(twoclick_buttons_get_option('twoclick_buttons_facebook_action') == 'recommend') echo 'selected="selected"'; ?> value="recommend"><?php _e('Recommend', 'twoclick-socialmedia'); ?></option>
 							<option <?php if(twoclick_buttons_get_option('twoclick_buttons_facebook_action') == 'like') echo 'selected="selected"'; ?> value="like"><?php _e('Like', 'twoclick-socialmedia'); ?></option>
 						</select>
@@ -348,24 +400,24 @@ if(!function_exists('twoclick_buttons_options_page')) {
 					<div style="float:left; width:100px"><?php _e('Twitter', 'twoclick-socialmedia'); ?></div>
 					<div style="float:left;">
 						<div>
-							<label for="twoclick_buttons_settings[twoclick_buttons_twitter_reply]" style="display:inline-block; width:80px;">RT @:</label>
-							<input type="text" value="<?php echo twoclick_buttons_get_option('twoclick_buttons_twitter_reply'); ?>" name="twoclick_buttons_settings[twoclick_buttons_twitter_reply]" id="twoclick_buttons_settings[twoclick_buttons_twitter_reply]" class="required" minlength="2" />
+							<label for="twoclick_buttons_twitter_reply" style="display:inline-block; width:80px;">RT @:</label>
+							<input type="text" value="<?php echo twoclick_buttons_get_option('twoclick_buttons_twitter_reply'); ?>" name="twoclick_buttons_twitter_reply" id="twoclick_buttons_twitter_reply" class="required" minlength="2" />
 							<span class="description"><?php _e('Please use \'yourname\', <strong>not</strong> \'RT @yourname\'.', 'twoclick-socialmedia'); ?></span>
 						</div>
 						<div>
 							<?php _e('Tweettext:', 'twoclick-socialmedia'); ?>
 						</div>
 						<div>
-							<input type="radio" value="default" <?php if (twoclick_buttons_get_option('twoclick_buttons_twitter_tweettext') == 'default') echo 'checked="checked"'; ?> name="twoclick_buttons_settings[twoclick_buttons_twitter_tweettext]" id="twoclick_buttons_settings[twoclick_buttons_twitter_tweettext_default]" group="twoclick_buttons_twitter_tweettext" />
-							<select name=twoclick_buttons_settings[twoclick_buttons_twitter_tweettext_default_as]">
+							<input type="radio" value="default" <?php if (twoclick_buttons_get_option('twoclick_buttons_twitter_tweettext') == 'default') echo 'checked="checked"'; ?> name="twoclick_buttons_twitter_tweettext" id="twoclick_buttons_twitter_tweettext_default" group="twoclick_buttons_twitter_tweettext" />
+							<select name="twoclick_buttons_twitter_tweettext_default_as">
 								<option <?php if(twoclick_buttons_get_option('twoclick_buttons_twitter_tweettext_default_as') == 'posttitle-blogtitle') echo 'selected="selected"'; ?> value="posttitle-blogtitle"><?php _e('Posttitle &raquo; Blogtitle', 'twoclick-socialmedia'); ?></option>
 								<option <?php if(twoclick_buttons_get_option('twoclick_buttons_twitter_tweettext_default_as') == 'posttitle') echo 'selected="selected"'; ?> value="posttitle"><?php _e('Posttitle', 'twoclick-socialmedia'); ?></option>
 							</select>
-							<label for="twoclick_buttons_settings[twoclick_buttons_twitter_tweettext_default]"><?php _e('The title of the page the button is on.', 'twoclick-socialmedia'); ?></label>
+							<label for="twoclick_buttons_twitter_tweettext_default"><?php _e('The title of the page the button is on.', 'twoclick-socialmedia'); ?></label>
 						</div>
 						<div>
-							<input type="radio" value="own" <?php if (twoclick_buttons_get_option('twoclick_buttons_twitter_tweettext') == 'own') echo 'checked="checked"'; ?> name="twoclick_buttons_settings[twoclick_buttons_twitter_tweettext]" id="twoclick_buttons_settings[twoclick_buttons_twitter_tweettext_own]" group="twoclick_buttons_twitter_tweettext" />
-							<input type="text" value="<?php echo twoclick_buttons_get_option('twoclick_buttons_twitter_tweettext_owntext'); ?>" name="twoclick_buttons_settings[twoclick_buttons_twitter_tweettext_owntext]" id="twoclick_buttons_settings[twoclick_buttons_twitter_tweettext_owntext]" />
+							<input type="radio" value="own" <?php if (twoclick_buttons_get_option('twoclick_buttons_twitter_tweettext') == 'own') echo 'checked="checked"'; ?> name="twoclick_buttons_twitter_tweettext" id="twoclick_buttons_twitter_tweettext_own" group="twoclick_buttons_twitter_tweettext" />
+							<input type="text" value="<?php echo twoclick_buttons_get_option('twoclick_buttons_twitter_tweettext_owntext'); ?>" name="twoclick_buttons_twitter_tweettext_owntext" id="twoclick_buttons_twitter_tweettext_owntext" />
 							<span class="description"><?php _e('This is the text that people will include in their Tweet when they share from your website.', 'twoclick-socialmedia'); ?></span>
 							<?php if(twoclick_buttons_get_option('twoclick_buttons_twitter_tweettext') == 'own' && strlen(twoclick_buttons_get_option('twoclick_buttons_twitter_tweettext_owntext')) == 0) : ?>
 							<div class="error">
@@ -379,8 +431,8 @@ if(!function_exists('twoclick_buttons_options_page')) {
 							<?php endif; ?>
 						</div>
 						<div>
-							<input type="checkbox" value="1" <?php if(twoclick_buttons_get_option('twoclick_buttons_twitter_hashtags') == '1') echo 'checked="checked"'; ?> name="twoclick_buttons_settings[twoclick_buttons_twitter_hashtags]" id="twoclick_buttons_settings[twoclick_buttons_twitter_hashtags]" group="twoclick_buttons_twitter_tweettext" />
-							<label for="twoclick_buttons_settings[twoclick_buttons_twitter_hashtags]"><?php _e('Use tags as #hashtags', 'twoclick-socialmedia'); ?></label>
+							<input type="checkbox" value="1" <?php if(twoclick_buttons_get_option('twoclick_buttons_twitter_hashtags') == '1') echo 'checked="checked"'; ?> name="twoclick_buttons_twitter_hashtags" id="twoclick_buttons_twitter_hashtags" group="twoclick_buttons_twitter_tweettext" />
+							<label for="twoclick_buttons_twitter_hashtags"><?php _e('Use tags as #hashtags', 'twoclick-socialmedia'); ?></label>
 						</div>
 					</div>
 				</div>
@@ -389,10 +441,30 @@ if(!function_exists('twoclick_buttons_options_page')) {
 				<div style="clear:both; padding-top:25px;">
 					<div style="float:left; width:100px"><?php _e('Flattr', 'twoclick-socialmedia'); ?></div>
 					<div style="float:left;">
-						<label for="twoclick_buttons_settings[twoclick_buttons_flattr_uid]" style="display:inline-block; width:80px;"><?php _e('User:', 'twoclick-socialmedia'); ?></label>
-						<input type="text" value="<?php echo twoclick_buttons_get_option('twoclick_buttons_flattr_uid'); ?>" name="twoclick_buttons_settings[twoclick_buttons_flattr_uid]" id="twoclick_buttons_settings[twoclick_buttons_flattr_uid]" class="required" minlength="2" />
+						<label for="twoclick_buttons_flattr_uid" style="display:inline-block; width:80px;"><?php _e('User:', 'twoclick-socialmedia'); ?></label>
+						<input type="text" value="<?php echo twoclick_buttons_get_option('twoclick_buttons_flattr_uid'); ?>" name="twoclick_buttons_flattr_uid" id="twoclick_buttons_flattr_uid" class="required" minlength="2" />
 					</div>
 				</div>
+
+				<!-- Pinterest -->
+				<div style="clear:both; padding-top:25px;">
+					<div style="float:left; width:100px"><?php _e('Pinterest', 'twoclick-socialmedia'); ?></div>
+					<div style="float:left;">
+						<div>
+							<?php _e('Description:', 'twoclick-socialmedia'); ?>
+						</div>
+						<div>
+							<select name="twoclick_buttons_pinterest_description">
+								<option <?php if(twoclick_buttons_get_option('twoclick_buttons_pinterest_description') == 'posttitle') echo 'selected="selected"'; ?> value="posttitle"><?php _e('Posttitle', 'twoclick-socialmedia'); ?></option>
+								<option <?php if(twoclick_buttons_get_option('twoclick_buttons_pinterest_description') == 'posttitle-tags') echo 'selected="selected"'; ?> value="posttitle-tags"><?php _e('Posttitle and #Tags', 'twoclick-socialmedia'); ?></option>
+								<option <?php if(twoclick_buttons_get_option('twoclick_buttons_pinterest_description') == 'posttitle-excerpt') echo 'selected="selected"'; ?> value="posttitle-excerpt"><?php _e('Posttitle &raquo; Excerpt', 'twoclick-socialmedia'); ?></option>
+							</select>
+							<label for="twoclick_buttons_pinterest_description"><?php _e('The description wich is send to Pinterest.', 'twoclick-socialmedia'); ?></label>
+						</div>
+					</div>
+				</div>
+
+				<!-- Speichern -->
 				<div style="clear:both;">
 					<p class="submit" style="clear:both;">
 						<input type="submit" name="Submit" value="<?php _e('Save Changes', 'twoclick-socialmedia'); ?>" />
@@ -582,24 +654,54 @@ if(!function_exists('twoclick_buttons_generate_post_excerpt')) {
  */
 if(!function_exists('twoclick_buttons_get_tweettext')) {
 	function twoclick_buttons_get_tweettext() {
+		global $post;
+
 		$twitter_hashtags = twoclick_buttons_get_hashtags();
 		$tweettext = '';
 
-		if (twoclick_buttons_get_option('twoclick_buttons_twitter_tweettext') == 'own') {
+		if(twoclick_buttons_get_option('twoclick_buttons_twitter_tweettext') == 'own') {
 			if(twoclick_buttons_get_option('twoclick_buttons_twitter_tweettext') == 'own' && strlen(twoclick_buttons_get_option('twoclick_buttons_twitter_tweettext_owntext')) == 0) {
-				$tweettext = get_the_title() . ' » ' . get_bloginfo('name') . $twitter_hashtags;
+				$tweettext = get_the_title(get_the_ID()) . ' » ' . get_bloginfo('name') . $twitter_hashtags;
 			} else {
 				$tweettext = twoclick_buttons_get_option('twoclick_buttons_twitter_tweettext_owntext') . $twitter_hashtags;
 			}
 		} else {
 			if(twoclick_buttons_get_option('twoclick_buttons_twitter_tweettext_default_as') == 'posttitle-blogtitle') {
-				$tweettext = get_the_title() . ' » ' . get_bloginfo('name') . $twitter_hashtags;
+				$tweettext = get_the_title(get_the_ID()) . ' » ' . get_bloginfo('name') . $twitter_hashtags;
 			} elseif(twoclick_buttons_get_option('twoclick_buttons_twitter_tweettext_default_as') == 'posttitle') {
-				$tweettext = get_the_title() . $twitter_hashtags;
+				$tweettext = get_the_title(get_the_ID()) . $twitter_hashtags;
 			}
 		}
 
-		return twoclick_buttons_shorten_tweettext($tweettext);
+// 		return twoclick_buttons_shorten_tweettext($tweettext);
+		return twoclick_buttons_shorten_tweettext(html_entity_decode($tweettext, ENT_QUOTES, get_bloginfo('charset')));
+	}
+}
+
+/**
+ * Description for Pinterest
+ *
+ * @since 0.32
+ */
+if(!function_exists('twoclick_buttons_get_pinterest_description')) {
+	function twoclick_buttons_get_pinterest_description() {
+		$var_sPinterestDescription = '';
+
+		switch(twoclick_buttons_get_option('twoclick_buttons_pinterest_description')) {
+			case 'posttitle-tags':
+				$var_sPinterestDescription = get_the_title(get_the_ID()) . ' ' . strip_tags(get_the_tag_list(' #', ' #', ''));
+				break;
+
+			case 'posttitle-excerpt':
+				$var_sPinterestDescription = get_the_title(get_the_ID()) . ' &raquo; ' . twoclick_buttons_generate_post_excerpt(get_the_content(), 70);
+				break;
+
+			default:
+				$var_sPinterestDescription = get_the_title(get_the_ID());
+				break;
+		}
+
+		return rawurlencode($var_sPinterestDescription);
 	}
 }
 
@@ -656,7 +758,7 @@ if(!function_exists('twoclick_buttons_get_hashtags')) {
 if(!function_exists('twoclick_buttons_generate_html')) {
 	function twoclick_buttons_generate_html($var_sPostID = '') {
 		if($var_sPostID == '') {
-			$var_sPostID = TWOCLICK_POST_ID;
+			$var_sPostID = get_the_ID();
 		}
 
 		return twoclick_buttons_get_js($var_sPostID);
@@ -685,47 +787,53 @@ if(!function_exists('get_twoclick_buttons')) {
  * Dummybilder bereit stellen.
  *
  * Je nach Sprache des Blogs werden verschiedene Dummybilder bereit gestellt.
- * Momentan nur für Deutsch (de_DE) und als Fallback Englisch.
+ * Im Moment stehen Bilder für Deutsch und Englisch zur Verfügung.
+ * Sollte kein Bild für die jeweilige Sprache gefunden werden, so wird das Bild ohne Sprachcode hergenommen.
  *
  * @since 0.14
- * @todo Logik zur Erkennung der Bilder einbauen, damit nur die wirklichen Unterschiede bei den Sprachen zu default erwähnt werden müssen.
+ * @since 0.32 (modified)
  */
 if(!function_exists('twoclick_buttons_get_dummy_images')) {
-	function twoclick_buttons_get_dummy_images($var_sLang = '', $var_sNetwork = '') {
+	function twoclick_buttons_get_dummy_images($var_sLang = '') {
 		$var_sPluginsUrl =  plugin_dir_url(__FILE__);
 		$var_sPluginsPath = plugin_dir_path(__FILE__);
 
-		if($var_sLang == '') {
-			$var_sLang = 'default';
+		if(empty($var_sLang)) {
+			$var_sLang = get_locale();
 		}
 
-		// Dummybilder
 		$array_DummyImages = array(
-			'default' => array(
-				'facebook-dummy-image-recommend' => $var_sPluginsUrl . 'images/facebook-dummy-image-recommend.png',
-				'facebook-dummy-image-like' => $var_sPluginsUrl . 'images/facebook-dummy-image-like.png',
-				'twitter-dummy-image' => $var_sPluginsUrl . 'images/twitter-dummy-image-tweet.png',
-				'googleplus-dummy-image' => $var_sPluginsUrl . 'images/googleplus-dummy-image-gplusone.png',
-				'flattr-dummy-image' => $var_sPluginsUrl . 'images/flattr-dummy-image-flattr.png',
-				'xing-dummy-image' => $var_sPluginsUrl . 'images/xing-dummy-image-xing.png'
+			'facebook-recommend' => array(
+				'image' => (is_readable($var_sPluginsPath . 'images/facebook-dummy-image-recommend-' . $var_sLang . '.png')) ? $var_sPluginsUrl . 'images/facebook-dummy-image-recommend-' . $var_sLang . '.png' : $var_sPluginsUrl . 'images/facebook-dummy-image-recommend.png',
+				'width' => '82'
 			),
-			'de_DE' => array(
-				'facebook-dummy-image-recommend' => $var_sPluginsUrl . 'images/facebook-dummy-image-empfehlen.png',
-				'facebook-dummy-image-like' => $var_sPluginsUrl . 'images/facebook-dummy-image-gefaellt-mir.png',
-				'twitter-dummy-image' => $var_sPluginsUrl . 'images/twitter-dummy-image-tweet.png',
-				'googleplus-dummy-image' => $var_sPluginsUrl . 'images/googleplus-dummy-image-gplusone.png',
-				'flattr-dummy-image' => $var_sPluginsUrl . 'images/flattr-dummy-image-flattr.png',
-				'xing-dummy-image' => $var_sPluginsUrl . 'images/xing-dummy-image-xing.png'
+			'facebook-like' => array(
+				'image' => (is_readable($var_sPluginsPath . 'images/facebook-dummy-image-like-' . $var_sLang . '.png')) ? $var_sPluginsUrl . 'images/facebook-dummy-image-like-' . $var_sLang . '.png' : $var_sPluginsUrl . 'images/facebook-dummy-image-like.png',
+				'width' => '72'
+			),
+			'twitter' => array(
+				'image' => (is_readable($var_sPluginsPath . 'images/twitter-dummy-image-' . $var_sLang . '.png')) ? $var_sPluginsUrl . 'images/twitter-dummy-image-' . $var_sLang . '.png' : $var_sPluginsUrl . 'images/twitter-dummy-image.png',
+				'width' => '62'
+			),
+			'googleplus' => array(
+				'image' => (is_readable($var_sPluginsPath . 'images/googleplus-dummy-image-' . $var_sLang . '.png')) ? $var_sPluginsUrl . 'images/googleplus-dummy-image-' . $var_sLang . '.png' : $var_sPluginsUrl . 'images/googleplus-dummy-image.png',
+				'width' => '32'
+			),
+			'flattr' => array(
+				'image' => (is_readable($var_sPluginsPath . 'images/flattr-dummy-image-' . $var_sLang . '.png')) ? $var_sPluginsUrl . 'images/flattr-dummy-image-' . $var_sLang . '.png' : $var_sPluginsUrl . 'images/flattr-dummy-image.png',
+				'width' => '54'
+			),
+			'xing' => array(
+				'image' => (is_readable($var_sPluginsPath . 'images/xing-dummy-image-' . $var_sLang . '.png')) ? $var_sPluginsUrl . 'images/xing-dummy-image-' . $var_sLang . '.png' : $var_sPluginsUrl . 'images/xing-dummy-image.png',
+				'width' => '55'
+			),
+			'pinterest' => array(
+				'image' => (is_readable($var_sPluginsPath . 'images/pinterest-dummy-image-' . $var_sLang . '.png')) ? $var_sPluginsUrl . 'images/pinterest-dummy-image-' . $var_sLang . '.png' : $var_sPluginsUrl . 'images/pinterest-dummy-image.png',
+				'width' => '63'
 			)
 		);
 
-		if(array_key_exists($var_sLang, $array_DummyImages)) {
-			$array_DummyImagesReturn = $array_DummyImages[$var_sLang];
-		} else {
-			$array_DummyImagesReturn = $array_DummyImages['default'];
-		}
-
-		return $array_DummyImagesReturn;
+		return $array_DummyImages;
 	}
 }
 
@@ -746,18 +854,48 @@ if(!function_exists('twoclick_buttons_head')) {
 }
 
 /**
- * Schreibe OpenGraph-Tags und Artikelbild in den <head>-Bereich.
+ * JS for imageupload to the admin head
  *
- * @since 0.7
+ * @since 0.32
  */
-if(!function_exists('twoclick_buttons_opengraph_tags')) {
-	function twoclick_buttons_opengraph_tags() {
-		global $post;
+if(!function_exists('twoclick_buttons_admin_head')) {
+	function twoclick_buttons_admin_head() {
+		global $current_screen;
 
-		/* Nur Einzelartikel */
-		if(is_feed() || is_trackback() || !is_singular()) {
-			return;
+		if($current_screen->id == 'settings_page_twoclick-buttons-options') {
+			/**
+			 * JavaScript
+			 */
+			wp_enqueue_script('media-upload');
+			wp_enqueue_script('thickbox');
+			wp_register_script('twoclick-image-upload', plugins_url(basename(dirname(__FILE__))) . '/js/jquery-media-upload.js', array(
+				'jquery',
+				'media-upload',
+				'thickbox'
+			));
+			wp_localize_script('twoclick-image-upload', 'twoclick_localizing_upload_js', array(
+				'use_this_image' => __('Use This Image', 'twoclick-socialmedia')
+			));
+			wp_enqueue_script('twoclick-image-upload');
+
+			/**
+			 * CSS
+			 */
+			wp_enqueue_style('thickbox');
 		}
+	}
+
+	add_action('admin_head', 'twoclick_buttons_admin_head');
+}
+
+/**
+ * Artikelbild
+ *
+ * @since 0.32
+ */
+if(!function_exists('twoclick_buttons_get_article_image')) {
+	function twoclick_buttons_get_article_image() {
+		global $post;
 
 		$array_Image = '';
 
@@ -788,10 +926,29 @@ if(!function_exists('twoclick_buttons_opengraph_tags')) {
 			}
 		}
 
+		return $var_sFaceBookThumbnail;
+	}
+}
+
+/**
+ * Schreibe OpenGraph-Tags und Artikelbild in den <head>-Bereich.
+ *
+ * @since 0.7
+ */
+if(!function_exists('twoclick_buttons_opengraph_tags')) {
+	function twoclick_buttons_opengraph_tags() {
+		global $post;
+
+		/* Nur Einzelartikel */
+		if(is_feed() || is_trackback() || !is_singular()) {
+			return;
+		}
+
+		$var_sPostThumbnail = twoclick_buttons_get_article_image();
 		/* Ausgabe */
 		echo "\n" . '<!-- Facebook Like Thumbnail -->' . "\n";
-		if($var_sFaceBookThumbnail) {
-			echo sprintf('<link href="%s" rel="image_src" />%s', esc_attr($var_sFaceBookThumbnail), "\n");
+		if($var_sPostThumbnail) {
+			echo sprintf('<link href="%s" rel="image_src" />%s', esc_url($var_sPostThumbnail), "\n");
 		}
 
 		/**
@@ -816,8 +973,8 @@ if(!function_exists('twoclick_buttons_opengraph_tags')) {
 		echo '<meta property="og:type" content="article"/>' . "\n";
 		echo '<meta property="og:title" content="' . get_the_title() . '"/>' . "\n";
 		echo '<meta property="og:url" content="' . get_permalink() . '"/>' . "\n";
-		if($var_sFaceBookThumbnail) {
-			echo '<meta property="og:image" content="' . esc_attr($var_sFaceBookThumbnail) . '"/>' . "\n";
+		if($var_sPostThumbnail) {
+			echo '<meta property="og:image" content="' . esc_url($var_sPostThumbnail) . '"/>' . "\n";
 		}
 		echo '<meta property="og:description" content="' . esc_attr(TWOCLICK_POST_EXCERPT) . '"/>' . "\n";
 		echo '<!-- Facebook Like Thumbnail -->' . "\n";
@@ -849,26 +1006,30 @@ if(!function_exists('twoclick_buttons_get_js')) {
 	function twoclick_buttons_get_js($var_sPostID = '') {
 		if(!is_admin()) {
 			if($var_sPostID == '') {
-				$var_sPostID = TWOCLICK_POST_ID;
+				$var_sPostID = get_the_ID();
 			}
 
 			$var_sTitle = rawurlencode(get_the_title($var_sPostID));
 			$var_sTweettext = rawurlencode(twoclick_buttons_get_tweettext());
+			$var_sArticleImage = twoclick_buttons_get_article_image();
 
 			$var_sShowFacebook = (twoclick_buttons_get_option('twoclick_buttons_display_facebook')) ? 'on' : 'off';
 			$var_sShowFacebookPerm = (twoclick_buttons_get_option('twoclick_buttons_display_facebook_perm')) ? 'on' : 'off';
 			$var_sShowTwitter = (twoclick_buttons_get_option('twoclick_buttons_display_twitter')) ? 'on' : 'off';
 			$var_sShowFlattr = (twoclick_buttons_get_option('twoclick_buttons_display_flattr')) ? 'on' : 'off';
 			$var_sShowXing = (twoclick_buttons_get_option('twoclick_buttons_display_xing')) ? 'on' : 'off';
+			$var_sShowPinterest = (twoclick_buttons_get_option('twoclick_buttons_display_pinterest') && $var_sArticleImage != false) ? 'on' : 'off';
 
 			$var_sShowTwitterPerm = (twoclick_buttons_get_option('twoclick_buttons_display_twitter_perm')) ? 'on' : 'off';
 			$var_sShowGoogleplus = (twoclick_buttons_get_option('twoclick_buttons_display_googleplus')) ? 'on' : 'off';
 			$var_sShowGoogleplusPerm = (twoclick_buttons_get_option('twoclick_buttons_display_googleplus_perm')) ? 'on' : 'off';
 			$var_sShowFlattrPerm = (twoclick_buttons_get_option('twoclick_buttons_display_flattr_perm')) ? 'on' : 'off';
 			$var_sShowXingPerm = (twoclick_buttons_get_option('twoclick_buttons_display_xing_perm')) ? 'on' : 'off';
+			$var_sShowPinterestPerm = (twoclick_buttons_get_option('twoclick_buttons_display_pinterest_perm')) ? 'on' : 'off';
 
 			$var_sCss = plugins_url(basename(dirname(__FILE__)) . '/css/socialshareprivacy.css');
 			$var_sXingLib = plugins_url(basename(dirname(__FILE__)) . '/libs/xing.php');
+			$var_sPinterestLib = plugins_url(basename(dirname(__FILE__)) . '/libs/pinterest.php');
 
 			$var_sPostExcerpt = '';
 			if(is_singular()) {
@@ -880,6 +1041,7 @@ if(!function_exists('twoclick_buttons_get_js')) {
 				$var_sShowGoogleplusPerm = 'off';
 				$var_sShowFlattrPerm = 'off';
 				$var_sShowXingPerm = 'off';
+				$var_sShowPinterestPerm = 'off';
 			}
 
 			/**
@@ -894,44 +1056,49 @@ if(!function_exists('twoclick_buttons_get_js')) {
 			}
 
 			// Infotexte
-			$var_sInfotextFacebook = '';
+			$var_sInfotextFacebook = '2 Klicks für mehr Datenschutz: Erst wenn Sie hier klicken, wird der Button aktiv und Sie können Ihre Empfehlung an Facebook senden. Schon beim Aktivieren werden Daten an Dritte übertragen - siehe <em>i</em>.';
 			if(twoclick_buttons_get_option('twoclick_buttons_infotext_facebook') != '') {
-				$var_sInfotextFacebook = '\'txt_info\' : \'' . twoclick_buttons_get_option('twoclick_buttons_infotext_facebook') . '\',';
+				$var_sInfotextFacebook = twoclick_buttons_get_option('twoclick_buttons_infotext_facebook');
 			}
 
-			$var_sInfotextTwitter = '';
+			$var_sInfotextTwitter = '2 Klicks für mehr Datenschutz: Erst wenn Sie hier klicken, wird der Button aktiv und Sie können Ihre Empfehlung an Twitter senden. Schon beim Aktivieren werden Daten an Dritte übertragen - siehe <em>i</em>.';
 			if(twoclick_buttons_get_option('twoclick_buttons_infotext_twitter') != '') {
-				$var_sInfotextTwitter = '\'txt_info\' : \'' . twoclick_buttons_get_option('twoclick_buttons_infotext_twitter') . '\',';
+				$var_sInfotextTwitter = twoclick_buttons_get_option('twoclick_buttons_infotext_twitter');
 			}
 
-			$var_sInfotextGoogleplus = '';
+			$var_sInfotextGoogleplus = '2 Klicks für mehr Datenschutz: Erst wenn Sie hier klicken, wird der Button aktiv und Sie können Ihre Empfehlung an Google+ senden. Schon beim Aktivieren werden Daten an Dritte übertragen - siehe <em>i</em>.';
 			if(twoclick_buttons_get_option('twoclick_buttons_infotext_googleplus') != '') {
-				$var_sInfotextGoogleplus = '\'txt_info\' : \'' . twoclick_buttons_get_option('twoclick_buttons_infotext_googleplus') . '\',';
+				$var_sInfotextGoogleplus = twoclick_buttons_get_option('twoclick_buttons_infotext_googleplus');
 			}
 
-			$var_sInfotextFlattr = '';
+			$var_sInfotextFlattr = '2 Klicks für mehr Datenschutz: Erst wenn Sie hier klicken, wird der Button aktiv und Sie können Ihre Empfehlung an Flattr senden. Schon beim Aktivieren werden Daten an Dritte übertragen - siehe <em>i</em>.';
 			if(twoclick_buttons_get_option('twoclick_buttons_infotext_flattr') != '') {
-				$var_sInfotextFlattr = '\'txt_info\' : \'' . twoclick_buttons_get_option('twoclick_buttons_infotext_flattr') . '\',';
+				$var_sInfotextFlattr = twoclick_buttons_get_option('twoclick_buttons_infotext_flattr');
 			}
 
-			$var_sInfotextXing = '';
+			$var_sInfotextXing = '2 Klicks für mehr Datenschutz: Erst wenn Sie hier klicken, wird der Button aktiv und Sie können Ihre Empfehlung an Xing senden. Schon beim Aktivieren werden Daten an Dritte übertragen - siehe <em>i</em>.';
 			if(twoclick_buttons_get_option('twoclick_buttons_infotext_xing') != '') {
-				$var_sInfotextXing = '\'txt_info\' : \'' . twoclick_buttons_get_option('twoclick_buttons_infotext_xing') . '\',';
+				$var_sInfotextXing = twoclick_buttons_get_option('twoclick_buttons_infotext_xing');
 			}
 
-			$var_sInfotextInfobutton = '';
+			$var_sInfotextPinterest = '2 Klicks für mehr Datenschutz: Erst wenn Sie hier klicken, wird der Button aktiv und Sie können Ihre Empfehlung an Pinterest senden. Schon beim Aktivieren werden Daten an Dritte übertragen - siehe <em>i</em>.';
+			if(twoclick_buttons_get_option('twoclick_buttons_infotext_pinterest') != '') {
+				$var_sInfotextPinterest = twoclick_buttons_get_option('twoclick_buttons_infotext_pinterest');
+			}
+
+			$var_sInfotextInfobutton = 'Wenn Sie diese Felder durch einen Klick aktivieren, werden Informationen an Facebook, Twitter, Flattr oder Google ins Ausland übertragen und unter Umständen auch dort gespeichert. Näheres erfahren Sie durch einen Klick auf das <em>i</em>.';
 			if(twoclick_buttons_get_option('twoclick_buttons_infotext_infobutton') != '') {
-				$var_sInfotextInfobutton = '\'txt_help\' : \'' . twoclick_buttons_get_option('twoclick_buttons_infotext_infobutton') . '\',';
+				$var_sInfotextInfobutton = twoclick_buttons_get_option('twoclick_buttons_infotext_infobutton');
 			}
 
-			$var_sInfotextPermaoption = '';
+			$var_sInfotextPermaoption = 'Dauerhaft aktivieren und Datenüber-tragung zustimmen:';
 			if(twoclick_buttons_get_option('twoclick_buttons_infotext_permaoption') != '') {
-				$var_sInfotextPermaoption = '\'settings_perma\' : \'' . twoclick_buttons_get_option('twoclick_buttons_infotext_permaoption') . '\',';
+				$var_sInfotextPermaoption = twoclick_buttons_get_option('twoclick_buttons_infotext_permaoption');
 			}
 
-			$var_sInfolink = '';
+			$var_sInfolink = 'http://www.heise.de/ct/artikel/2-Klicks-fuer-mehr-Datenschutz-1333879.html';
 			if(twoclick_buttons_get_option('twoclick_buttons_infolink') != '') {
-				$var_sInfolink = '\'info_link\' : \'' . trim(twoclick_buttons_get_option('twoclick_buttons_infolink')) . '\',';
+				$var_sInfolink = trim(twoclick_buttons_get_option('twoclick_buttons_infolink'));
 			}
 
 			// Dummybilder holen.
@@ -945,64 +1112,85 @@ if(!function_exists('twoclick_buttons_get_js')) {
 
 			$var_sFacebookAction = (twoclick_buttons_get_option('twoclick_buttons_facebook_action')) ? twoclick_buttons_get_option('twoclick_buttons_facebook_action') : 'recommend';
 
-			$var_sJavaScript = '<script type="text/javascript">
-			jQuery(document).ready(function($){
-				if($(\'.twoclick_social_bookmarks_post_' . $var_sPostID . '\')){
-					$(\'.twoclick_social_bookmarks_post_' . $var_sPostID . '\').socialSharePrivacy({
-						services : {
-							facebook : {
-								\'dummy_img\'		: \'' . $array_DummyImages['facebook-dummy-image-' . $var_sFacebookAction] . '\',
-								\'status\'			: \'' . $var_sShowFacebook . '\',
-								' . $var_sInfotextFacebook . '
-								\'perma_option\'	: \'' . $var_sShowFacebookPerm . '\',
-								\'action\'			: \'' . twoclick_buttons_get_option('twoclick_buttons_facebook_action') . '\',
-								\'language\'		: \'' . get_locale() . '\'
-							},
-							twitter : {
-								\'reply_to\'		: \'' . twoclick_buttons_get_option('twoclick_buttons_twitter_reply') . '\',
-								\'dummy_img\'		: \'' . $array_DummyImages['twitter-dummy-image'] . '\',
-								\'tweet_text\'		: \'' . $var_sTweettext . '\',
-								\'status\'			: \'' . $var_sShowTwitter . '\',
-								' . $var_sInfotextTwitter . '
-								\'perma_option\'	: \'' . $var_sShowTwitterPerm . '\',
-								\'language\'		: \'' . $var_sButtonLanguage . '\'
-							},
-							gplus : {
-								\'dummy_img\'		: \'' . $array_DummyImages['googleplus-dummy-image'] . '\',
-								\'status\'			: \'' . $var_sShowGoogleplus . '\',
-								' . $var_sInfotextGoogleplus . '
-								\'perma_option\'	: \'' . $var_sShowGoogleplusPerm . '\'
-							},
-							flattr : {
-								\'uid\'				: \'' . twoclick_buttons_get_option('twoclick_buttons_flattr_uid') . '\',
-								\'dummy_img\'		: \'' . $array_DummyImages['flattr-dummy-image'] . '\',
-								\'status\'			: \'' . $var_sShowFlattr . '\',
-								\'the_title\'		: \'' . $var_sTitle . '\',
-								\'the_excerpt\'		: \'' . $var_sPostExcerpt . '\',
-								' . $var_sInfotextFlattr . '
-								\'perma_option\'	: \'' . $var_sShowFlattrPerm . '\'
-							},
-							xing : {
-								\'dummy_img\'		: \'' . $array_DummyImages['xing-dummy-image'] . '\',
-								\'status\'			: \'' . $var_sShowXing . '\',
-								' . $var_sInfotextGoogleplus . '
-								\'perma_option\'	: \'' . $var_sShowXingPerm . '\',
-								\'language\'		: \'' . $var_sButtonLanguage . '\',
-								\'xing_lib\'		: \'' . $var_sXingLib . '\'
-							}
-						},
-						' . $var_sInfotextInfobutton . '
-						' . $var_sInfotextPermaoption . '
-						' . $var_sInfolink . '
-						\'css_path\'		: \'' . $var_sCss . '\',
-						\'uri\'				: \'' . $var_sPermalink . '\'
-					});
-				}
-			});
-			</script>';
+			$array_ButtonData = array(
+				'services' => array(
+					'facebook' => array(
+						'dummy_img' => $array_DummyImages['facebook-' . $var_sFacebookAction]['image'],
+						'dummy_img_width' => $array_DummyImages['facebook-' . $var_sFacebookAction]['width'],
+						'dummy_img_height' => '20',
+						'status' => $var_sShowFacebook,
+						'txt_info' => $var_sInfotextFacebook,
+						'perma_option' => $var_sShowFacebookPerm,
+						'action' => twoclick_buttons_get_option('twoclick_buttons_facebook_action'),
+						'language' => get_locale()
+					),
+					'twitter' => array(
+						'reply_to' => twoclick_buttons_get_option('twoclick_buttons_twitter_reply'),
+						'dummy_img' => $array_DummyImages['twitter']['image'],
+						'dummy_img_width' => $array_DummyImages['twitter']['width'],
+						'dummy_img_height' => '20',
+						'tweet_text' => rawurlencode(twoclick_buttons_get_tweettext()),
+						'status' => $var_sShowTwitter,
+						'txt_info' => $var_sInfotextTwitter,
+						'perma_option' => $var_sShowTwitterPerm,
+						'language' => $var_sButtonLanguage
+					),
+					'gplus' => array(
+						'dummy_img' => $array_DummyImages['googleplus']['image'],
+						'dummy_img_width' => $array_DummyImages['googleplus']['width'],
+						'dummy_img_height' => '20',
+						'status' => $var_sShowGoogleplus,
+						'txt_info' => $var_sInfotextGoogleplus,
+						'perma_option' => $var_sShowGoogleplusPerm
+					),
+					'flattr' => array(
+						'uid' => twoclick_buttons_get_option('twoclick_buttons_flattr_uid'),
+						'dummy_img' => $array_DummyImages['flattr']['image'],
+						'dummy_img_width' => $array_DummyImages['flattr']['width'],
+						'dummy_img_height' => '20',
+						'status' => $var_sShowFlattr,
+						'the_title' => $var_sTitle,
+						'the_excerpt' => $var_sPostExcerpt,
+						'txt_info' => $var_sInfotextFlattr,
+						'perma_option' => $var_sShowFlattrPerm
+					),
+					'xing' => array(
+						'dummy_img' => $array_DummyImages['xing']['image'],
+						'dummy_img_width' => $array_DummyImages['xing']['width'],
+						'dummy_img_height' => '20',
+						'status' => $var_sShowXing,
+						'txt_info' => $var_sInfotextXing,
+						'perma_option' => $var_sShowXingPerm,
+						'language' => $var_sButtonLanguage,
+						'xing_lib' => $var_sXingLib
+					),
+					'pinterest' => array(
+						'dummy_img' => $array_DummyImages['pinterest']['image'],
+						'dummy_img_width' => $array_DummyImages['pinterest']['width'],
+						'dummy_img_height' => '20',
+						'status' => $var_sShowPinterest,
+// 						'the_excerpt' => (twoclick_buttons_get_option('twoclick_buttons_pinterest_description') == 'posttitle') ? get_the_title(get_the_ID()) : get_the_title(get_the_ID()) . ' &raquo; ' . $var_sPostExcerpt,
+						'the_excerpt' => twoclick_buttons_get_pinterest_description(),
+						'txt_info' => $var_sInfotextPinterest,
+						'perma_option' => $var_sShowPinterestPerm,
+						'pinterest_lib' => $var_sPinterestLib,
+						'media' => $var_sArticleImage
+					)
+				),
+				'txt_help' => $var_sInfotextInfobutton,
+				'settings_perma' => $var_sInfotextPermaoption,
+				'info_link' => $var_sInfolink,
+				'css_path' => $var_sCss,
+				'uri' => $var_sPermalink
+			);
 
-			// Das JS als Einzeleiler zurückgeben, da sonst <p> drin sind, wieso auch immer.
-			return preg_replace('/\r|\n/s', '', '<div class="twoclick_social_bookmarks_post_' . $var_sPostID . ' social_share_privacy clearfix"></div>' . $var_sJavaScript);
+			$var_sJavaScript = 'jQuery(document).ready(function($){
+				if($(\'.twoclick_social_bookmarks_post_' . $var_sPostID . '\')){
+					$(\'.twoclick_social_bookmarks_post_' . $var_sPostID . '\').socialSharePrivacy(' . json_encode($array_ButtonData) . ');
+				}
+			});';
+
+			return '<div class="twoclick_social_bookmarks_post_' . $var_sPostID . ' social_share_privacy clearfix"></div><script type="text/javascript">' . $var_sJavaScript . '</script>';
 		}
 	}
 }
@@ -1015,7 +1203,7 @@ if(!function_exists('twoclick_buttons_get_js')) {
 if(!function_exists('twoclick_buttons_update_notice')) {
 	function twoclick_buttons_update_notice() {
 		$array_2CSMB_Data = get_plugin_data(__FILE__);
-		$var_sUserAgent = 'Mozilla/5.0 (X11; Linux x86_64; rv:5.0) Gecko/20100101 Firefox/5.0 Talos WorPress Plugin 2-Click Social Media Buttons (Version: ' . $array_2CSMB_Data['Version'] . ') running on: ' . get_bloginfo('url');
+		$var_sUserAgent = 'Mozilla/5.0 (X11; Linux x86_64; rv:5.0) Gecko/20100101 Firefox/5.0 WorPress Plugin 2-Click Social Media Buttons (Version: ' . $array_2CSMB_Data['Version'] . ') running on: ' . get_bloginfo('url');
 		$url_readme = 'http://plugins.trac.wordpress.org/browser/2-click-socialmedia-buttons/trunk/readme.txt?format=txt';
 		$data = '';
 

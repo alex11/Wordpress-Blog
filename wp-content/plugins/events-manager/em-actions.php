@@ -46,7 +46,7 @@ function em_init_actions() {
 	
 		if(isset($_REQUEST['ajaxCalendar']) && $_REQUEST['ajaxCalendar']) {
 			//FIXME if long events enabled originally, this won't show up on ajax call
-			echo EM_Calendar::output($_REQUEST);
+			echo EM_Calendar::output($_REQUEST, false);
 			die();
 		}
 	}
@@ -194,6 +194,7 @@ function em_init_actions() {
 					location_address AS `address`, 
 					location_town AS `town`, 
 					location_state AS `state`,
+					location_region AS `region`,
 					location_postcode AS `postcode`,
 					location_country AS `country`
 				FROM ".EM_LOCATIONS_TABLE." 
@@ -230,21 +231,22 @@ function em_init_actions() {
 		if ( $_REQUEST['action'] == 'booking_add') {
 			//ADD/EDIT Booking
 			em_verify_nonce('booking_add');
-			do_action('em_booking_add', $EM_Event, $EM_Booking);
 			if( !is_user_logged_in() || get_option('dbem_bookings_double') || !$EM_Event->get_bookings()->has_booking(get_current_user_id()) ){
-				if( $EM_Booking->get_post() ){
+				$post_validation = $EM_Booking->get_post();
+				do_action('em_booking_add', $EM_Event, $EM_Booking, $post_validation);
+				if( $post_validation ){
 					//Does this user need to be registered first?
 					$registration = true;
 					//TODO do some ticket validation before registering the user
 					if ( $EM_Event->get_bookings()->get_available_spaces() >= $EM_Booking->get_spaces(true) ) {
-						if( !is_user_logged_in() && get_option('dbem_bookings_anonymous') && !get_option('dbem_bookings_registration_disable') ){
+						if( (!is_user_logged_in() || defined('EM_FORCE_REGISTRATION')) && get_option('dbem_bookings_anonymous') && !get_option('dbem_bookings_registration_disable') ){
 							//find random username - less options for user, less things go wrong
 							$username_root = explode('@', $_REQUEST['user_email']);
 							$username_rand = $username_root[0].rand(1,1000);
 							while( username_exists($username_root[0].rand(1,1000)) ){
 								$username_rand = $username_root[0].rand(1,1000);
 							}
-							$_REQUEST['user_phone'] = (!empty($_REQUEST['user_phone'])) ? $_REQUEST['user_phone']:''; //fix to prevent warnings
+							$_REQUEST['dbem_phone'] = (!empty($_REQUEST['dbem_phone'])) ? $_REQUEST['dbem_phone']:''; //fix to prevent warnings
 							$_REQUEST['user_name'] = (!empty($_REQUEST['user_name'])) ? $_REQUEST['user_name']:''; //fix to prevent warnings
 							$user_data = array('user_login' => $username_rand, 'user_email'=> $_REQUEST['user_email'], 'user_name'=> $_REQUEST['user_name'], 'dbem_phone'=> $_REQUEST['dbem_phone']);
 							$id = em_register_new_user($user_data);
@@ -266,9 +268,10 @@ function em_init_actions() {
 									$EM_Notices->add_error( get_option('dbem_booking_feedback_reg_error') );
 								}
 							}
-						}elseif( !is_user_logged_in() && get_option('dbem_bookings_registration_disable') ){
+						}elseif( (!is_user_logged_in() || defined('EM_FORCE_REGISTRATION')) && get_option('dbem_bookings_registration_disable') ){
 							//Validate name, phone and email
 							$user_data = array();
+							if( empty($EM_Booking->booking_meta['registration']) ) $EM_Booking->booking_meta['registration'] = array();
 							// Check the e-mail address
 							if ( $_REQUEST['user_email'] == '' ) {
 								$registration = false;
@@ -300,7 +303,7 @@ function em_init_actions() {
 								$user_data['dbem_phone'] = wp_kses($_REQUEST['dbem_phone'], array());
 							}
 							//Add booking meta
-							$EM_Booking->booking_meta['registration'] = $user_data;	
+							$EM_Booking->booking_meta['registration'] = array_merge($EM_Booking->booking_meta['registration'], $user_data);	//in case someone else added stuff
 							//Save default person to booking
 							$EM_Booking->person_id = get_option('dbem_bookings_registration_user');				
 						}elseif( !is_user_logged_in() ){
@@ -331,12 +334,12 @@ function em_init_actions() {
 			//ADD/EDIT Booking
 			em_verify_nonce('booking_add_one');
 			if( !$EM_Event->get_bookings()->has_booking(get_current_user_id()) || get_option('dbem_bookings_double')){
-				$EM_Booking = new EM_Booking(array('person_id'=>get_current_user_id(), 'event_id'=>$EM_Event->event_id)); //new booking
-				$EM_Ticket = $EM_Event->get_bookings()->get_tickets()->get_first();			
+				$EM_Booking = new EM_Booking(array('person_id'=>get_current_user_id(), 'event_id'=>$EM_Event->event_id, 'booking_spaces'=>1)); //new booking
+				$EM_Ticket = $EM_Event->get_bookings()->get_tickets()->get_first();	
 				//get first ticket in this event and book one place there. similar to getting the form values in EM_Booking::get_post_values()
 				$EM_Ticket_Booking = new EM_Ticket_Booking(array('ticket_id'=>$EM_Ticket->ticket_id, 'ticket_booking_spaces'=>1));
-				$EM_Booking->get_tickets_bookings();
-				$EM_Booking->tickets_bookings->booking = $EM_Booking;
+				$EM_Booking->tickets_bookings = new EM_Tickets_Bookings();
+				$EM_Booking->tickets_bookings->booking = $EM_Ticket_Booking->booking = $EM_Booking;
 				$EM_Booking->tickets_bookings->add( $EM_Ticket_Booking );
 				//Now save booking
 				if( $EM_Event->get_bookings()->add($EM_Booking) ){
@@ -361,7 +364,7 @@ function em_init_actions() {
 					$result = true;
 					if( !defined('DOING_AJAX') ){
 						if( $EM_Booking->person->ID == get_current_user_id() ){
-							$EM_Notices->add_confirm(sprintf(__('Booking %s','dbem'), __('Cancelled','dbem')), true );	
+							$EM_Notices->add_confirm(get_option('dbem_booking_feedback_cancelled'), true );	
 						}else{
 							$EM_Notices->add_confirm( $EM_Booking->feedback_message, true );
 						}
@@ -369,6 +372,7 @@ function em_init_actions() {
 						exit();
 					}
 				}else{
+					$result = false;
 					$EM_Notices->add_error( $EM_Booking->get_errors() );
 					$feedback = $EM_Booking->feedback_message;
 				}
@@ -410,7 +414,6 @@ function em_init_actions() {
 			do_action('em_booking_save', $EM_Event, $EM_Booking);
 			if( $EM_Booking->can_manage('manage_bookings','manage_others_bookings') ){
 				if ($EM_Booking->get_post(true) && $EM_Booking->save(false) ){
-					$result = true;
 					$EM_Notices->add_confirm( $EM_Booking->feedback_message, true );
 					$redirect = !empty($_REQUEST['redirect_to']) ? $_REQUEST['redirect_to'] : wp_get_referer();
 					wp_redirect( $redirect );
@@ -419,6 +422,41 @@ function em_init_actions() {
 					$result = false;
 					$EM_Notices->add_error( $EM_Booking->get_errors() );			
 					$feedback = $EM_Booking->feedback_message;	
+				}	
+			}
+		}elseif( $_REQUEST['action'] == 'booking_set_status' ){
+			em_verify_nonce('booking_set_status_'.$EM_Booking->booking_id);
+			if( $EM_Booking->can_manage('manage_bookings','manage_others_bookings') && $_REQUEST['booking_status'] != $EM_Booking->booking_status ){
+				if ( $EM_Booking->set_status($_REQUEST['booking_status'], false) ){
+					if( !empty($_REQUEST['send_email']) ){
+						if( $EM_Booking->email(false) ){
+							$EM_Booking->feedback_message .= " ".__('Mail Sent.','dbem');
+						}else{
+							$EM_Booking->feedback_message .= ' <span style="color:red">'.__('ERROR : Mail Not Sent.','dbem').'</span>';
+						}
+					}
+					$EM_Notices->add_confirm( $EM_Booking->feedback_message, true );
+					$redirect = !empty($_REQUEST['redirect_to']) ? $_REQUEST['redirect_to'] : wp_get_referer();
+					wp_redirect( $redirect );
+					exit();
+				}else{
+					$result = false;
+					$EM_Notices->add_error( $EM_Booking->get_errors() );
+					$feedback = $EM_Booking->feedback_message;	
+				}	
+			}
+		}elseif( $_REQUEST['action'] == 'booking_resend_email' ){
+			em_verify_nonce('booking_resend_email_'.$EM_Booking->booking_id);
+			if( $EM_Booking->can_manage('manage_bookings','manage_others_bookings') ){
+				if( $EM_Booking->email(false, true) ){
+					$EM_Notices->add_confirm( __('Mail Sent.','dbem'), true );
+					$redirect = !empty($_REQUEST['redirect_to']) ? $_REQUEST['redirect_to'] : wp_get_referer();
+					wp_redirect( $redirect );
+					exit();
+				}else{
+					$result = false;
+					$EM_Notices->add_error( __('ERROR : Mail Not Sent.','dbem') );			
+					$feedback = $EM_Booking->feedback_message;
 				}	
 			}
 		}
@@ -554,24 +592,41 @@ function em_init_actions() {
 	}
 	//Export CSV - WIP
 	if( !empty($_REQUEST['action']) && $_REQUEST['action'] == 'export_bookings_csv' && wp_verify_nonce($_REQUEST['_wpnonce'], 'export_bookings_csv')){
+		//sort out cols
+		if( !empty($_REQUEST['cols']) && is_array($_REQUEST['cols']) ){
+			$cols = array();
+			foreach($_REQUEST['cols'] as $col => $active){
+				if( $active ){ $cols[] = $col; }
+			}
+			$_REQUEST['cols'] = $cols;
+		}
+		$_REQUEST['limit'] = 0;
+		
 		//generate bookings export according to search request
-		$EM_Bookings_Table = new EM_Bookings_Table();
-		header("Content-Type: application/octet-stream");
+		$show_tickets = !empty($_REQUEST['show_tickets']);
+		$EM_Bookings_Table = new EM_Bookings_Table($show_tickets);
+		$EM_Bookings_Table->limit = 0;
+		header("Content-Type: application/octet-stream; charset=utf-8");
 		header("Content-Disposition: Attachment; filename=".sanitize_title(get_bloginfo())."-bookings-export.csv");
 		echo sprintf(__('Exported booking on %s','dbem'), date_i18n('D d M Y h:i', current_time('timestamp'))) .  "\n";
-		echo '"'. implode('","', $EM_Bookings_Table->get_headers()). '"' .  "\n";
+		echo '"'. implode('","', $EM_Bookings_Table->get_headers(true)). '"' .  "\n";
 		//Rows
+		$handle = fopen("php://output", "w");
 		foreach( $EM_Bookings_Table->get_bookings() as $EM_Booking ) {
 			//Display all values
-			$row_output = '';
-			$row = $EM_Bookings_Table->get_rows_csv($EM_Booking);
-			foreach( $row as $value){
-				$value = str_replace('"', '""', $value);
-				$value = str_replace("=", "", $value);
-				$row_output .= '"' .  preg_replace("/\n\r|\r\n|\n|\r/", ".     ", $value) . '",';
+			/* @var $EM_Booking EM_Booking */
+			/* @var $EM_Ticket_Booking EM_Ticket_Booking */
+			if( $show_tickets ){
+				foreach($EM_Booking->get_tickets_bookings()->tickets_bookings as $EM_Ticket_Booking){
+					$row = $EM_Bookings_Table->get_row_csv($EM_Ticket_Booking);
+					fputcsv($handle, $row);
+				}
+			}else{
+				$row = $EM_Bookings_Table->get_row_csv($EM_Booking);
+				fputcsv($handle, $row);
 			}
-			echo $row_output."\n";
 		}
+		fclose($handle);
 		exit();
 	}
 }  

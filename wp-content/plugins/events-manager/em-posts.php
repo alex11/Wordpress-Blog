@@ -10,11 +10,32 @@ define('EM_POST_TYPE_LOCATION_SLUG',get_option('dbem_cp_locations_slug', 'locati
 define('EM_TAXONOMY_CATEGORY_SLUG', get_site_option('dbem_taxonomy_category_slug', 'events/categories'));
 define('EM_TAXONOMY_TAG_SLUG', get_option('dbem_taxonomy_tag_slug', 'events/tags'));
 
-if( !get_option('disable_post_thumbnails') && function_exists('add_theme_support') ){
-	add_theme_support('post-thumbnails'); //need to add this for themes that don't have it.
+/*
+ * This checks that you have post thumbnails enabled, if not, it enables it. 
+ * You can always disable this by adding remove_action('after_setup_theme','wp_events_plugin_after_setup_theme'); in your functions.php theme file.
+ */
+add_action('after_setup_theme','wp_events_plugin_after_setup_theme',100);
+function wp_events_plugin_after_setup_theme(){
+	if( !get_option('disable_post_thumbnails') && function_exists('add_theme_support') ){
+		global $_wp_theme_features;
+		if( !empty($_wp_theme_features['post-thumbnails']) ){
+			//either leave as true, or add our cpts to this
+			if( is_array($_wp_theme_features['post-thumbnails']) ){
+				$post_thumbnails = array_shift($_wp_theme_features['post-thumbnails']);
+				//add to featured image post types for specific themes
+				$post_thumbnails[] = EM_POST_TYPE_EVENT;
+				$post_thumbnails[] = 'event-recurring';
+				$post_thumbnails[] = EM_POST_TYPE_LOCATION;
+				add_theme_support('post-thumbnails', $post_thumbnails);
+			}
+		}else{
+			add_theme_support('post-thumbnails'); //need to add this for themes that don't have it. 
+		}
+	}
 }
+//This bit registers the CPTs
 add_action('init','wp_events_plugin_init',1);
-function wp_events_plugin_init(){	
+function wp_events_plugin_init(){
 	define('EM_ADMIN_URL',admin_url().'edit.php?post_type='.EM_POST_TYPE_EVENT); //we assume the admin url is absolute with at least one querystring
 	if( get_option('dbem_tags_enabled', true) ){
 		register_taxonomy(EM_TAXONOMY_TAG,array(EM_POST_TYPE_EVENT,'event-recurring'),array( 
@@ -88,8 +109,8 @@ function wp_events_plugin_init(){
 				'assign_terms' => 'edit_events',
 			)
 		));
-	}	
-	register_post_type(EM_POST_TYPE_EVENT, array(	
+	}
+	$event_post_type = array(	
 		'public' => true,
 		'hierarchical' => false,
 		'show_ui' => true,
@@ -99,7 +120,7 @@ function wp_events_plugin_init(){
 		'exclude_from_search' => false,
 		'publicly_queryable' => true,
 		'rewrite' => array('slug' => EM_POST_TYPE_EVENT_SLUG,'with_front'=>false),
-		'has_archive' => get_option('dbem_cp_events_has_archive', false) == true && get_option('dbem_events_page') == 0,
+		'has_archive' => get_option('dbem_cp_events_has_archive', false) == true,
 		'supports' => apply_filters('em_cp_event_supports', array('custom-fields','title','editor','excerpt','comments','thumbnail','author')),
 		'capability_type' => 'event',
 		'capabilities' => array(
@@ -132,11 +153,12 @@ function wp_events_plugin_init(){
 			'parent' => __('Parent Event','dbem'),
 		),
 		'menu_icon' => plugins_url('includes/images/calendar-16.png', __FILE__)
-	));
+	);
 	if ( get_option('dbem_recurrence_enabled') ){
-		register_post_type('event-recurring', array(	
+		$event_recurring_post_type = array(	
 			'public' => apply_filters('em_cp_event_recurring_public', false),
 			'show_ui' => true,
+			'show_in_admin_bar' => true,
 			'show_in_menu' => 'edit.php?post_type='.EM_POST_TYPE_EVENT,
 			'show_in_nav_menus'=>false,
 			'publicly_queryable' => apply_filters('em_cp_event_recurring_publicly_queryable', false),
@@ -176,12 +198,13 @@ function wp_events_plugin_init(){
 				'not_found_in_trash' => __('No Recurring Events Found in Trash','dbem'),
 				'parent' => __('Parent Recurring Event','dbem'),
 			)
-		));
+		);
 	}
 	if( get_option('dbem_locations_enabled', true) ){
-		register_post_type(EM_POST_TYPE_LOCATION, array(	
+		$location_post_type = array(	
 			'public' => true,
 			'hierarchical' => false,
+			'show_in_admin_bar' => true,
 			'show_ui' => !(EM_MS_GLOBAL && !is_main_site() && get_site_option('dbem_ms_mainblog_locations')),
 			'show_in_menu' => 'edit.php?post_type='.EM_POST_TYPE_EVENT,
 			'show_in_nav_menus'=>true,
@@ -222,7 +245,26 @@ function wp_events_plugin_init(){
 				'not_found_in_trash' => __('No Locations Found in Trash','dbem'),
 				'parent' => __('Parent Location','dbem'),
 			)
-		));
+		);
+	}
+	if( strstr(EM_POST_TYPE_EVENT_SLUG, EM_POST_TYPE_LOCATION_SLUG) !== FALSE ){
+		//Now register posts, but check slugs in case of conflicts and reorder registrations
+		register_post_type(EM_POST_TYPE_EVENT, $event_post_type);
+		if ( get_option('dbem_recurrence_enabled') ){
+			register_post_type('event-recurring', $event_recurring_post_type);
+		}
+		if( get_option('dbem_locations_enabled', true) ){
+			register_post_type(EM_POST_TYPE_LOCATION, $location_post_type);
+		}
+	}else{
+		if( get_option('dbem_locations_enabled', true) ){
+			register_post_type(EM_POST_TYPE_LOCATION, $location_post_type);
+		}
+		register_post_type(EM_POST_TYPE_EVENT, $event_post_type);
+		//Now register posts, but check slugs in case of conflicts and reorder registrations
+		if ( get_option('dbem_recurrence_enabled') ){
+			register_post_type('event-recurring', $event_recurring_post_type);
+		}
 	}
 }
 
