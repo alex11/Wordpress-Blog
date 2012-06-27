@@ -3,8 +3,8 @@ Contributors: ppfeufer
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=DC2AEJD2J66RE
 Tags: twitter, facebook, googleplus, button, flattr, social, privacy, xing, pinterest
 Requires at least: 3.0.1
-Tested up to: 3.4-alpha
-Stable tag: 0.32.2
+Tested up to: 3.4
+Stable tag: 0.35.2
 
 Facebook-Like/Empfehlen, Twitter, Flattr, Xing, Pinterest und Googleplus dem deutschen Datenschutz entsprechend in WordPress.
 
@@ -60,6 +60,31 @@ Nutze dafür einfach dein Dashboard
 3. Einstellungsmenü der Buttons.
 
 == Changelog ==
+
+
+= 0.35.2 =
+* (14. Juni 2012)
+* Fix: jQuery wurde nicht in ZUsammenhang mit WordPress 3.4 und TwentyTen 1.4 geladen. - fixed.
+
+= 0.35.1 =
+* (04. Juni 2012)
+* Fix: Im komprimierten JavaScript ist statt &amp;quot; bei den alt-Attributen der Dummy-Buttons ein ", das führt leider zu ungültigem HTML und falschen alt-Attributen. Nun ist &amp;quot; auch im komrpimierten JS vorhanden. Danke an Michael für den Hinweis.
+
+= 0.35 =
+* (18. April 2012)
+* Filter - 'twoclick-css' -  für CSS hinzugefügt, zur besseren Anpassung in eigenen Themes. (gewünscht von <a href="http://blog.ppfeufer.de/wordpress-plugin-2-click-social-media-buttons/comment-page-8/#comment-28654">Caspar</a>)
+* Fix für ds Plugin 'wp-Typography' eingebaut, da dieses unter gewissen Umständen den Titel Formatiert und es somit zu Fehlern kommen konnte. (Danke an <a href="http://www.malteskitchen.de/">Malte</a> für die Meldung)
+
+= 0.34 =
+* (18. April 2012)
+* !! SICHERHEITSUPDATE !!
+* Sicherheitslücke in der Verarbeitung der Buttons von Xing und Pinterest geschlossen. Danke an das WordPress-Team für die Meldung.
+
+= 0.33 =
+* (03. April 2012)
+* Margin des Dummybutton entfernt, welcher in einigen Themes auftaucht.
+* Padding des Dummybutton entfernt, welcher in einigen Themes auftaucht.
+* Border des Dummybutton entfernt, welcher in einigen Themes auftaucht.
 
 = 0.32.2 =
 * (03. April 2012)
@@ -326,10 +351,11 @@ Facebook, Google+ und Pinterest nutzen Bilder aus den Artikeln. Das Plugin erken
 
 Oder einfacher ausgedrückt, dies ist die Möglichkeit ein Platzhalterbild an diese Dienste zu übermitteln. Euer Logo zum Beispiel.
 
-= Wieso sehe ich Optionen für die permanente aktivierung auf der Startseite nicht? =
+= Wieso sehe ich die Optionen für die permanente aktivierung auf der Startseite nicht? =
 Nicht nur auf der Startseite. Auf jeder Seite auf der mehrere Artikel angezeigt werden, ist diese Funktion deaktiviert, da sie dort nicht richtig funktioniert.
 
-Falls Du jedoch eine Frage hast, dann stell diese unter [http://blog.ppfeufer.de/wordpress-plugin-2-click-social-media-buttons/](http://blog.ppfeufer.de/wordpress-plugin-2-click-social-media-buttons/) in den Kommentaren. Aber bitte schau vorher einmal grob durch die Kommentare, ob es dieses Anliegen schon gab.
+= Und wenn ich noch andere Fragen habe? =
+Falls Du noch eine Frage hast, die hier nicht auftaucht dann stell diese unter [http://blog.ppfeufer.de/wordpress-plugin-2-click-social-media-buttons/](http://blog.ppfeufer.de/wordpress-plugin-2-click-social-media-buttons/) in den Kommentaren. Aber bitte schau vorher einmal grob durch die Kommentare, ob es dieses Anliegen schon gab.
 
 == Upgrade Notice ==
 

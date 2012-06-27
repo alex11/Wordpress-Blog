@@ -3,7 +3,7 @@
 	WP-Piwik::Stats:Screens
 **********************************/
 
-	$aryConf['data'] = $this->call_API(
+	$aryConf['data'] = $this->callPiwikAPI(
 			'UserSettings.getResolution', 
 			$aryConf['params']['period'], 
 			$aryConf['params']['date'],
@@ -21,10 +21,14 @@
 		}
 	if ($intMore) $strValues .= '["'.__('Others', 'wp-piwik').'",'.$intMore.'],';
 	$strValues = substr($strValues, 0, -1);
+	if ($intSum) {
 /***************************************************************************/ ?>
 <div class="wp-piwik-graph-wide">
 	<div id="wp-piwik_stats_screens_graph" style="height:310px;width:490px"></div>
 </div>
+<?php /************************************************************************/
+	}
+/***************************************************************************/ ?>
 <div class="table">
 	<table class="widefat wp-piwik-table">
 		<thead>

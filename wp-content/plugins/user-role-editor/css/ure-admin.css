@@ -1,9 +1,9 @@
 /* 
-    Document   : sig-guard_admin
+    Document   : ure_admin
     Created on : 10.03.2010
     Author     : Vladimir Garagulya
     Description:
-        Silence is Golden Guard WordPress plugin Admin Settings Page CSS
+    User Role Editor plugin Admin Settings Page CSS
 */
 
 /* 
@@ -70,4 +70,12 @@ input.warning:hover, a.warning:hover {
   margin-top: 5px;
   margin-bottom: 0px;
   white-space: nowrap;
+}
+
+.ure-sidebar {
+  float: right;
+}
+
+#ure_greetings {
+  max-width: 250px;
 }

@@ -3,7 +3,7 @@
 	WP-Piwik::Stats:Plugins
 **********************************/
 
-	$aryConf['data'] = $this->call_API(
+	$aryConf['data'] = $this->callPiwikAPI(
 			'UserSettings.getPlugin', 
 			$aryConf['params']['period'], 
 			$aryConf['params']['date'],
@@ -11,16 +11,20 @@
 	);
 	$aryConf['title'] = __('Plugins', 'wp-piwik');
 	
-	$aryOverview = $this->call_API(
+	$aryOverview = $this->callPiwikAPI(
                 'VisitsSummary.get',
                 $aryConf['params']['period'],
                 $aryConf['params']['date'],
                 $aryConf['params']['limit']
         );
 
-	$intTotalVisits = $aryOverview['nb_visits'];
+	$intTotalVisits = (isset($aryOverview['nb_visits'])?$aryOverview['nb_visits']:0);
 
 	unset($aryOverview);
+	
+	if (isset($aryConf['data']['result']) && $aryConf['data']['result'] = 'error')
+		echo '<strong>'.__('Piwik error', 'wp-piwik').':</strong> '.htmlentities($aryConf['data']['message'], ENT_QUOTES, 'utf-8');
+	else {
 /***************************************************************************/ ?>
 <div class="table">
 	<table class="widefat wp-piwik-table">
@@ -50,3 +54,5 @@
 		</tbody>
 	</table>
 </div>
+<?php /************************************************************************/
+	}

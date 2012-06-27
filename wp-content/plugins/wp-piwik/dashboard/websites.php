@@ -3,13 +3,17 @@
 	WP-Piwik::Stats:Websites
 **********************************/
 
-	$aryConf['data'] = $this->call_API(
+	$aryConf['data'] = $this->callPiwikAPI(
 		'Referers.getWebsites',
 		$aryConf['params']['period'],
 		$aryConf['params']['date'],
 		$aryConf['params']['limit']
 	);
 	$aryConf['title'] = __('Websites', 'wp-piwik');
+
+	if (isset($aryConf['data']['result']) && $aryConf['data']['result'] = 'error')
+		echo '<strong>'.__('Piwik error', 'wp-piwik').':</strong> '.htmlentities($aryConf['data']['message'], ENT_QUOTES, 'utf-8');
+	else {
 /***************************************************************************/ ?>
 <table class="widefat">
 	<thead>
@@ -26,3 +30,5 @@
 /***************************************************************************/ ?>
 	</tbody>
 </table>
+<?php /************************************************************************/
+	}

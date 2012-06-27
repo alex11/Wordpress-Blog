@@ -1,83 +1,148 @@
 === WP-Piwik ===
 
 Contributors: Braekling
-Requires at least: 3.2
-Tested up to: 3.2.1
-Stable tag: 0.8.9
+Requires at least: 3.3
+Tested up to: 3.4
+Stable tag: 0.9.5
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=6046779
 Tags: statistics, stats, analytics, piwik, wpmu
 
-This plugin adds a piwik stats site to your WordPress or WordPress multisite dashboard.
+This plugin adds a Piwik stats site to your WordPress or WordPress multisite dashboard.
 
 == Description ==
 
 This plugin adds a Piwik stats site to your WordPress dashboard. It's also able to add the Piwik tracking code to your blog using wp_footer.
 
-**You need a running Piwik installation** and at least view access to your stats. Also PHP 5 or higher is strictly required.
-
+**You need a running Piwik (at least 1.8.2) installation** and at least view access to your stats. Also PHP 5 or higher is strictly required.
 
 Look at the [Piwik website](http://piwik.org/) to get further information about Piwik.
 
 *This plugin is not created or provided by the Piwik project team.*
 
-Languages: English, Albanian, Belorussian, Dutch, French, German, Swedish, Norwegian
+Languages: English, German, Albanian, Azerbaijani, Belorussian, Dutch, French, Greek, Lithuanian, Norwegian, Persian, Romanian, Russian, Spanish, Swedish, Ukrainian
 
-*Note: If you vote "It's broken", please tell me about your problem. It's hard to fix a bug I don't know about! ;)*
+*Note: If you vote "It's broken", please tell me about your problem. It's hard to fix a bug I don't know about! ;-)*
 
 = WP multisite =
 
-Version 0.6.0+ includes experimental WP multisite support.
-
-**Experimental**
-
-The WP multisite support is currently experimental. Please test it on your own (e.g. using a local copy of your WP multisite) before you use it in an user context.
-
-**Simple**
-
-Just add WP-Piwik to your /wp-content/plugins folder. So each user can enable WP-Piwik and use his own Piwik instance.
-
-**Extended (WPMU-Piwik)**
-
-1. Add WP-Piwik to your /wp-content/plugins folder. Open wp-piwik.php
-2. Go to line 30 ($GLOBALS['wp-piwik_wpmu'] = false;)
-3. Change to $GLOBALS['wp-piwik_wpmu'] = true; 
-4. You should use a clear Piwik installation and a token with full admin rights due to avoid conflicts. WPMU-Piwik will add a new site to Piwik each time a new blog is visited the first time.
-5. Users have access to their own statistics, site admins can access each blog's statistics. Please test it on your own (e.g. using a local copy of your WPMU) before you use it in an user context.
+See section "Installation".
 
 = Credits =
 
-* Graphs powered by [jqPlot](http://www.jqplot.com/), an open source project by Chris Leonello. Give it a try! (GPL 2.0 and MIT)
+* Graphs powered by [jqPlot](http://www.jqplot.com/) (GPL 2.0 and MIT) and  and [jQuery Sparklines](http://omnipotent.net/jquery.sparkline/) (New BSD License).
 * Metabox support inspired by [Heiko Rabe's metabox demo plugin](http://www.code-styling.de/english/how-to-use-wordpress-metaboxes-at-own-plugins).
-* Albanian [sq] language file by [Besnik Bleta](http://blogu.programeshqip.org/).
-* Azerbaijani [az_AZ] language file by [Galina Miklosic](http://www.webhostinggeeks.com).
-* Belorussian [be_BY] language file by [FatCow](http://www.fatcow.com/).
-* Dutch [nl_NL] language file by [Rene](http://www.pamukkaleturkey.com/).
-* French [fr_FR] language file by Fab.
-* Greek [gr_GR] language file by [AggelioPolis](http://www.aggeliopolis.gr).
-* Russian [ru_RU] language file by [Natalya](http://www.luxpar.de).
-* Swedish [sv_SE] language file by [EzBizNiz](http://ezbizniz.com/).
-* Norwegian [nb_NO] language file by Gormer.
+* Translation credits see plugin settings
+* Donations: Marco L., Rolf W., Tobias U., Lars K., Donna F., Kevin D., Ramos S, the Piwik team itself, and all people flattering this.
+* All users who send me mails containing criticism, commendation, feature requests and bug reports - you help me to make WP-Piwik much better!
 
-Thank you, guys!
+Thank you all!
+
+== Frequently Asked Questions ==
+
+= Where can I find the Piwik URL and the Piwik auth token? =
+
+WP-Piwik requires Piwik. If you did not install Piwik yet, first get it at the [Piwik website](http://www.piwik.org). 
+
+If Piwik works, you'll be able to configure WP-Piwik: The Piwik URL is the same URL you use to access your Piwik, e.g. for the demo site: http://demo.piwik.org. The auth token is some kind of secret password, which allows WP-Piwik to get the necessary data from Piwik. The super user's auth token, i.e. a full access password for your Piwik, can be found on Piwik's API site. You can find a detailed description [here](http://peepbo.de/board/viewtopic.php?f=5&t=10).
+
+= Tracking does not work on HostGator! =
+
+Try to enable the "avoid mod_security" option (WP-Piwik settings, Tracking tab) or create a mod_security whitelist.
+
+= WP-Piwik does not work with SSL! =
+
+See [this support thread](http://wordpress.org/support/topic/plugin-wp-piwik-https-ssl-support?replies=3).
 
 == Installation ==
 
+= Install WP-Piwik on a simple WordPress blog =
+
 1. Upload the full `wp-piwik` directory into your `wp-content/plugins` directory.
 
-2. Activate the plugin through the 'Plugins' menu in WordPress.
+2. Activate the plugin through the 'Plugins' menu in WordPress. 
 
 3. Open the new 'Settings/WP-Piwik Settings' menu, enter your Piwik base URL and your auth token. Save settings.
-4. If you have view access to multiple site stats, choose your blog and save settings again.
+
+4. If you have view access to multiple site stats and did not enable "auto config", choose your blog and save settings again.
+
 5. Look at 'Dashboard/WP-Piwik' to get your site stats.
 
+= Install WP-Piwik on a WordPress blog network (WPMU/WP multisite) =
+
+There are two differents methods to use WP-Piwik in a multisite environment:
+* As a Site Specific Plugin it behaves like a plugin installed on a simple WordPress blog. Each user can enable, configure and use WP-Piwik on his own. Users can even use their own Piwik instances (and accordingly they have to). 
+* Using WP-Piwik as a Network Plugin equates to a central approach. A single Piwik instance is used and the site admin configures the plugin completely. Users are just allowed to see their own statistics, site admins can see each blog's stats.
+
+*Site Specific Plugin*
+
+Just add WP-Piwik to your /wp-content/plugins folder and enable the Plugins page for individual site administrators. Each user has to enable and configure WP-Piwik on his own if he want to use the plugin.
+
+*Network Plugin*
+
+The Network Plugin support is still experimental. Please test it on your own (e.g. using a local copy of your WP multisite) before you use it in an user context.
+
+Add WP-Piwik to your /wp-content/plugins folder and enable it as [Network Plugin](http://codex.wordpress.org/Create_A_Network#WordPress_Plugins). Users can access their own statistics, site admins can access each blog's statistics and the plugin's configuration.
 
 == Screenshots ==
 
 1. WP-Piwik settings.
 2. WP-Piwik statistics page.
 3. Closer look to a pie chart.
+4. WordPress toolbar graph.
+
+== Upgrade Notice ==
+
+= 0.9.5 =
+Messed up stats page (WordPress 3.4) fixed
 
 == Changelog ==
+
+= 0.9.5 =
+* WordPress 3.4 compatible (workaround)
+
+= 0.9.4 = 
+* Requires at least Piwik 1.8.2!
+* Choose between HTTP API or PHP API
+* Show graph on WordPress Toolbar
+* Add option to disable cookies - Thanks to Mathias T.!
+* Update bugfix: Upgrading from WP-Piwik 0.8.7 or less will work again
+* Some minor bugfixes
+
+= 0.9.3 =
+* Bugfix: Adding a new site will work again.
+
+= 0.9.2 =
+* Uses $wpdb->blogs instead of $wpdb->prefix.'blogs' to keep it compatible to different database plugins
+* Bugfix: SEO dashboard widget will work even if "last 30" is selected
+* Bugfix: New created blogs won't show "Please specify a value for 'idSite'." anymore.
+* Bugfix: New network sites without title will be created
+* Bugfix: Upgrading from old versions will work again
+* Tabbed settings
+* Debug tools added (testscript, site configuration overview and WP-Piwik reset)
+* Support forum RSS feed
+* Language updates
+* Optionally use of set_time_limit(0) on stats page time out
+
+= 0.9.1 =
+* Bugfix: Usage as "Site Specific Plugin" [mixed up the different sites settings](http://wordpress.org/support/topic/plugin-wp-piwik-as-simple-plugin-with-multisite-fills-auth-with-last-used-token) (network mode)
+* Hotfix: Avoid "Unknown site/blog" message without giving a chance to choose an existing site. Thank you, Taimon!
+
+= 0.9.0 =
+* Auto-configuration
+* No code change required to enable WPMU mode anymore (Still experimental. Please create a backup before trying 0.9.0!)
+* All features in WPMU available
+* Bugfix: Removed unnecessary API calls done with each site request - Thank you, Martin B.!
+* Bugfix: [No stats on dashboard](http://wordpress.org/support/topic/no-stats-on-dashboard-new-install) (sometimes this issue still occured, should be fixed now)
+* Code cleanup (still not finished)
+* Minor UI fixes
+* Minor language/gettext improvements
+* Security improvements
+* Show SEO rank stats (very slow, caching will be added in 0.9.1)
+* WordPress dashboard SEO rank widget (very slow, caching will be added in 0.9.1)
+* New option: use js/index.php
+* New option: avoid mod_security
+* Mulisite: Order blog list alphabetically (Network Admin stats site)
+* Settings: Order site list alphabetically (site list shown if order conf is disabled)
 
 = 0.8.10 =
 * jqplot update (IE 9 compatibility) - Thank you, Martin!

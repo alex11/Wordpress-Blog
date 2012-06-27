@@ -1,5 +1,6 @@
 <?php
 if(!empty($_REQUEST['xing-url'])) {
+// 	$_REQUEST['xing-url'] = strip_tags($_REQUEST['xing-url']);
 	?>
 	<!DOCTYPE html>
 	<html>
@@ -10,7 +11,7 @@ if(!empty($_REQUEST['xing-url'])) {
 			<script src="https://www.xing-share.com/js/external/share.js" type="text/javascript"></script>
 		</head>
 		<body>
-			<script type="XING/Share" data-counter="right" data-lang="de" data-url="<?php echo $_REQUEST['xing-url']; ?>"></script>
+			<script type="XING/Share" data-counter="right" data-lang="de" data-url="<?php echo strip_tags($_REQUEST['xing-url']); ?>"></script>
 		</body>
 	</html>
 	<?php
