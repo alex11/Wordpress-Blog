@@ -180,12 +180,6 @@ function wp_install_defaults($user_id) {
 								'link_rss' => '',
 								'link_notes' =>'');
 
-	$default_links[] = array(	'link_url' => 'http://forum.wpde.org/',
-								'link_name' => 'WordPress Deutschland Forum',
-								'link_rss' => '',
-								'link_notes' =>'');
-
-
 	foreach ( $default_links as $link ) {
 		$wpdb->insert( $wpdb->links, $link);
 		$wpdb->insert( $wpdb->term_relationships, array('term_taxonomy_id' => $blogroll_tt_id, 'object_id' => $wpdb->insert_id) );

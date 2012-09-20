@@ -92,7 +92,7 @@ function em_create_events_table() {
 	get_currentuserinfo();
 	require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 
-	$table_name = EM_EVENTS_TABLE;
+	$table_name = $wpdb->prefix.'em_events';
 	$sql = "CREATE TABLE ".$table_name." (
 		event_id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
 		post_id bigint(20) unsigned NOT NULL,
@@ -108,6 +108,7 @@ function em_create_events_table() {
 		post_content longtext NULL DEFAULT NULL,
 		event_rsvp bool NOT NULL DEFAULT 0,
 		event_rsvp_date date NULL DEFAULT NULL,
+		event_rsvp_time time NULL DEFAULT NULL,
 		event_spaces int(5) NULL DEFAULT 0,
 		event_private bool NOT NULL DEFAULT 0,
 		location_id bigint(20) unsigned NULL DEFAULT NULL,
@@ -156,7 +157,7 @@ function em_create_events_table() {
 
 function em_create_events_meta_table(){
 	global  $wpdb, $user_level;
-	$table_name = EM_META_TABLE;
+	$table_name = $wpdb->prefix.'em_meta';
 
 	// Creating the events table
 	$sql = "CREATE TABLE ".$table_name." (
@@ -170,7 +171,6 @@ function em_create_events_meta_table(){
 
 	require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 
-	$old_table_name = EM_OLD_LOCATIONS_TABLE;
 	dbDelta($sql);
 	em_sort_out_table_nu_keys($table_name, array('object_id','meta_key'));
 }
@@ -178,7 +178,7 @@ function em_create_events_meta_table(){
 function em_create_locations_table() {
 
 	global  $wpdb, $user_level;
-	$table_name = EM_LOCATIONS_TABLE;
+	$table_name = $wpdb->prefix.'em_locations';
 
 	// Creating the events table
 	$sql = "CREATE TABLE ".$table_name." (
@@ -204,8 +204,7 @@ function em_create_locations_table() {
 
 	require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 
-	$old_table_name = EM_OLD_LOCATIONS_TABLE; //for 3.0
-	if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name && $wpdb->get_var("SHOW TABLES LIKE '$old_table_name'") != $old_table_name) {
+	if( $wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name ) {
 		dbDelta($sql);
 		//Add default values
 		$wpdb->query("INSERT INTO ".$table_name." (location_name, location_address, location_town, location_state, location_country, location_latitude, location_longitude, location_slug, location_owner, location_status, post_id) VALUES ('Arts Millenium Building', 'Newcastle Road','Galway','Galway','IE', 53.275, -9.06532, 'arts-millenium-building','".get_current_user_id()."', 1,0)");
@@ -228,7 +227,7 @@ function em_create_locations_table() {
 function em_create_bookings_table() {
 
 	global  $wpdb, $user_level;
-	$table_name = EM_BOOKINGS_TABLE;
+	$table_name = $wpdb->prefix.'em_bookings';
 
 	$sql = "CREATE TABLE ".$table_name." (
 		booking_id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
@@ -252,7 +251,7 @@ function em_create_bookings_table() {
 function em_create_tickets_table() {
 
 	global  $wpdb, $user_level;
-	$table_name = EM_TICKETS_TABLE;
+	$table_name = $wpdb->prefix.'em_tickets';
 
 	// Creating the events table
 	$sql = "CREATE TABLE {$table_name} (
@@ -266,6 +265,7 @@ function em_create_tickets_table() {
 		ticket_min INT( 10 ) NULL ,
 		ticket_max INT( 10 ) NULL ,
 		ticket_spaces INT NULL ,
+		ticket_members INT( 1 ) NULL ,
 		PRIMARY KEY  (ticket_id)
 		) DEFAULT CHARSET=utf8 ;";
 
@@ -277,7 +277,7 @@ function em_create_tickets_table() {
 //Add the categories table
 function em_create_tickets_bookings_table() {
 	global  $wpdb, $user_level;
-	$table_name = EM_TICKETS_BOOKINGS_TABLE;
+	$table_name = $wpdb->prefix.'em_tickets_bookings';
 
 	// Creating the events table
 	$sql = "CREATE TABLE {$table_name} (
@@ -308,11 +308,16 @@ function em_add_options() {
 	$event_approved_email_body = __("Dear #_CONTACTNAME, <br/>Your event #_EVENTNAME on #_EVENTDATES has been approved.<br/>You can view your event here: #_EVENTURL",'dbem').$email_footer;
 	$event_submitted_email_body = __("A new event has been submitted by #_CONTACTNAME.<br/>Name : #_EVENTNAME <br/>Date : #_EVENTDATES <br/>Time : #_EVENTTIMES <br/>Please visit #_EDITEVENTURL to review this event for approval.",'dbem').$email_footer;
 	$event_submitted_email_body = str_replace('#_EDITEVENTURL', admin_url().'post.php?action=edit&post=#_EVENTPOSTID', $event_submitted_email_body);
+	$event_published_email_body = __("A new event has been published by #_CONTACTNAME.<br/>Name : #_EVENTNAME <br/>Date : #_EVENTDATES <br/>Time : #_EVENTTIMES <br/>Edit this event - #_EDITEVENTURL <br/> View this event - #_EVENTURL",'dbem').$email_footer;
+	$event_published_email_body = str_replace('#_EDITEVENTURL', admin_url().'post.php?action=edit&post=#_EVENTPOSTID', $event_published_email_body);
+	$event_resubmitted_email_body = __("A previously published event has been modified by #_CONTACTNAME, and this event is now unpublished and pending your approval.<br/>Name : #_EVENTNAME <br/>Date : #_EVENTDATES <br/>Time : #_EVENTTIMES <br/>Please visit #_EDITEVENTURL to review this event for approval.",'dbem').$email_footer;
+	$event_resubmitted_email_body = str_replace('#_EDITEVENTURL', admin_url().'post.php?action=edit&post=#_EVENTPOSTID', $event_resubmitted_email_body);
 
 	$dbem_options = array(
 		//time formats
 		'dbem_time_format' => get_option('time_format'),
 		'dbem_date_format' => 'd/m/Y',
+		'dbem_date_format_js' => 'dd/mm/yy',
 		'dbem_dates_seperator' => ' - ',
 		'dbem_times_seperator' => ' - ',
 		//defaults
@@ -322,8 +327,8 @@ function em_add_options() {
 		'dbem_events_default_orderby' => 'event_start_date,event_start_time,event_name',
 		'dbem_events_default_order' => 'ASC',
 		'dbem_events_default_limit' => 10,
-		'dbem_list_events_page' => 1,
 		//Event Search Options
+		'dbem_serach_form_submit' => __('Search','dbem'),
 		'dbem_search_form_text' => 1,
 		'dbem_search_form_text_label' => __('Search','dbem'),
 		'dbem_search_form_dates' => 1,
@@ -348,8 +353,14 @@ function em_add_options() {
 		'dbem_event_submitted_email_admin' => '',
 		'dbem_event_submitted_email_subject' => __('Submitted Event Awaiting Approval', 'dbem'),
 		'dbem_event_submitted_email_body' => str_replace("<br/>", "\n\r", $event_submitted_email_body),
+		'dbem_event_resubmitted_email_subject' => __('Re-Submitted Event Awaiting Approval', 'dbem'),
+		'dbem_event_resubmitted_email_body' => str_replace("<br/>", "\n\r", $event_resubmitted_email_body),
+		'dbem_event_published_email_subject' => __('Published Event', 'dbem').' - #_EVENTNAME',
+		'dbem_event_published_email_body' => str_replace("<br/>", "\n\r", $event_published_email_body),
 		'dbem_event_approved_email_subject' => __("Event Approved",'dbem'). " - #_EVENTNAME" ,
 		'dbem_event_approved_email_body' => str_replace("<br/>", "\n\r", $event_approved_email_body),
+		'dbem_event_reapproved_email_subject' => __("Event Approved",'dbem'). " - #_EVENTNAME" ,
+		'dbem_event_reapproved_email_body' => str_replace("<br/>", "\n\r", $event_approved_email_body),
 		//Event Formatting
 		'dbem_events_page_title' => __('Events','dbem'),
 		'dbem_events_page_scope' => 'future',
@@ -398,8 +409,6 @@ function em_add_options() {
 		'dbem_event_page_title_format' => '#_EVENTNAME',
 		'dbem_event_all_day_message' => __('All Day','dbem'),
 		'dbem_no_events_message' => sprintf(__( 'No %s', 'dbem' ),__('Events','dbem')),
-		//Location page options
-		'dbem_list_locations_page' => 1,
 		//Location Formatting
 		'dbem_locations_default_orderby' => 'location_name',
 		'dbem_locations_default_order' => 'ASC',
@@ -429,7 +438,6 @@ function em_add_options() {
 		'dbem_location_event_list_item_format' => "<li>#_EVENTLINK - #j #M #Y - #H:#i</li>",
 		'dbem_location_event_list_item_footer_format' => "</ul>",
 		//Category page options
-		'dbem_list_categories_page' => 1,
 		'dbem_categories_default_limit' => 10,
 		'dbem_categories_default_orderby' => 'name',
 		'dbem_categories_default_order' =>  'ASC',
@@ -441,27 +449,27 @@ function em_add_options() {
 		'dbem_no_categories_message' =>  sprintf(__( 'No %s', 'dbem' ),__('Categories','dbem')),
 		'dbem_category_no_events_message' => __('<li>No events in this category</li>', 'dbem'),
 		'dbem_category_event_list_item_header_format' => '<ul>',
-		'dbem_category_event_list_item_format' => "<li>#_EVENTLINK - #j #M #Y - #H:#i</li>",
+		'dbem_category_event_list_item_format' => "<li>#_EVENTLINK - #_EVENTDATES - #_EVENTTIMES</li>",
 		'dbem_category_event_list_item_footer_format' => '</ul>',
 		//Tag Formatting
 		'dbem_tag_page_title_format' => '#_TAGNAME',
 		'dbem_tag_page_format' => '<h3>Upcoming Events</h3>#_TAGNEXTEVENTS',
 		'dbem_tag_no_events_message' => __('<li>No events in this tag</li>', 'dbem'),
 		'dbem_tag_event_list_item_header_format' => '<ul>',
-		'dbem_tag_event_list_item_format' => "<li>#_EVENTLINK - #j #M #Y - #H:#i</li>",
+		'dbem_tag_event_list_item_format' => "<li>#_EVENTLINK - #_EVENTDATES - #_EVENTTIMES</li>",
 		'dbem_tag_event_list_item_footer_format' => '</ul>',
 		//RSS Stuff
 		'dbem_rss_limit' => 10,
 		'dbem_rss_scope' => 'future',
 		'dbem_rss_main_title' => get_bloginfo('title')." - ".__('Events', 'dbem'),
 		'dbem_rss_main_description' => get_bloginfo('description')." - ".__('Events', 'dbem'),
-		'dbem_rss_description_format' => "#j #M #y - #H:#i <br/>#_LOCATIONNAME <br/>#_LOCATIONADDRESS <br/>#_LOCATIONTOWN",
+		'dbem_rss_description_format' => "#_EVENTDATES - #_EVENTTIMES <br/>#_LOCATIONNAME <br/>#_LOCATIONADDRESS <br/>#_LOCATIONTOWN",
 		'dbem_rss_title_format' => "#_EVENTNAME",
 		'em_rss_pubdate' => date('D, d M Y H:i:s T'),
 		//iCal Stuff
 		'dbem_ical_limit' => 0,
 		'dbem_ical_scope' => "future",
-		'dbem_ical_description_format' => "#_EVENTNAME - #_LOCATIONNAME - #j #M #y #H:#i",
+		'dbem_ical_description_format' => "#_EVENTNAME - #_LOCATIONNAME - #_EVENTDATES - #_EVENTTIMES",
 		//Google Maps
 		'dbem_gmap_is_active'=> 1,
 		'dbem_location_baloon_format' =>  "<strong>#_LOCATIONNAME</strong><br/>#_LOCATIONADDRESS - #_LOCATIONTOWN<br/><a href='#_LOCATIONPAGEURL'>Details</a>",
@@ -483,9 +491,13 @@ function em_add_options() {
 		'dbem_list_date_title' => __('Events', 'dbem').' - #j #M #y',
 		'dbem_full_calendar_event_format' => '<li>#_EVENTLINK</li>',
 		'dbem_full_calendar_long_events' => '0',
+		'dbem_full_calendar_initials_length' => 0,
+		'dbem_full_calendar_abbreviated_weekdays' => true,
 		'dbem_display_calendar_day_single_yes' => 1,
 		'dbem_small_calendar_event_title_format' => "#_EVENTNAME",
 		'dbem_small_calendar_event_title_separator' => ", ",
+		'dbem_small_calendar_initials_length' => 1,
+		'dbem_small_calendar_abbreviated_weekdays' => false,
 		'dbem_display_calendar_order' => 'ASC',
 		'dbem_display_calendar_orderby' => 'event_name,event_start_time',
 		'dbem_display_calendar_events_limit' => get_option('dbem_full_calendar_events_limit',3),
@@ -503,9 +515,6 @@ function em_add_options() {
 		'dbem_placeholders_custom' => '',
 		'dbem_location_attributes_enabled' => 1,
 		'dbem_location_placeholders_custom' => '',
-		//Title rewriting compatability
-		'dbem_disable_title_rewrites'=> false,
-		'dbem_title_html' => '<h2>#_PAGETITLE</h2>',
 		//Bookings
 		'dbem_bookings_registration_disable' => 0,
 		'dbem_bookings_registration_user' => '',
@@ -545,6 +554,16 @@ function em_add_options() {
 			'dbem_booking_feedback_reg_error' => __('There was a problem creating a user account, please contact a website administrator.','dbem'),
 			'dbem_booking_feedback_already_booked' => __('You already have booked a seat at this event.','dbem'),
 			'dbem_booking_feedback_min_space' => __('You must request at least one space to book an event.','dbem'),
+			//button messages
+			'dbem_booking_button_msg_book' => __('Book Now', 'dbem'),
+			'dbem_booking_button_msg_booking' => __('Booking...','dbem'),
+			'dbem_booking_button_msg_booked' => sprintf(__('%s Submitted','dbem'), __('Booking','dbem')),
+			'dbem_booking_button_msg_error' => sprintf(__('%s Error. Try again?','dbem'), __('Booking','dbem')),
+			'dbem_booking_button_msg_full' => __('Sold Out', 'dbem'),
+			'dbem_booking_button_msg_cancel' => __('Cancel', 'dbem'),
+			'dbem_booking_button_msg_canceling' => __('Canceling...','dbem'),
+			'dbem_booking_button_msg_cancelled' => __('Cancelled','dbem'),
+			'dbem_booking_button_msg_cancel_error' => sprintf(__('%s Error. Try again?','dbem'), __('Cancellation','dbem')),
 			//Emails
 			'dbem_default_contact_person' => 1, //admin
 			'dbem_bookings_notify_admin' => 0,
@@ -615,9 +634,18 @@ function em_add_options() {
 		'dbem_tags_default_archive_order' => 'ASC',
 	);
 	
+	//do date js according to locale:
+	$locale_code = substr ( get_locale (), 0, 2 );
+	$locale_dates = array('nl' => 'dd/mm/yy', 'af' => 'dd/mm/yy', 'ar' => 'dd/mm/yy', 'az' => 'dd.mm.yy', 'bg' => 'dd.mm.yy', 'bs' => 'dd.mm.yy', 'cs' => 'dd.mm.yy', 'da' => 'dd-mm-yy', 'de' => 'dd.mm.yy', 'el' => 'dd/mm/yy', 'en-GB' => 'dd/mm/yy', 'eo' => 'dd/mm/yy', 'et' => 'dd.mm.yy', 'eu' => 'yy/mm/dd', 'fa' => 'yy/mm/dd', 'fo' => 'dd-mm-yy', 'fr' => 'dd.mm.yy', 'fr' => 'dd/mm/yy', 'he' => 'dd/mm/yy', 'hu' => 'yy.mm.dd.', 'hr' => 'dd.mm.yy.', 'ja' => 'yy/mm/dd', 'ro' => 'dd.mm.yy', 'sk' =>  'dd.mm.yy', 'sq' => 'dd.mm.yy', 'sr' => 'dd/mm/yy', 'sr' => 'dd/mm/yy', 'sv' => 'yy-mm-dd', 'ta' => 'dd/mm/yy', 'th' => 'dd/mm/yy', 'vi' => 'dd/mm/yy', 'zh' => 'yy/mm/dd', 'es' => 'dd/mm/yy', 'it' => 'dd/mm/yy');
+	if( array_key_exists($locale_code, $locale_dates) ){
+		$dbem_options['dbem_date_format_js'] = $locale_dates[$locale_code];
+	}
+	
+	//add new options
 	foreach($dbem_options as $key => $value){
 		add_option($key, $value);
 	}
+	
 	if( !get_option('dbem_version') ){ add_option('dbem_credits',1); }
 	if( get_option('dbem_version') != '' && get_option('dbem_version') < 5 ){
 		//make events, cats and locs pages
@@ -644,6 +672,16 @@ function em_add_options() {
 		update_option('dbem_taxonomy_tag_slug', $events_page->post_name.'/tags');
 		if( defined('EM_LOCATIONS_SLUG') && EM_LOCATIONS_SLUG != 'locations' ) update_option('dbem_cp_locations_slug', EM_LOCATIONS_SLUG);
 		if( defined('EM_CATEGORIES_SLUG') && EM_CATEGORIES_SLUG != 'categories' ) update_option('dbem_taxonomy_category_slug', $events_page->post_name.'/'.EM_CATEGORIES_SLUG);
+	}
+	if( get_option('dbem_version') != '' && get_option('dbem_version') < 5.19 ){
+	    update_option('dbem_event_reapproved_email_subject',  get_option('dbem_event_approved_email_subject'));
+	    update_option('dbem_event_reapproved_email_body', get_option('dbem_event_approved_email_body'));
+	}
+	if( get_option('dbem_version') != '' && get_option('dbem_version') <= 5.21 ){
+	    //just remove all rsvp cut-off info
+	    global $wpdb;
+	    $wpdb->query("UPDATE ".$wpdb->postmeta." SET meta_value = NULL WHERE meta_key IN ('_event_rsvp_date','_event_rsvp_time') AND post_id IN (SELECT post_id FROM ".EM_EVENTS_TABLE." WHERE recurrence_id > 0)");
+	    $wpdb->query("UPDATE ".EM_EVENTS_TABLE." SET event_rsvp_time = NULL, event_rsvp_date = NULL WHERE recurrence_id > 0");
 	}
 	if( get_option('dbem_time_24h','not set') == 'not set'){
 		//Localise vars regardless

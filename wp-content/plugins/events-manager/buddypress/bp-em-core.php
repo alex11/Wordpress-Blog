@@ -191,7 +191,7 @@ function bp_em_load_core_component() {
 }
 add_action( 'bp_loaded', 'bp_em_load_core_component' );
 
-if( !is_admin() ){
+if( !is_admin() || ( defined('DOING_AJAX') && !empty($_REQUEST['is_public'])) ){
 	/*
 	 * Links and URL Rewriting
 	 */
@@ -201,14 +201,13 @@ if( !is_admin() ){
 	}
 	if( !get_option('dbem_edit_events_page') ){
 		add_filter('em_event_get_edit_url','em_bp_rewrite_edit_url',10,2);
-	}
-	
+	}	
 	
 	function em_bp_rewrite_bookings_url($url, $EM_Event){
 		global $bp;
 		return $bp->events->link.'my-bookings/?event_id='.$EM_Event->event_id;
 	}
-	if( !get_option('dbem_my_bookings_page') ){
+	if( !get_option('dbem_edit_bookings_page') ){
 		add_filter('em_event_get_bookings_url','em_bp_rewrite_bookings_url',10,2);
 	}
 	

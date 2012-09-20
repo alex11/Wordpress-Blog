@@ -28,10 +28,9 @@ add_action('admin_init','em_admin_actions_bookings',100);
  * Decide what content to show in the bookings section. 
  */
 function em_bookings_page(){
-	global $action;
 	//First any actions take priority
 	if( !empty($_REQUEST['action']) && substr($_REQUEST['action'],0,7) != 'booking' ){ //actions not starting with booking_
-		do_action('em_bookings_'.$action);
+		do_action('em_bookings_'.$_REQUEST['action']);
 	}elseif( !empty($_REQUEST['booking_id']) ){
 		em_bookings_single();
 	}elseif( !empty($_REQUEST['person_id']) ){
@@ -59,8 +58,8 @@ function em_bookings_dashboard(){
   		<h2>
   			<?php _e('Event Bookings Dashboard', 'dbem'); ?>
   		</h2>
+  		<?php else: echo $EM_Notices; ?>
   		<?php endif; ?>
-  		<?php echo $EM_Notices; ?>
 		<?php if( is_admin() ): ?>
 		<div class="icon32" id="icon-bookings"><br></div>
 		<?php endif; ?>
@@ -109,7 +108,7 @@ function em_bookings_event(){
   			<?php endif; ?>
   			<?php do_action('em_admin_event_booking_options_buttons'); ?>
   		</h2>
-  		<?php echo $EM_Notices; ?>  
+  		<?php if( !is_admin() ) echo $EM_Notices; ?>  
 		<div>
 			<p><strong><?php _e('Event Name','dbem'); ?></strong> : <?php echo ($EM_Event->event_name); ?></p>
 			<p>
@@ -162,10 +161,10 @@ function em_bookings_ticket(){
 		</div>
   		<h2>
   			<?php echo sprintf(__('Ticket for %s', 'dbem'), "'{$EM_Event->name}'"); ?>
-  			<a href="<?php echo EM_ADMIN_URL; ?>&amp;page=events-manager-event&event_id=<?php echo $EM_Event->event_id; ?>" class="button add-new-h2"><?php _e('View/Edit Event','dbem') ?></a>
-  			<a href="<?php echo EM_ADMIN_URL; ?>&amp;page=events-manager-bookings&event_id=<?php echo $EM_Event->event_id; ?>" class="button add-new-h2"><?php _e('View Event Bookings','dbem') ?></a>
+  			<a href="<?php echo $EM_Event->get_edit_url(); ?>" class="button add-new-h2"><?php _e('View/Edit Event','dbem') ?></a>
+  			<a href="<?php echo $EM_Event->get_bookings_url(); ?>" class="button add-new-h2"><?php _e('View Event Bookings','dbem') ?></a>
   		</h2> 
-  		<?php echo $EM_Notices; ?>
+  		<?php if( !is_admin() ) echo $EM_Notices; ?>
 		<div>
 			<table>
 				<tr><td><?php echo __('Name','dbem'); ?></td><td></td><td><?php echo $EM_Ticket->ticket_name; ?></td></tr>
@@ -209,7 +208,7 @@ function em_bookings_single(){
   		<h2>
   			<?php _e('Edit Booking', 'dbem'); ?>
   		</h2>
-  		<?php echo $EM_Notices; ?>
+  		<?php if( !is_admin() ) echo $EM_Notices; ?>
   		<div id="poststuff" class="metabox-holder">
 	  		<div id="post-body">
 				<div id="post-body-content">
@@ -224,7 +223,7 @@ function em_bookings_single(){
 							$localised_end_date = date_i18n(get_option('dbem_date_format'), $EM_Event->end);
 							?>
 							<table>
-								<tr><td><strong><?php _e('Name','dbem'); ?></strong></td><td><a class="row-title" href="<?php echo EM_ADMIN_URL; ?>&amp;page=events-manager-bookings&amp;event_id=<?php echo $EM_Event->event_id ?>"><?php echo ($EM_Event->event_name); ?></a></td></tr>
+								<tr><td><strong><?php _e('Name','dbem'); ?></strong></td><td><a class="row-title" href="<?php echo $EM_Event->get_bookings_url(); ?>"><?php echo ($EM_Event->event_name); ?></a></td></tr>
 								<tr>
 									<td><strong><?php _e('Date/Time','dbem'); ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong></td>
 									<td>
@@ -297,7 +296,7 @@ function em_bookings_single(){
 									<tbody>
 										<?php foreach($EM_Booking->get_tickets_bookings()->tickets_bookings as $EM_Ticket_Booking): ?>
 										<tr>
-											<td class="ticket-type"><a class="row-title" href="<?php echo EM_ADMIN_URL; ?>&amp;page=events-manager-bookings&amp;ticket_id=<?php echo $EM_Ticket_Booking->get_ticket()->ticket_id ?>"><?php echo $EM_Ticket_Booking->get_ticket()->ticket_name ?></a></td>
+											<td class="ticket-type"><a class="row-title" href="<?php echo em_add_get_params($EM_Event->get_bookings_url(), array('ticket_id'=>$EM_Ticket_Booking->get_ticket()->ticket_id)); ?>"><?php echo $EM_Ticket_Booking->get_ticket()->ticket_name ?></a></td>
 											<td>
 												<span class="em-booking-single-info"><?php echo $EM_Ticket_Booking->get_spaces(); ?></span>
 												<div class="em-booking-single-edit"><input name="em_tickets[<?php echo $EM_Ticket_Booking->get_ticket()->ticket_id; ?>][spaces]" class="em-ticket-select" value="<?php echo $EM_Ticket_Booking->get_spaces(); ?>" /></div>
@@ -310,7 +309,7 @@ function em_bookings_single(){
 											<?php foreach($EM_Event->get_bookings()->get_tickets()->tickets as $EM_Ticket): ?>
 												<?php if( !in_array($EM_Ticket->ticket_id, $shown_tickets) ): ?>
 												<tr>
-													<td class="ticket-type"><a class="row-title" href="<?php echo EM_ADMIN_URL; ?>&amp;page=events-manager-bookings&amp;ticket_id=<?php echo $EM_Ticket->ticket_id ?>"><?php echo $EM_Ticket->ticket_name ?></a></td>
+													<td class="ticket-type"><a class="row-title" href="<?php echo em_add_get_params($EM_Event->get_bookings_url(), array('ticket_id'=>$EM_Ticket->ticket_id)); ?>"><?php echo $EM_Ticket->ticket_name ?></a></td>
 													<td>
 														<span class="em-booking-single-info">0</span>
 														<div class="em-booking-single-edit"><input name="em_tickets[<?php echo $EM_Ticket->ticket_id; ?>][spaces]" class="em-ticket-select" value="0" /></div>
@@ -343,12 +342,10 @@ function em_bookings_single(){
 										<?php do_action('em_bookings_admin_ticket_totals_footer'); ?>
 									</tfoot>
 								</table>
-								<table cellspacing="0" cellpadding="0">
+								<table class="em-form-fields" cellspacing="0" cellpadding="0">
 									<?php if( !has_action('em_bookings_single_custom') ): //default behaviour ?>
 									<tr>
-										<td>
-											<strong><?php _e('Comment','dbem'); ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>
-										</td>
+										<th><?php _e('Comment','dbem'); ?></th>
 										<td>
 											<span class="em-booking-single-info"><?php echo $EM_Booking->booking_comment; ?></span>
 											<div class="em-booking-single-edit"><textarea name="booking_comment"><?php echo $EM_Booking->booking_comment; ?></textarea></div>
@@ -404,7 +401,7 @@ function em_bookings_single(){
 						</h3>
 						<div class="inside">
 							<p><?php _e('You can add private notes below for internal reference that only event managers will see.','dbem'); ?></p>
-							<?php foreach( $EM_Booking->notes as $note ): 
+							<?php foreach( $EM_Booking->get_notes() as $note ): 
 								$user = new EM_Person($note['author']);
 							?>
 							<div>
@@ -442,7 +439,7 @@ function em_bookings_person(){
 			$has_booking = true;
 		}
 	}
-	if( !$has_booking ){
+	if( !$has_booking && !current_user_can('manage_others_bookings') ){
 		?>
 		<div class="wrap"><h2><?php _e('Unauthorized Access','dbem'); ?></h2><p><?php _e('You do not have the rights to manage this event.','dbem'); ?></p></div>
 		<?php
@@ -456,10 +453,10 @@ function em_bookings_person(){
   		<h2>
   			<?php _e('Manage Person\'s Booking', 'dbem'); ?>
   			<?php if( current_user_can('edit_users') ) : ?>
-  			<a href="user-edit.php?user_id=<?php echo $EM_Person->ID; ?>" class="button add-new-h2"><?php _e('Edit User','dbem') ?></a>
+  			<a href="<?php admin_url('user-edit.php?user_id='.$EM_Person->ID); ?>" class="button add-new-h2"><?php _e('Edit User','dbem') ?></a>
   			<?php endif; ?>
   		</h2>
-  		<?php echo $EM_Notices; ?>
+  		<?php if( !is_admin() ) echo $EM_Notices; ?>
 		<?php do_action('em_bookings_person_header'); ?>
   		<div id="poststuff" class="metabox-holder has-right-sidebar">
 	  		<div id="post-body">

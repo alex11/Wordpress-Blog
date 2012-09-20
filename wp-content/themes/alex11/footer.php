@@ -18,7 +18,7 @@
 
 		<?php wp_footer(); ?>
 	</div>
-
+	<!--
 	<script type="text/javascript">
 		var pkBaseURL = (("https:" == document.location.protocol) ? "https://www.alex11.org/stats/" : "https://www.alex11.org/stats/");
 		document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
@@ -30,6 +30,7 @@
 			piwikTracker.enableLinkTracking();
 			} catch( err ) {}
 	</script><noscript><p><img src="https://www.alex11.org/stats/piwik.php?idsite=1" style="border:0" alt="" /></p></noscript>
+	-->
 	</body>
 
 </html>

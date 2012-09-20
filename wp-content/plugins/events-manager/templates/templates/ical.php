@@ -1,4 +1,7 @@
 <?php
+//timezone
+$tz = date_default_timezone_get(); // get current PHP timezone
+date_default_timezone_set( get_option('timezone_string')); // set the PHP timezone to match WordPress
 //send headers
 header('Content-type: text/calendar; charset=utf-8');
 header('Content-Disposition: inline; filename="events.ics"');
@@ -13,31 +16,33 @@ $blog_desc = ent2ncr(convert_chars(strip_tags(get_bloginfo()))) . " - " . __('Ca
 			
 echo "BEGIN:VCALENDAR
 VERSION:2.0
-METHOD:PUBLISH
-CALSCALE:GREGORIAN
-PRODID:-//Events Manager//1.0//EN
-X-WR-CALNAME:{$blog_desc}";
+PRODID:-//wp-events-plugin.com//".EM_VERSION."//EN";
 
-/* @var $EM_Event EM_Event */
 foreach ( $EM_Events as $EM_Event ) {
+	/* @var $EM_Event EM_Event */
+	date_default_timezone_set('UTC'); // set the PHP timezone to UTC, we already calculated event    
+	if($EM_Event->event_all_day){
+		$dateStart	= ';VALUE=DATE:'.date('Ymd',$EM_Event->start); //all day
+		$dateEnd	= ';VALUE=DATE:'.date('Ymd',$EM_Event->end + 86400); //add one day
+	}else{
+		$dateStart	= ':'.date('Ymd\THis\Z',$EM_Event->start);
+		$dateEnd = ':'.date('Ymd\THis\Z',$EM_Event->end);
+	}
+	if( !empty($EM_Event->event_date_modified) && $EM_Event->event_date_modified != '0000-00-00 00:00:00' ){
+		$dateModified = date('Ymd\THis\Z', strtotime($EM_Event->event_date_modified));
+	}else{
+	    $dateModified = date('Ymd\THis\Z', strtotime($EM_Event->post_modified));
+	}
+	date_default_timezone_set( get_option('timezone_string')); // set the PHP timezone to match WordPress
+	
+	//formats
 	$description = $EM_Event->output($description_format,'ical');
-	$description = str_replace("\\","\\\\",ent2ncr(convert_chars(strip_tags($description))));
-	//$description = str_replace('"','DQUOTE',$description);
+	$description = str_replace("\\","\\\\",strip_tags($description));
 	$description = str_replace(';','\;',$description);
 	$description = str_replace(',','\,',$description);
 	
-	if($EM_Event->event_all_day && $EM_Event->event_start_date == $EM_Event->event_end_date){
-		$dateStart	= date('Ymd\T000000',$EM_Event->start - (60*60*get_option('gmt_offset')));
-		$dateEnd	= date('Ymd\T000000',$EM_Event->start + 60*60*24 - (60*60*get_option('gmt_offset')));
-	}else{
-		$dateStart	= date('Ymd\THis\Z',$EM_Event->start - (60*60*get_option('gmt_offset')));
-		$dateEnd = date('Ymd\THis\Z',$EM_Event->end - (60*60*get_option('gmt_offset')));
-	}
-	$dateModified = date('Ymd\THis\Z', $EM_Event->event_date_modified);			
-	
-	$location		= $EM_Event->output('#_LOCATION');
-	$location		= str_replace(',','\,',ent2ncr(convert_chars(strip_tags($location))));
-	//$location = str_replace('"','DQUOTE',$location);
+	$location = $EM_Event->output('#_LOCATION', 'ical');
+	$location = str_replace("\\","\\\\",strip_tags($location));
 	$location = str_replace(';','\;',$location);
 	$location = str_replace(',','\,',$location);
 	
@@ -63,8 +68,8 @@ foreach ( $EM_Events as $EM_Event ) {
 echo "
 BEGIN:VEVENT
 UID:{$UID}
-DTSTART:{$dateStart}
-DTEND:{$dateEnd}
+DTSTART{$dateStart}
+DTEND{$dateEnd}
 DTSTAMP:{$dateModified}
 SUMMARY:{$description}
 LOCATION:{$location}
@@ -73,3 +78,4 @@ END:VEVENT";
 }
 echo "
 END:VCALENDAR";
+date_default_timezone_set($tz); // set the PHP timezone back the way it was

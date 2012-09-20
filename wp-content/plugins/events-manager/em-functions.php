@@ -166,7 +166,7 @@ function em_get_countries($add_blank = false){
 		if(is_array($add_blank)){
 			$em_countries_array = $add_blank + $em_countries_array;
 		}else{
-			array_unshift($em_countries_array, $add_blank);
+		    $em_countries_array = array(0 => $add_blank) + $em_countries_array;
 		}
 	}
 	return apply_filters('em_get_countries', $em_countries_array);
@@ -207,7 +207,7 @@ function em_get_currency_formatted($price, $currency=false, $format=false){
 	if(!$currency) $currency = get_option('dbem_bookings_currency');
 	$formatted_price = str_replace('@', em_get_currency_symbol(true,$currency), $format);
 	$formatted_price = str_replace('#', number_format( $price, 2, get_option('dbem_bookings_currency_decimal_point','.'), get_option('dbem_bookings_currency_thousands_sep',',') ), $formatted_price);
-	return $formatted_price;
+	return apply_filters('em_get_currency_formatted', $formatted_price, $price, $currency, $format);
 }
 
 function em_get_currency_symbol($true_symbol = false, $currency = false){
@@ -225,13 +225,6 @@ function em_get_currency_name($currency = false){
 
 function em_get_hour_format(){
 	return get_option('dbem_time_24h') ? "H:i":"h:i A";
-}
-
-function em_get_date_format(){
-	global $localised_date_formats;
-	$locale_code = substr ( get_locale (), 0, 2 );
-	$localised_date_format = !empty($localised_date_formats[$locale_code]) ? $localised_date_formats[$locale_code]:$localised_date_formats['en'];
-	return $localised_date_format;
 }
 
 function em_get_days_names(){
@@ -269,15 +262,15 @@ function em_get_attributes($lattributes = false){
 	$formats =
 		get_option ( 'dbem_placeholders_custom' ).
 		get_option ( 'dbem_location_placeholders_custom' ).
-		get_option ( 'dbem_event_list_item_format' ).
-		get_option ( 'dbem_event_page_title_format' ).
 		get_option ( 'dbem_full_calendar_event_format' ).
+		get_option ( 'dbem_rss_description_format' ).
+		get_option ( 'dbem_rss_title_format' ).
+		get_option ( 'dbem_map_text_format' ).
 		get_option ( 'dbem_location_baloon_format' ).
 		get_option ( 'dbem_location_event_list_item_format' ).
 		get_option ( 'dbem_location_page_title_format' ).
-		get_option ( 'dbem_map_text_format' ).
-		get_option ( 'dbem_rss_description_format' ).
-		get_option ( 'dbem_rss_title_format' ).
+		get_option ( 'dbem_event_list_item_format' ).
+		get_option ( 'dbem_event_page_title_format' ).
 		get_option ( 'dbem_single_event_format' ).
 		get_option ( 'dbem_single_location_format' );
 	//We now have one long string of formats, get all the attribute placeholders
@@ -291,12 +284,17 @@ function em_get_attributes($lattributes = false){
 	foreach($matches[1] as $key => $attribute) {
 		if( !in_array($attribute, $attributes['names']) ){
 			$attributes['names'][] = $attribute ;
-			//check if there's ddm values
-			$attribute_values = array();
-			if(strstr($matches[3][$key], '|') !== false){
-				$attribute_values = explode('|',$matches[3][$key]);
-			}
-			$attributes['values'][$attribute] = apply_filters('em_get_attributes_'.$attribute,$attribute_values, $attribute, $matches);
+			$attributes['values'][$attribute] = array();
+		}
+		//check if there's ddm values
+		if( !empty($matches[3][$key]) ){
+		    $new_values = explode('|',$matches[3][$key]);
+		    if( count($new_values) > count($attributes['values'][$attribute]) ){
+		    	foreach($new_values as $key => $value){
+		    	    $new_values[$key] = trim($value);
+		    	}
+				$attributes['values'][$attribute] = apply_filters('em_get_attributes_'.$attribute, $new_values, $attribute, $matches);
+		    }
 		}
 	}
 	return apply_filters('em_get_attributes', $attributes, $matches);
@@ -347,10 +345,11 @@ function em_register_new_user( $user_data ) {
 	$errors = apply_filters( 'registration_errors', $errors, $sanitized_user_login, $user_email );
 	ob_clean();
 
-	if ( $errors->get_error_code() )
-		return $errors;
+	if ( $errors->get_error_code() ) return $errors;
 
-	$user_data['user_pass'] = wp_generate_password( 12, false);
+	if(empty($user_data['user_pass'])){
+		$user_data['user_pass'] =  wp_generate_password( 12, false);
+	}
 
 	$user_id = wp_insert_user( $user_data );
 	if( is_numeric($user_id) && !empty($user_data['dbem_phone']) ){
@@ -441,8 +440,7 @@ function em_checkbox_items($name, $array, $saved_values, $horizontal = true) {
 	echo $output;
 
 }
-
-function em_options_input_text($title, $name, $description, $default='') {
+function em_options_input_text($title, $name, $description ='', $default='') {
 	?>
 	<tr valign="top" id='<?php echo esc_attr($name);?>_row'>
 		<th scope="row"><?php echo esc_html($title); ?></th>
@@ -453,7 +451,7 @@ function em_options_input_text($title, $name, $description, $default='') {
 	</tr>
 	<?php
 }
-function em_options_input_password($title, $name, $description) {
+function em_options_input_password($title, $name, $description ='') {
 	?>
 	<tr valign="top" id='<?php echo esc_attr($name);?>_row'>
 		<th scope="row"><?php echo esc_html($title); ?></th>
@@ -465,7 +463,7 @@ function em_options_input_password($title, $name, $description) {
 	<?php
 }
 
-function em_options_textarea($title, $name, $description) {
+function em_options_textarea($title, $name, $description ='') {
 	?>
 	<tr valign="top" id='<?php echo esc_attr($name);?>_row'>
 		<th scope="row"><?php echo esc_html($title); ?></th>
@@ -500,7 +498,7 @@ function em_options_radio($name, $options, $title='') {
 <?php
 }
 
-function em_options_radio_binary($title, $name, $description, $option_names = '') {
+function em_options_radio_binary($title, $name, $description='', $option_names = '') {
 	if( empty($option_names) ) $option_names = array(0 => __('No','dbem'), 1 => __('Yes','dbem'));
 	if( substr($name, 0, 7) == 'dbem_ms' ){
 		$list_events_page = get_site_option($name);
@@ -519,8 +517,8 @@ function em_options_radio_binary($title, $name, $description, $option_names = ''
 	<?php
 }
 
-function em_options_select($title, $name, $list, $description) {
-	$option_value = get_option($name);
+function em_options_select($title, $name, $list, $description='', $default='') {
+	$option_value = get_option($name, $default);
 	if( $name == 'dbem_events_page' && !is_object(get_page($option_value)) ){
 		$option_value = 0; //Special value
 	}
@@ -556,7 +554,23 @@ if( !function_exists('get_current_blog_id') ){
 	function get_current_blog_id(){ return 1; } //for < 3.1
 }
 
+if( !function_exists( 'is_main_query' ) ){
+	/**
+	 * Substitutes the original function in 3.3 onwards, for backwards compatability (only created if not previously defined)
+	 * @return bool
+	 */
+	function is_main_query(){ global $wp_query; return $wp_query->in_the_loop == true; }
+}
+
 function em_get_thumbnail_url($image_url, $width, $height){
 	return plugins_url('includes/thumbnails/timthumb.php', __FILE__).'?src='.$image_url.'&amp;h='. $height .'&amp;w='. $width;
+}
+
+/**
+ * Depreciated
+ * @return unknown
+ */
+function em_get_date_format(){
+	return get_option('dbem_date_format');
 }
 ?>

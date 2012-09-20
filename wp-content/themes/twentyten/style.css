@@ -3,10 +3,11 @@ Theme Name: Twenty Ten
 Theme URI: http://wordpress.org/
 Description: The 2010 theme for WordPress is stylish, customizable, simple, and readable -- make it yours with a custom menu, header image, and background. Twenty Ten supports six widgetized areas (two in the sidebar, four in the footer) and featured images (thumbnails for gallery posts and custom header images for posts and pages). It includes stylesheets for print and the admin Visual Editor, special styles for posts in the "Asides" and "Gallery" categories, and has an optional one-column page template that removes the sidebar.
 Author: the WordPress team
-Version: 1.2
-License: GNU General Public License
-License URI: license.txt
+Version: 1.4
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: black, blue, white, two-columns, fixed-width, custom-header, custom-background, threaded-comments, sticky-post, translation-ready, microformats, rtl-language-support, editor-style, custom-menu
+Text Domain: twentyten
 */
 
 
@@ -67,12 +68,17 @@ DESCRIPTION: Two-column fixed layout with one sidebar right of content
 
 #container {
 	float: left;
+	margin: 0 -240px 0 0;
 	width: 100%;
 }
 #content {
+	margin: 0 280px 0 20px;
 }
 #primary,
 #secondary {
+	float: right;
+	overflow: hidden;
+	width: 220px;
 }
 #secondary {
 	clear: right;
@@ -89,7 +95,7 @@ DESCRIPTION: One centered column with no sidebar
 
 .one-column #content {
 	margin: 0 auto;
-	width: 495px;
+	width: 640px;
 }
 
 /*
@@ -110,7 +116,7 @@ input,
 textarea,
 .page-title span,
 .pingback a.url {
-	font-family: "Helvetica Neue", 'Lucida Grande', 'Lucida Sans Unicode', Helvetica, Geneva, Lucida, Verdana, Arial;
+	font-family: Georgia, "Bitstream Charter", serif;
 }
 h3#comments-title,
 h3#reply-title,
@@ -137,8 +143,10 @@ h3#reply-title,
 .reply,
 .widget-title,
 .wp-caption-text {
+	font-family: "Helvetica Neue", Arial, Helvetica, "Nimbus Sans L", sans-serif;
 }
 input[type=submit] {
+	font-family: "Helvetica Neue", Arial, Helvetica, "Nimbus Sans L", sans-serif;
 }
 pre {
 	font-family: "Courier 10 Pitch", Courier, monospace;
@@ -159,9 +167,12 @@ div.menu,
 #main,
 #wrapper {
 	margin: 0 auto;
-	width: 980px;
+	width: 940px;
 }
 #wrapper {
+	background: #fff;
+	margin-top: 20px;
+	padding: 0 20px;
 }
 
 /* Structure the footer area */
@@ -275,6 +286,7 @@ pre {
 	color: #222;
 	line-height: 18px;
 	margin-bottom: 18px;
+	overflow: auto;
 	padding: 1.5em;
 }
 abbr,
@@ -326,20 +338,14 @@ a:hover {
 -------------------------------------------------------------- */
 
 #header {
+	padding: 30px 0 0 0;
 }
-
-#head-bg {
-	height:41px;
-	background:#E34517;
-
-}
-
 #site-title {
 	float: left;
 	font-size: 30px;
 	line-height: 36px;
 	margin: 0 0 18px 0;
-	width: 100%;
+	width: 700px;
 }
 #site-title a {
 	color: #000;
@@ -367,24 +373,17 @@ a:hover {
 -------------------------------------------------------------- */
 
 #access {
+	background: #000;
 	display: block;
-	margin-top: -22px;
-	width: 980px;
-	height: 26px;
-}
-#access h1 {
-	display:block;
-	width:180px;
-	height:31px;
-	margin-top:-10px;
-	background: url(images/logo.png) 0 0 no-repeat;
-	float:left;
+	float: left;
+	margin: 0 auto;
+	width: 940px;
 }
 #access .menu-header,
 div.menu {
-	margin-left: 20px;
-	width: 780px;
-	float:left;
+	font-size: 13px;
+	margin-left: 12px;
+	width: 928px;
 }
 #access .menu-header ul,
 div.menu ul {
@@ -397,20 +396,12 @@ div.menu li {
 	position: relative;
 }
 #access a {
-	color: #000;
-	font-size: 14px;
-	background:#fff;
-	margin-right:7px;
-	padding: 5px 10px;
+	color: #aaa;
+	display: block;
+	line-height: 38px;
+	padding: 0 10px;
 	text-decoration: none;
-	-moz-border-radius-topright:7px; -khtml-border-radius-topright:7px; -webkit-border-top-right-radius:7px; border-top-right-radius:7px;-moz-border-radius-topleft:7px; -khtml-border-radius-topleft:7px; -webkit-border-top-left-radius:7px; border-top-left-radius:7px;
 }
-
-#access a.login {
-	float:right;
-	margin:-23px 0 0 0;
-}
-
 #access ul ul {
 	box-shadow: 0px 3px 3px rgba(0,0,0,0.2);
 	-moz-box-shadow: 0px 3px 3px rgba(0,0,0,0.2);
@@ -438,9 +429,9 @@ div.menu li {
 	height: auto;
 }
 #access li:hover > a,
-#access a:hover.login,
 #access ul ul :hover > a {
-	background: #b4e85e;
+	background: #333;
+	color: #fff;
 }
 #access ul li:hover > ul {
 	display: block;
@@ -449,14 +440,14 @@ div.menu li {
 #access ul li.current-menu-ancestor > a,
 #access ul li.current-menu-item > a,
 #access ul li.current-menu-parent > a {
-	background:#b4e85e;
+	color: #fff;
 }
 * html #access ul li.current_page_item a,
 * html #access ul li.current-menu-ancestor a,
 * html #access ul li.current-menu-item a,
 * html #access ul li.current-menu-parent a,
 * html #access ul li a:hover {
-	background:#b4e85e;
+	color: #fff;
 }
 
 
@@ -466,7 +457,7 @@ div.menu li {
 #main {
 	clear: both;
 	overflow: hidden;
-	padding: 11px 0 0 0;
+	padding: 40px 0 0 0;
 }
 #content {
 	margin-bottom: 36px;
@@ -475,8 +466,8 @@ div.menu li {
 #content input,
 #content textarea {
 	color: #333;
-	font-size: 14px;
-	line-height: 20px;
+	font-size: 16px;
+	line-height: 24px;
 }
 #content p,
 #content ul,
@@ -516,9 +507,6 @@ div.menu li {
 	line-height: 1.5em;
 	margin: 0 0 20px 0;
 }
-
-#content h1 { font-size:22px; }
-
 #content table {
 	border: 1px solid #e7e7e7;
 	margin: 0 -1px 24px 0;
@@ -680,14 +668,14 @@ body.page .edit-link {
 	display: block;
 }
 #entry-author-info {
-	background: #b4e85e;
+	background: #f2f7fc;
+	border-top: 4px solid #000;
 	clear: both;
-	font-size: 13px;
+	font-size: 14px;
 	line-height: 20px;
 	margin: 24px 0;
 	overflow: hidden;
 	padding: 18px 20px;
-	-moz-border-radius:8px; -khtml-border-radius:8px; -webkit-border-radius:8px; border-radius:8px;
 }
 #entry-author-info #author-avatar {
 	background: #fff;
@@ -719,7 +707,7 @@ body.page .edit-link {
 }
 .entry-meta a:hover,
 .entry-utility a:hover {
-	color: #00BD72;
+	color: #ff4b33;
 }
 #content .video-player {
 	padding: 0;
@@ -1128,17 +1116,14 @@ h3#reply-title {
 	margin-left: 0;
 }
 .widget-area ul ul {
-	list-style: disc;
+	list-style: square;
 	margin-left: 1.3em;
-}
-#primary.widget-area .widget-container li {
-	line-height:25px;
 }
 .widget-area select {
 	max-width: 100%;
 }
 .widget_search #s {/* This keeps the search inputs in line */
-	width: 70%;
+	width: 60%;
 }
 .widget_search label {
 	display: none;
@@ -1146,21 +1131,17 @@ h3#reply-title {
 .widget-container {
 	margin: 0 0 18px 0;
 }
-#primary .widget-container {
-	font-size:14px;
-}
-	
 .widget-title {
-	color: #00BD72;
-	margin:10px 0 7px 0;
+	color: #222;
+	font-weight: bold;
 }
-
 .widget-area a:link,
 .widget-area a:visited {
 	text-decoration: none;
 }
 .widget-area a:active,
 .widget-area a:hover {
+	text-decoration: underline;
 }
 .widget-area .entry-meta {
 	font-size: 11px;
@@ -1212,6 +1193,7 @@ h3#reply-title {
 /* Main sidebars */
 #main .widget-area ul {
 	margin-left: 0;
+	padding: 0 20px 0 0;
 }
 #main .widget-area ul ul {
 	border: none;
@@ -1288,26 +1270,6 @@ code {
 	-webkit-text-size-adjust: none;
 }
 
-/* =Individual Rules
--------------------------------------------------------------- */
-.textwidget .network a { display:block; padding-left:60px; }
-.textwidget .network.twitter { background:url(images/twitter_50x50.png)0 0 no-repeat; }
-.textwidget .network.facebook { background:url(images/facebook_50x50.png)0 0 no-repeat; }
-.textwidget .network.youtube { background:url(images/youtube_50x50.png)0 0 no-repeat; }
-
-.archive-meta { margin:-10px 10px 20px 10px; }
-.archive-meta,
-.greenbox { background:#B4E85E; padding:10px; margin:20px 0; -moz-border-radius:7px; -khtml-border-radius:7px; -webkit-border-radius:7px; border-radius:7px; }
-.archive-meta p,
-.greenbox p { margin:0 !important; line-height:22px; }
-
-a.button:link,
-a.button:visited { background:#F5FF53; color:#000 !important; padding:2px 7px; text-decoration:none; -moz-border-radius:5px; -khtml-border-radius:5px; -webkit-border-radius:5px; border-radius:5px; }
-a.button:hover,
-a.button:focus,
-a.button:active { background:#00BD72; color:#000 !important; }
-
-.clearer {clear:both; height:0; line-height:0;}
 
 /* =Print Style
 -------------------------------------------------------------- */
