@@ -24,6 +24,18 @@
 			</fieldset>
 		</td>
 	</tr>
+	<tr valign="top" id="ssl_admin_row">
+		<th scope="row">Force SSL Administration</th>
+		<td>
+			<fieldset>
+				<label for="ssl_admin">
+					<input type="hidden" name="ssl_admin" value="0" />
+					<input name="ssl_admin" type="checkbox" id="ssl_admin" value="1"<?php echo ((force_ssl_admin()) ? ' checked="checked" disabled="disabled" title="FORCE_SSL_ADMIN is true in wp-config.php"' : (($this->getPlugin()->getSetting('ssl_admin')) ? ' checked="checked"' : '') ); ?> />
+					<p class="description">Always use HTTPS while in the admin panel. This setting is identical to <a href="http://codex.wordpress.org/Administration_Over_SSL#Example_2" target="_blank">FORCE_SSL_ADMIN</a>.</p>
+				</label>
+			</fieldset>
+		</td>
+	</tr>
 	<tr valign="top" id="exclusive_https_row">
 		<th scope="row">Force SSL Exclusively</th>
 		<td>
@@ -31,29 +43,31 @@
 				<label for="exclusive_https">
 					<input type="hidden" name="exclusive_https" value="0" />
 					<input name="exclusive_https" type="checkbox" id="exclusive_https" value="1"<?php echo (($this->getPlugin()->getSetting('exclusive_https')) ? ' checked="checked"' : ''); ?> />
-					Posts and pages without <a href="<?php echo parse_url($this->getPlugin()->getPluginUrl(), PHP_URL_PATH); ?>/screenshot-2.png" class="thickbox">Force SSL</a> enabled will be redirected to HTTP.
+					<p class="description">Any page that is not secured via <a href="<?php echo parse_url($this->getPlugin()->getPluginUrl(), PHP_URL_PATH); ?>/screenshot-2.png" class="thickbox">Force SSL</a> or URL Filters will be redirected to HTTP.</p>
 				</label>
 			</fieldset>
 		</td>
 	</tr>
-	<tr valign="top" id="ssl_admin_row">
-		<th scope="row">Force SSL Administration</th>
+	<tr valign="top" id="remove_unsecure_row">
+		<th scope="row">Remove Unsecure Elements</th>
 		<td>
 			<fieldset>
-				<label for="ssl_admin">
-					<input type="hidden" name="ssl_admin" value="0" />
-					<input name="ssl_admin" type="checkbox" id="ssl_admin" value="1"<?php echo (($this->getPlugin()->getSetting('ssl_admin')) ? ' checked="checked"' : ''); ?><?php echo ((force_ssl_admin()) ? ' disabled="disabled" title="FORCE_SSL_ADMIN is true in wp-config.php"' : ''); ?> />
+				<label for="remove_unsecure">
+					<input type="hidden" name="remove_unsecure" value="0" />
+					<input name="remove_unsecure" type="checkbox" id="remove_unsecure" value="1"<?php echo (($this->getPlugin()->getSetting('remove_unsecure')) ? ' checked="checked"' : ''); ?> />
+					<p class="description">Remove elements inaccessible over HTTPS. May break other plugins' functionality.</p>
 				</label>
 			</fieldset>
 		</td>
 	</tr>
-	<tr valign="top" id="frontpage_row">
-		<th scope="row">Secure Front Page</th>
+	<tr valign="top" id="debug_row">
+		<th scope="row">Debug Mode</th>
 		<td>
 			<fieldset>
-				<label for="frontpage">
-					<input type="hidden" name="frontpage" value="0" />
-					<input name="frontpage" type="checkbox" id="frontpage" value="1"<?php echo (($this->getPlugin()->getSetting('frontpage')) ? ' checked="checked"' : ''); ?> />
+				<label for="debug">
+					<input type="hidden" name="debug" value="0" />
+					<input name="debug" type="checkbox" id="debug" value="1"<?php echo (($this->getPlugin()->getSetting('debug')) ? ' checked="checked"' : ''); ?> />
+					<p class="description">Outputs debug information to the browser's console.</p>
 				</label>
 			</fieldset>
 		</td>
@@ -67,18 +81,7 @@
 					<input type="radio" name="ssl_proxy" value="auto"<?php echo (($this->getPlugin()->getSetting('ssl_proxy') === 'auto') ? ' checked="checked"' : ''); ?>> <span>Auto</span>
 					<input type="radio" name="ssl_proxy" value="1"<?php echo (($this->getPlugin()->getSetting('ssl_proxy') == 1) ? ' checked="checked"' : ''); ?>> <span>Yes</span>
 				</label>
-			</fieldset>
-		</td>
-	</tr>
-	<tr valign="top" id="debug_row">
-		<th scope="row">Debug Mode</th>
-		<td>
-			<fieldset>
-				<label for="debug">
-					<input type="hidden" name="debug" value="0" />
-					<input name="debug" type="checkbox" id="debug" value="1"<?php echo (($this->getPlugin()->getSetting('debug')) ? ' checked="checked"' : ''); ?> />
-					Outputs debug information to the browser's console.
-				</label>
+				<p class="description">If you think you may behind a proxy, set to Auto. Otherwise, leave the setting on No.</p>
 			</fieldset>
 		</td>
 	</tr>
@@ -87,17 +90,17 @@
 		<td>
 			<fieldset>
 				<label for="admin_menu_side" class="label-radio">
-					<input type="radio" name="admin_menu" id="admin_menu_side" value="side"<?php echo (($this->getPlugin()->getSetting('admin_menu') === 'side') ? ' checked="checked"' : ''); ?>> <span>Admin Sidebar</span>
+					<input type="radio" name="admin_menu" id="admin_menu_side" value="side"<?php echo (($this->getPlugin()->getSetting('admin_menu') === 'side') ? ' checked="checked"' : ''); ?>> <span>Sidebar</span>
 				</label>
 				<label for="admin_menu_settings" class="label-radio">
-					<input type="radio" name="admin_menu" id="admin_menu_settings" value="settings"<?php echo (($this->getPlugin()->getSetting('admin_menu') === 'settings') ? ' checked="checked"' : ''); ?>> <span>General Settings</span>
+					<input type="radio" name="admin_menu" id="admin_menu_settings" value="settings"<?php echo (($this->getPlugin()->getSetting('admin_menu') === 'settings') ? ' checked="checked"' : ''); ?>> <span>Settings</span>
 				</label>
 			</fieldset>
 		</td>
 	</tr>
 </table>
 
-<input type="hidden" name="action" value="save" />
+<input type="hidden" name="action" value="wphttps-settings" />
 <input type="hidden" name="ssl_host_subdomain" value="<?php echo (($this->getPlugin()->getSetting('ssl_host_subdomain') != 1) ? 0 : 1); ?>" />
 <input type="hidden" name="ssl_host_diff" value="<?php echo (($this->getPlugin()->getSetting('ssl_host_diff') != 1) ? 0 : 1); ?>" />
 

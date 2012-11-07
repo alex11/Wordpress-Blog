@@ -233,7 +233,7 @@ class EM_Booking extends EM_Object{
 			$this->get_person();
 			$this->compat_keys();
 		}
-		return apply_filters('em_booking_get_post',$this->validate(),$this);
+		return apply_filters('em_booking_get_post',count($this->errors) == 0,$this);
 	}
 	
 	function validate(){
@@ -450,6 +450,7 @@ class EM_Booking extends EM_Object{
 		if(!$ignore_spaces && $status == 1){
 			if( $this->get_event()->get_bookings()->get_available_spaces() < $this->get_spaces() && !get_option('dbem_bookings_approval_overbooking') ){
 				$this->feedback_message = sprintf(__('Not approved, spaces full.','dbem'), $action_string);
+				$this->add_error($this->feedback_message);
 				return apply_filters('em_booking_set_status', false, $this);
 			}
 		}
@@ -632,9 +633,6 @@ class EM_Booking extends EM_Object{
 			if( !empty($msg['user']['subject']) ){
 				$msg['user']['subject'] = $this->output($msg['user']['subject'], 'raw');
 				$msg['user']['body'] = $this->output($msg['user']['body'], $output_type);
-				if( get_option('dbem_smtp_html') && get_option('dbem_smtp_html_br', 1) ){
-					$msg['user']['body'] = nl2br($msg['user']['body']);
-				}
 				//Send to the person booking
 				if( !$this->email_send( $msg['user']['subject'], $msg['user']['body'], $this->get_person()->user_email) ){
 					$result = false;
@@ -646,10 +644,7 @@ class EM_Booking extends EM_Object{
 				if( get_option('dbem_bookings_contact_email') == 1 || get_option('dbem_bookings_notify_admin') ){
 					//Only gets sent if this is a pending booking, unless approvals are disabled.
 					$msg['admin']['subject'] = $this->output($msg['admin']['subject'],'raw');
-					$msg['admin']['body'] = $this->output($msg['admin']['body'], $output_type); 
-					if( get_option('dbem_smtp_html') && get_option('dbem_smtp_html_br', 1) ){
-						$msg['admin']['body'] = nl2br($msg['admin']['body']);
-					}
+					$msg['admin']['body'] = $this->output($msg['admin']['body'], $output_type);
 					//email contact
 					if( get_option('dbem_bookings_contact_email') == 1 ){
 						if( !$this->email_send( $msg['admin']['subject'], $msg['admin']['body'], $EM_Event->get_contact()->user_email) && current_user_can('activate_plugins')){

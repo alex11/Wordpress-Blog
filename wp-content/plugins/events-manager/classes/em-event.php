@@ -456,9 +456,8 @@ class EM_Event extends EM_Object{
 			$this->get_categories()->get_post(); //it'll know what to do
 		}
 		//validate (optional) and return result
-		$result = $validate ? $this->validate_meta():true;
 		$this->compat_keys(); //compatability
-		return apply_filters('em_event_get_post', $result, $this);
+		return apply_filters('em_event_get_post', count($this->errors) == 0, $this);
 	}
 	
 	function validate(){
@@ -476,9 +475,10 @@ class EM_Event extends EM_Object{
 				$this->add_error( sprintf(__("%s is required.", "dbem"), __('Your name','dbem')) );
 			}
 		}
+		$validate_tickets = $this->get_bookings()->get_tickets()->validate();
 		$validate_image = $this->image_validate();
 		$validate_meta = $this->validate_meta();
-		return apply_filters('em_event_validate', $validate_post && $validate_image && $validate_meta, $this );		
+		return apply_filters('em_event_validate', $validate_post && $validate_image && $validate_meta && $validate_tickets, $this );		
 	}
 	function validate_meta(){
 		$missing_fields = Array ();
@@ -760,21 +760,25 @@ class EM_Event extends EM_Object{
 	function delete($force_delete = false){ //atm wp seems to force cp deletions anyway
 		global $wpdb;
 		if( $this->can_manage('delete_events', 'delete_others_events') ){
-			remove_action('before_delete_post',array('EM_Event_Post_Admin','before_delete_post'),10,1); //since we're deleting directly, remove post actions
-			do_action('em_event_delete_pre', $this);
+		    if( !is_admin() ){
+				include_once('em-event-post-admin.php');
+				if( !defined('EM_EVENT_DELETE_INCLUDE') ){
+					EM_Event_Post_Admin::init();
+					EM_Event_Recurring_Post_Admin::init();
+					define('EM_EVENT_DELETE_INCLUDE',true);
+				}
+		    }
+		    do_action('em_event_delete_pre', $this);
 			if( $force_delete ){
 				$result = wp_delete_post($this->post_id,$force_delete);
-				$result_meta = $this->delete_meta();
 			}else{
 				$result = wp_trash_post($this->post_id);
-				$result_meta = true;
-				$this->set_status(null); //FIXME status isn't set on trash post, maybe bug/nuance in WP when not admin side?
 			}
 		}else{
-			$result = $result_meta = false;
+			$result = false;
 		}
 		//print_r($result); echo "|"; print_r($result_meta); die('DELETING');
-		return apply_filters('em_event_delete', $result !== false && $result_meta, $this);
+		return apply_filters('em_event_delete', $result !== false, $this);
 	}
 	
 	function delete_meta(){
@@ -1182,6 +1186,18 @@ class EM_Event extends EM_Object{
 					}elseif ($condition == 'is_future'){
 						//if event is upcoming
 						$show_condition = $this->start > current_time('timestamp');
+					}elseif ($condition == 'is_recurrence'){
+						//if event is a recurrence
+						$show_condition = $this->is_recurrence();
+					}elseif ($condition == 'not_recurrence'){
+						//if event is not a recurrence
+						$show_condition = !$this->is_recurrence();
+					}elseif ($condition == 'is_private'){
+						//if event is a recurrence
+						$show_condition = $this->event_private == 1;
+					}elseif ($condition == 'not_private'){
+						//if event is not a recurrence
+						$show_condition = $this->event_private == 0;
 					}elseif ( preg_match('/^has_category_([a-zA-Z0-9_\-]+)$/', $condition, $category_match)){
 					    //event is in this category
 					    $show_condition = has_term($category_match[1], EM_TAXONOMY_CATEGORY, $this->post_id);
@@ -1259,7 +1275,7 @@ class EM_Event extends EM_Object{
 									}
 								}
 								if( $this->array_is_numeric($image_size) && count($image_size) > 1 ){
-									$replace = "<img src='".esc_url(em_get_thumbnail_url($image_src, $image_size[0], $image_size[1]))."' alt='".esc_attr($this->event_name)."'/>";
+									$replace = "<img src='".esc_url(em_get_thumbnail_url($image_src, $image_size[0], $image_size[1]))."' alt='".esc_attr($this->event_name)."' width='{$image_size[0]}' height='{$image_size[1]}'/>";
 								}else{
 									$replace = "<img src='".esc_url($image_src)."' alt='".esc_attr($this->event_name)."'/>";
 								}
@@ -1365,12 +1381,15 @@ class EM_Event extends EM_Object{
 					$min = false;
 					$max = 0;
 					foreach( $this->get_tickets()->tickets as $EM_Ticket ){
-						if($EM_Ticket->get_price() > $max ){
-							$max = $EM_Ticket->get_price();
+						/* @var $EM_Ticket EM_Ticket */
+						if( $EM_Ticket->is_available() || get_option('dbem_bookings_tickets_show_unavailable') ){
+							if($EM_Ticket->get_price() > $max ){
+								$max = $EM_Ticket->get_price();
+							}
+							if($EM_Ticket->get_price() < $min || $min === false){
+								$min = $EM_Ticket->get_price();
+							}						
 						}
-						if($EM_Ticket->get_price() < $min || $min === false){
-							$min = $EM_Ticket->get_price();
-						}						
 					}
 					if( $min === false ) $min = 0;
 					if( $min != $max ){
@@ -1383,8 +1402,11 @@ class EM_Event extends EM_Object{
 					//get the range of prices
 					$min = false;
 					foreach( $this->get_tickets()->tickets as $EM_Ticket ){
-						if( $EM_Ticket->get_price() < $min || $min === false){
-							$min = $EM_Ticket->get_price();
+						/* @var $EM_Ticket EM_Ticket */
+						if( $EM_Ticket->is_available()|| get_option('dbem_bookings_tickets_show_unavailable') ){
+							if( $EM_Ticket->get_price() < $min || $min === false){
+								$min = $EM_Ticket->get_price();
+							}
 						}
 					}
 					if( $min === false ) $min = 0;
@@ -1394,9 +1416,12 @@ class EM_Event extends EM_Object{
 					//get the range of prices
 					$max = 0;
 					foreach( $this->get_tickets()->tickets as $EM_Ticket ){
-						if( $EM_Ticket->get_price() > $max ){
-							$max = $EM_Ticket->get_price();
-						}						
+						/* @var $EM_Ticket EM_Ticket */
+						if( $EM_Ticket->is_available()|| get_option('dbem_bookings_tickets_show_unavailable') ){
+							if( $EM_Ticket->get_price() > $max ){
+								$max = $EM_Ticket->get_price();
+							}
+						}			
 					}
 					$replace = em_get_currency_formatted($max);
 					break;
@@ -1725,16 +1750,15 @@ class EM_Event extends EM_Object{
 					$post_fields['post_name'] = $event['event_slug'] = $meta_fields['_event_slug'] = $post_name.'-'.date($recurring_date_format, $day);
 					//adjust certain meta information
 					$event['event_start_date'] = $meta_fields['_event_start_date'] = date("Y-m-d", $day);
-					$meta_fields['_start_ts'] = $day;
+					$meta_fields['_start_ts'] = strtotime($event['event_start_date'].' '.$event['event_start_time']);
 					$event['event_rsvp_date'] = $meta_fields['_event_rsvp_date'] = $event['event_start_date'];
 					$event['event_rsvp_time'] = $meta_fields['_event_rsvp_time'] = $event['event_start_time'];
 					if($this->recurrence_days > 0){
-						$meta_fields['_end_ts'] = $day + ($this->recurrence_days * 60*60*24);
-						$event['event_end_date'] = $meta_fields['_event_end_date'] = date("Y-m-d", $meta_fields['_end_ts']);
+						$event['event_end_date'] = $meta_fields['_event_end_date'] = date("Y-m-d", $meta_fields['_start_ts'] + ($this->recurrence_days * 60*60*24));
 					}else{
-						$meta_fields['_end_ts'] = $day;
 						$event['event_end_date'] = $meta_fields['_event_end_date'] = $event['event_start_date'];
 					}	
+					$meta_fields['_end_ts'] = strtotime($event['event_end_date'].' '.$event['event_end_time']);
 					//create the event
 					if( $wpdb->insert($wpdb->posts, $post_fields ) ){
 						$event['post_id'] = $meta_fields['_post_id'] = $post_id = $post_ids[] = $wpdb->insert_id; //post id saved into event and also as a var for later user
@@ -2051,7 +2075,7 @@ class EM_Event extends EM_Object{
  */
 function em_event_output_placeholder($result,$event,$placeholder,$target='html'){
 	if( $target == 'raw' ) return $result;
-	if( ($placeholder == "#_EXCERPT" || $placeholder == "#_LOCATIONEXCERPT") && $target == 'html' ){
+	if( in_array($placeholder, array("#_EXCERPT",'#_EVENTEXCERPT', "#_LOCATIONEXCERPT")) && $target == 'html' ){
 		$result = apply_filters('dbem_notes_excerpt', $result);
 	}elseif( $placeholder == '#_CONTACTEMAIL' && $target == 'html' ){
 		$result = em_ascii_encode($event->get_contact()->user_email);

@@ -8,7 +8,7 @@
  * @author Mike Ems
  * @package Mvied
  */
-class Mvied_Theme_Module {
+class Mvied_Theme_Module implements Mvied_Theme_Module_Interface {
 
 	/**
 	 * Theme object that this module extends
@@ -16,6 +16,16 @@ class Mvied_Theme_Module {
 	 * @var Mvied_Theme
 	 */
 	protected $_theme;
+
+	/**
+	 * 
+	 * Initializes the module
+	 * @param none
+	 * @return void
+	 */
+	public function init() {
+		throw new Exception('No init method in ' . get_class($this));
+	}
 
 	/**
 	 * Set Theme

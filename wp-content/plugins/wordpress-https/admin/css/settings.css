@@ -75,16 +75,19 @@
 	padding-top: 0;
 }
 #wphttps-main table th {
-	width: 140px;
+	width: 160px;
 	line-height: 32px;
 	padding: 0;
 }
 #wphttps-main label.label-radio {
 	display: block;
-	margin-top: 5px;
+	margin: 5px 5px 0 0;
+	float: left;
 }
 #wphttps-main #settings-reset,
-#wphttps-main #filters-reset {
+#wphttps-main #network-settings-reset,
+#wphttps-main #filters-reset,
+#wphttps-main #domain_mapping-reset {
 	float: left;
 	margin-right: 10px;
 }
@@ -106,4 +109,94 @@
 #wphttps-main #secure_filter_row textarea {
 	width: 95%;
 	height: 120px;
+}
+
+#wphttps-main #admin_menu_row fieldset {
+	margin-top: 5px;
+}
+
+#wphttps-main input[type="checkbox"] {
+	float: left;
+}
+#wphttps-main p.description {
+	margin: .5em 0 0 .5em;
+	width: 75%;
+	display: block;
+	float: left;
+	line-height: 1.2em;
+}
+#wphttps-main #secure_filter_row p.description {
+	margin: .5em 10px 0 0;
+	width: auto;
+}
+#wphttps-main #ssl_proxy_row p.description {
+	width: 65%;
+}
+#wphttps-main #domain_mapping td {
+	padding: 10px 0;
+}
+#wphttps-main #domain_mapping td.arrow {
+	padding: 8px 0;
+}
+#wphttps-main #domain_mapping .http_scheme,
+#wphttps-main #domain_mapping .https_scheme {
+	width: 30px;
+	padding: 10px;
+}
+#wphttps-main #domain_mapping .https_scheme {
+	width: 35px;
+}
+#wphttps-main #domain_mapping .http_domain .label,
+#wphttps-main #domain_mapping .https_domain .label {
+	display: block;
+	float: left;
+	text-align: right;
+	padding-right: 2%;
+} 
+#wphttps-main #domain_mapping input {
+	width: 96%;
+	padding-left: 2%;
+	padding-right: 2%;
+}
+#wphttps-main #domain_mapping .add {
+	display: block;
+	height: 16px;
+	width: 16px;
+	overflow: hidden;
+	text-indent: -1000em;
+	float: left;
+	background: url(images/add.png) no-repeat 50% 50%;	
+}
+#wphttps-main #domain_mapping .remove {
+	display: block;
+	height: 16px;
+	width: 16px;
+	overflow: hidden;
+	text-indent: -1000em;
+	float: left;
+	background: url(images/delete.png) no-repeat 50% 50%;	
+}
+#wphttps-main #domain_mapping .arrow .label {
+	display: block;
+	height: 16px;
+	width: 16px;
+	overflow: hidden;
+	text-indent: -1000em;
+	background: url(images/arrow_right.png) no-repeat 50% 50%;	
+	margin: 0 auto;
+}
+
+#wphttps-main #regex-help {
+	display: none;
+}
+table.regex-help {
+	border-collapse: collapse;
+}
+table.regex-help tr {
+	border: 1px solid #000;
+	border-width: 1px 1px 0 0;
+}
+table.regex-help td, table.regex-help th {
+	border: 1px solid #000;
+	border-width: 0 0 1px 1px;
 }

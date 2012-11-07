@@ -376,7 +376,7 @@ class WordPressHTTPS_Url {
 		if ( function_exists('curl_init') ) {
 			$ch = curl_init();
 
-			curl_setopt($ch, CURLOPT_URL, rtrim($this->toString(), '\'"'));
+			curl_setopt($ch, CURLOPT_URL, $this->toString());
 			curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER["HTTP_USER_AGENT"]);
 			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $verify_ssl);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -413,7 +413,7 @@ class WordPressHTTPS_Url {
 		if ( function_exists('curl_init') ) {
 			$ch = curl_init();
 
-			curl_setopt($ch, CURLOPT_URL, rtrim($this->toString(), '\'"'));
+			curl_setopt($ch, CURLOPT_URL, $this->toString());
 			curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER["HTTP_USER_AGENT"]);
 			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $verify_ssl);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -479,7 +479,7 @@ class WordPressHTTPS_Url {
 	public static function fromString( $string ) {
 		$url = new WordPressHTTPS_Url;
 
-		@preg_match_all('/((http|https):\/\/[^\'"]+[\'"]?)/i', $string, $url_parts);
+		@preg_match_all('/((http|https):\/\/[^\'"]+)[\'"\)]?/i', $string, $url_parts);
 		if ( isset($url_parts[1][0]) ) {
 			if ( $url_parts = parse_url( $url_parts[1][0] ) ) {
 				foreach( $url_parts as $key => $value ) {

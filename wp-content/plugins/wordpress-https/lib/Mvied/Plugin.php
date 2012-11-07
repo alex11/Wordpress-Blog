@@ -267,20 +267,25 @@ class Mvied_Plugin {
 	public function getSettings() {
 		return $this->_settings;
 	}
-	
+
 	/**
 	 * Set Plugin Setting
 	 *
 	 * @param string $setting
 	 * @param mixed $value
+	 * @param int $blog_id
 	 * @return $this
 	 */
-	public function setSetting( $setting, $value ) {
-		$setting = $this->getSlug() . '_' . $setting;
-		update_option($setting, $value);
+	public function setSetting( $setting, $value, $blog_id = 0 ) {
+		$setting_full = $this->getSlug() . '_' . $setting;
+		if ( $blog_id > 0 ) {
+			update_blog_option($blog_id, $setting_full, $value);
+		} else {
+			update_option($setting_full, $value);
+		}
 		return $this;
 	}
-	
+
 	/**
 	 * Set Slug
 	 * 
@@ -335,6 +340,9 @@ class Mvied_Plugin {
 		$modules = $this->getModules();
 		foreach( $modules as $module ) {
 			$module->init();
+		}
+		if ( isset($this->_slug) ) {
+			do_action($this->_slug . '_init');
 		}
 		return $this;
 	}

@@ -40,6 +40,7 @@ $('.em-booking-form').submit( function(e){
 				}else{
 					$('<div class="em-booking-message-error em-booking-message">'+response.message+'</div>').insertBefore(em_booking_form);
 				}
+				$(document).trigger('em_booking_error', [response]);
 			}
 		    $('html, body').animate({ scrollTop: em_booking_form.parent('.em-booking').offset().top - 30 }); //sends user back to top of form
 			//run extra actions after showing the message here
@@ -49,10 +50,15 @@ $('.em-booking-form').submit( function(e){
 			if( !response.result && typeof Recaptcha != 'undefined'){
 				Recaptcha.reload();
 			}
+			$(document).trigger('em_booking_complete', [response]);
 		},
-		complete : function(){
+		error : function(jqXHR, textStatus, errorThrown){
+			$(document).trigger('em_booking_ajax_error', [jqXHR, textStatus, errorThrown]);
+		},
+		complete : function(jqXHR, textStatus){
 			em_booking_doing_ajax = false;
 			$('#em-loading').remove();
+			$(document).trigger('em_booking_ajax_complete', [jqXHR, textStatus]);
 		}
 	});
 	return false;	

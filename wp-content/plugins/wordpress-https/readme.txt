@@ -4,7 +4,8 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: security, encryption, ssl, shared ssl, private ssl, public ssl, private ssl, http, https
 Requires at least: 3.0
 Tested up to: 3.4
-Stable tag: 3.1.2
+Stable tag: 3.2.1
+License: GPLv3
 
 WordPress HTTPS is intended to be an all-in-one solution to using SSL on WordPress sites.
 
@@ -16,19 +17,6 @@ If you're having partially encrypted/mixed content errors or other problems, ple
 1. Activate the plugin through the 'Plugins' menu in WordPress.
 
 == Frequently Asked Questions ==
-= I can't get into my admin panel after updating. How do I fix it? =
-Go to /wp-content/plugins/wordpress-https/wordpress-https.php and uncomment (remove the two forward slashes before) the line below, or go to your wp-config.php file and add this line. Hit any page on your site, and then remove it or comment it out again.
-`define('WPHTTPS_RESET', true);`
-
-= How do I make my whole website secure? =
-To make your entire website secure, you simply need to change your site url to use HTTPS instead of HTTP. Please read <a href="http://codex.wordpress.org/Changing_The_Site_URL" target="_blank">how to change the site url</a>.
-
-= How do I make only certain pages secure? =
-The plugin adds a meta box to the add/edit post screen entitled HTTPS. In that meta box, a checkbox for 'Secure Post' has been added to make this process easy. See Screenshots if you're having a hard time finding it.
-
-= I'm getting 404 errors on all of my pages. Why? =
-If you're using a public/shared SSL, try disabling your custom permalink structure. Some public/shared SSL's have issues with WordPress' permalinks because of the way they are configured. If you continue to recieve 404 errors, there is no way to use WordPress with that particular public/shared SSL with WordPress.
-
 = How do I fix partially encrypted/mixed content errors? =
 To identify what is causing your page(s) to be insecure, please follow the instructions below.
 <ol>
@@ -39,19 +27,38 @@ To identify what is causing your page(s) to be insecure, please follow the instr
 </ol>
 For each item that is making your page partially encrypted, you should see an entry in the console similar to "The page at https://www.example.com/ displayed insecure content from http://www.example.com/." Note that the URL that is loading insecure content is HTTP and not HTTPS.
 
-Most insecure content warnings can generally be resolved by changing absolute references to elements, or removing the insecure elements from the page completely. Although WordPress HTTPS does its best to fix all insecure content, there are a few cases that are impossible to fix.
+Once you have identified the insecure elements, you need to figure out what theme or plugin is causing these elements to be loaded. Although WordPress HTTPS does its best to fix all insecure content, there are a few cases that are impossible to fix. Here are some typical examples.
 <ul>
- <li>Elements loaded via JavaScript that are hard-coded to HTTP. Usually this can be fixed by altering the JavaScript calling these elements.</li>
- <li>External elements that can not be delivered over HTTPS. These elements will have to be removed from the page, or hosted locally so that they can be loaded over HTTPS.</li>
- <li>YouTube videos - YouTube allows videos to use HTTPS. <a href="http://support.google.com/youtube/bin/answer.py?hl=en&answer=171780&expand=UseHTTPS">How to embed a YouTube video</a>.</li>
- <li>Google Maps - Using Google Maps API V3, you can use HTTPS. Using V2, HTTPS requires a Google Maps API Premiere account. (<a href="http://code.google.com/apis/maps/faq.html#ssl" target="_blank">source</a>)</li>
+ <li>The element is external (not hosted on your server) and is not available over HTTPS. These elements will have to be removed from the page by disabling or modifying the theme or plugin that is adding the element.</li>
+ <li>The element is internal (hosted on your server) but does not get changed to HTTPS. This is often due to a background image in CSS or an image or file path in JavaScript being hard-coded to HTTP inside of a CSS file. The plugin can not fix these. The image paths must be changed to relative links. For example `http://www.example.com/wp-content/themes/mytheme/images/background.jpg` to simply `/wp-content/themes/mytheme/images/background.jpg`. Ensure you copy the entire path, including the prepended slash (very important).</li>
 </ul>
+
+= I can't get into my admin panel. How do I fix it? =
+Go to /wp-content/plugins/wordpress-https/wordpress-https.php and uncomment (remove the two forward slashes before) the line below, or go to your wp-config.php file and add this line. Hit any page on your site, and then remove it or comment it out again.
+`define('WPHTTPS_RESET', true);`
+
+= How do I make my whole website secure? =
+To make your entire website secure, you simply need to change your site url to use HTTPS instead of HTTP. Please read <a href="http://codex.wordpress.org/Changing_The_Site_URL" target="_blank">how to change the site url</a>.
+Alternatively, you can use URL Filters in the WordPress HTTPS Settings to secure your entire site by putting just '/' as a filter. This will cause any URL with a forward slash to be secure (all of them).
+
+= How do I make only certain pages secure? =
+The plugin adds a meta box to the add/edit post screen entitled HTTPS. In that meta box, a checkbox for 'Secure Post' has been added to make this process easy. See Screenshots if you're having a hard time finding it.
+Alternatively, you can use URL Filters to secure post and pages by their permalink.
+
+= I'm using Force SSL Administration and all of the links to the front-end of my site are HTTPS. Why? =
+For many users this behavior is desirable. If you would like links the the front-end of your site to be HTTP, enable Force SSL Exclusively and do not secure your front-end pages.
+
+= I'm getting 404 errors on all of my pages. Why? =
+If you're using a public/shared SSL, try disabling your custom permalink structure. Some public/shared SSL's have issues with WordPress' permalinks because of the way they are configured. If you continue to recieve 404 errors, there may be no way to use WordPress with that particular public/shared SSL.
+
+= I'm receiving a blank page with no error. What gives? =
+This is most commonly due to PHP's memory limit being too low. Check your Apache error logs just to be sure. Talk to your hosting provider about increading PHP's memory limit.
 
 = Is there a hook or filter to force pages to be secure? =
 Yes! Here is an example of how to use the 'force_ssl' filter to force a page to be secure.
 `function custom_force_ssl( $force_ssl, $post_id = 0, $url = '' ) {
 	if ( $post_id == 5 ) {
-		return true
+		$force_ssl = true;
 	}
 	return $force_ssl;
 }
@@ -72,10 +79,22 @@ add_filter('force_ssl', 'store_force_ssl', 10, 3);`
 1. WordPress HTTPS Settings screen
 2. Force SSL checkbox added to add/edit posts screen
 
-== To Do ==
-* SSL Domain Mapping
-
 == Changelog ==
+= 3.2.1 =
+* Added Network settings for multisite installations.
+* Bug Fix - Elements should now be properly secured by the file extension check in the Parser.
+* Bug Fix - Pages being redirected should no longer always redirect to index.php for some server configurations.
+* Bug Fix - FORCE_SSL_ADMIN option should no longer cause redirect loops if the ssl_admin setting is set to false.
+= 3.2 =
+* Added domain mapping. Domain mapping allows you to map external domains that host their HTTPS content on a different domain.
+* Added Remove Unsecure Elements option. If possible, this option removes external elements from the page that can not be loaded over HTTPS, preventing insecure content errors without modifying any code.
+* ClouldFlare support.
+* Substantial memory optimization.
+* Removed Secure Front Page option. This can now be achieved through URL Filters.
+* Bug Fix - Visiting the admin panel over HTTP when using Shared SSL should no longer log the user out, but will now redirect accordingly.
+* Bug Fix - Random 404 errors should be gone.
+* Bug Fix - Fixed bug where a bad setting for ssl_host would cause the code to fail.
+* Bug Fix - CSS backgrounds that do not have quotes should no longer break debug output.
 = 3.1.2 =
 * Bug Fix - Redirects should no longer remove URL parameters.
 * Bug Fix - Removed loginout filter that was changing links to plain text.
@@ -233,17 +252,5 @@ add_filter('force_ssl', 'store_force_ssl', 10, 3);`
 * Initial Release.
 
 == Upgrade Notice ==
-= 1.7 =
-1.6.5 created a bug in which external elements were no longer forced to HTTPS. Please update to fix this.
-= 1.6.1 =
-Version 1.6.1 fixes a bug with using a static page for the posts page.
-= 1.0.1 =
-Version 1.0.1 fixes a bug in 1.0 that made it to release. Apologies!
-= 1.0 =
-Version 1.0 gives you the ability to disable WordPress 3.0+ from changing all of your page, category and post links to HTTPS.
-= 0.5.1 =
-Fixes `PHP Warning:  Invalid argument supplied for foreach()` error.
-= 0.3 =
-Version 0.3 gives you the option to change external elements to HTTPS if the external server allows the elements to be accessed via HTTPS.
-= 0.2 =
-Version 0.1 did not correctly detect HTTPS on IIS and possibly other servers. Please update to version 0.2 to fix this issue.
+= 3.2 =
+You may lose your SSL Host setting upon upgrading if it is not default (matching your Site URL).

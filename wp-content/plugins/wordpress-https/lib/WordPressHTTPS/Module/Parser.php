@@ -7,7 +7,7 @@
  *
  */
 
-class WordPressHTTPS_Module_Parser extends Mvied_Plugin_Module implements Mvied_Plugin_Module_Interface {
+class WordPressHTTPS_Module_Parser extends Mvied_Plugin_Module {
 
 	/**
 	 * HTML
@@ -53,7 +53,7 @@ class WordPressHTTPS_Module_Parser extends Mvied_Plugin_Module implements Mvied_
 		$this->fixElements();
 		$this->fixCssElements();
 		$this->fixRelativeElements();
-		
+
 		// Output logger contents to browsers console if in Debug Mode
 		if ( $this->getPlugin()->getSetting('debug') == true ) {
 			$this->consoleLog();
@@ -81,23 +81,35 @@ class WordPressHTTPS_Module_Parser extends Mvied_Plugin_Module implements Mvied_
 	 */
 	public function secureElement( $url, $type = '' ) {
 		$updated = false;
+		$result = false;
 		$upload_dir = wp_upload_dir();
 		$upload_path = str_replace($this->getPlugin()->getHttpsUrl()->getPath(), $this->getPlugin()->getHttpUrl()->getPath(), parse_url($upload_dir['baseurl'], PHP_URL_PATH));
 
 		if ( ! is_admin() || ( is_admin() && strpos($url, $upload_path) === false ) ) {
 			$updated = $this->getPlugin()->makeUrlHttps($url);
-			$this->_html = str_replace($url, $updated, $this->_html);
+			if ( $url != $updated ) {
+				$this->_html = str_replace($url, $updated, $this->_html);
+			} else {
+				$updated = false;
+			}
 		}
-	
+
 		// Add log entry if this change hasn't been logged
-		if ( $updated && $url != $updated ) {
+		if ( $updated ) {
 			$log = '[FIXED] Element: ' . ( $type != '' ? '<' . $type . '> ' : '' ) . $url . ' => ' . $updated;
-		} else if ( $updated == false && strpos($url, 'http://') == 0 ) {
-			$log = '[WARNING] Unsecure Element: <' . $type . '> - ' . $url;
+			$result = true;
+		} else if ( strpos($url, 'http://') === 0 ) {
+			if ( $this->getPlugin()->getSetting('remove_unsecure') ) {
+				$log = '[FIXED] Removed Unsecure Element: <' . $type . '> - ' . $url;
+			} else {
+				$log = '[WARNING] Unsecure Element: <' . $type . '> - ' . $url;
+			}
 		}
 		if ( isset($log) && ! in_array($log, $this->getPlugin()->getLogger()->getLog()) ) {
 			$this->getPlugin()->getLogger()->log($log);
 		}
+
+		return $result;
 	}
 
 	/**
@@ -133,22 +145,20 @@ class WordPressHTTPS_Module_Parser extends Mvied_Plugin_Module implements Mvied_
 	public function normalizeElements() {
 		$httpMatches = array();
 		$httpsMatches = array();
-		if ( $this->getPlugin()->getSetting('ssl_host_diff') && !is_admin() && $GLOBALS['pagenow'] != 'wp-login.php' ) {
+		if ( $this->getPlugin()->getSetting('ssl_host_diff') && !is_admin() ) {
 			$url = clone $this->getPlugin()->getHttpsUrl();
 			$url->setScheme('http');
-			preg_match_all('/(' . str_replace('/', '\/', preg_quote($url->toString())) . '[^\'"\)]*)[\'"]?/im', $this->_html, $httpsMatches);
+			preg_match_all('/(' . str_replace('/', '\/', preg_quote($url->toString())) . '[^\'"]*)[\'"]?/im', $this->_html, $httpsMatches);
 
-			if ( $this->getPlugin()->isSsl() ) {
-				$url = clone $this->getPlugin()->getHttpUrl();
-				$url->setScheme('https');
-				preg_match_all('/(' . str_replace('/', '\/', preg_quote($url->toString())) . '[^\'"\)]*)[\'"]?/im', $this->_html, $httpMatches);
-			}
+			$url = clone $this->getPlugin()->getHttpUrl();
+			$url->setScheme('https');
+			preg_match_all('/(' . str_replace('/', '\/', preg_quote($url->toString())) . '[^\'"]*)[\'"]?/im', $this->_html, $httpMatches);
 
 			$matches = array_merge($httpMatches, $httpsMatches);
 			for ($i = 0; $i < sizeof($matches[0]); $i++) {
 				if ( isset($matches[1][$i]) ) {
 					$url_parts = parse_url($matches[1][$i]);
-					if ( $url_parts && strpos($url_parts['path'], $this->getPlugin()->getHttpsUrl()) !== false && strpos($url_parts['path'], 'wp-admin') === false && strpos($url_parts['path'], 'wp-login') === false ) {
+					if ( $url_parts && strpos($url_parts['path'], 'wp-admin') === false && strpos($url_parts['path'], 'wp-login') === false ) {
 						$this->_html = str_replace($url, $this->getPlugin()->makeUrlHttp($url), $this->_html);
 					}
 				}
@@ -164,9 +174,9 @@ class WordPressHTTPS_Module_Parser extends Mvied_Plugin_Module implements Mvied_
 	 */
 	public function fixElements() {
 		if ( is_admin() ) {
-			preg_match_all('/\<(script|link|img)[^>]+[\'"]((http|https):\/\/[^\'"\)]+)[\'"\)][^>]*>/im', $this->_html, $matches);
+			preg_match_all('/\<(script|link|img)[^>]+[\'"]((http|https):\/\/[^\'"]+)[\'"][^>]*>(<\/(script|link|img|input|embed|param|iframe)>\s*)?/im', $this->_html, $matches);
 		} else {
-			preg_match_all('/\<(script|link|img|input|embed|param)[^>]+[\'"]((http|https):\/\/[^\'"\)]+)[\'"\)][^>]*>/im', $this->_html, $matches);
+			preg_match_all('/\<(script|link|img|input|embed|param|iframe)[^>]+[\'"]((http|https):\/\/[^\'"]+)[\'"][^>]*>(<\/(script|link|img|input|embed|param|iframe)>\s*)?/im', $this->_html, $matches);
 		}
 
 		for ($i = 0; $i < sizeof($matches[0]); $i++) {
@@ -176,7 +186,7 @@ class WordPressHTTPS_Module_Parser extends Mvied_Plugin_Module implements Mvied_
 			$scheme = $matches[3][$i];
 			$updated = false;
 
-			if	( $type == 'img' || $type == 'script' || $type == 'embed' ||
+			if	( $type == 'img' || $type == 'script' || $type == 'embed' || $type == 'iframe' ||
 				( $type == 'link' && ( strpos($html, 'stylesheet') !== false || strpos($html, 'pingback') !== false ) ) ||
 				( $type == 'form' && strpos($html, 'wp-pass.php') !== false ) ||
 				( $type == 'form' && strpos($html, 'commentform') !== false ) ||
@@ -184,7 +194,9 @@ class WordPressHTTPS_Module_Parser extends Mvied_Plugin_Module implements Mvied_
 				( $type == 'param' && strpos($html, 'movie') !== false )
 			) {
 				if ( $this->getPlugin()->isSsl() && ( $this->getPlugin()->getSetting('ssl_host_diff') || ( !$this->getPlugin()->getSetting('ssl_host_diff') && strpos($url, 'http://') === 0 ) ) ) {
-					$this->secureElement($url, $type);
+					if ( !$this->secureElement($url, $type) && $this->getPlugin()->getSetting('remove_unsecure') ) {
+						$this->_html = str_replace($html, '', $this->_html);
+					}
 				} else if ( !$this->getPlugin()->isSsl() && strpos($url, 'https://') === 0 ) {
 					$this->unsecureElement($url, $type);
 				}
@@ -231,10 +243,12 @@ class WordPressHTTPS_Module_Parser extends Mvied_Plugin_Module implements Mvied_
 					( $type == 'input' && $attr == 'image' ) ||
 					( $type == 'input' && strpos($html, '_wp_http_referer') !== false )
 				) {
-					$updated = clone $this->getPlugin()->getHttpsUrl();
-					$updated->setPath($url_path);
-					$this->_html = str_replace($html, str_replace($url_path, $updated, $html), $this->_html);
-					$this->getPlugin()->getLogger()->log('[FIXED] Element: <' . $type . '> - ' . $url_path . ' => ' . $updated);
+					if ( strpos($url_path, '//') !== 0 ) {
+						$updated = clone $this->getPlugin()->getHttpsUrl();
+						$updated->setPath($url_path);
+						$this->_html = str_replace($html, str_replace($url_path, $updated, $html), $this->_html);
+						$this->getPlugin()->getLogger()->log('[FIXED] Element: <' . $type . '> - ' . $url_path . ' => ' . $updated);
+					}
 				}
 			}
 		}
@@ -247,11 +261,11 @@ class WordPressHTTPS_Module_Parser extends Mvied_Plugin_Module implements Mvied_
 	 * @return void
 	 */
 	public function fixExtensions() {
-		@preg_match_all('/(http|https):\/\/[^\'"\)\s]+[\'"\)]+/i', $this->_html, $matches);
-		for ($i = 0; $i < sizeof($matches[0]); $i++) {
-			$url = $matches[0][$i];
+		@preg_match_all('/((http|https):\/\/[^\'"\)\s]+)[\'"\)]?/i', $this->_html, $matches);
+		for ($i = 0; $i < sizeof($matches[1]); $i++) {
+			$url = $matches[1][$i];
 			$filename = basename($url);
-			$scheme = $matches[1][$i];
+			$scheme = $matches[2][$i];
 
 			foreach( $this->_extensions as $extension ) {
 				if ( $extension == 'js' ) {
@@ -261,10 +275,10 @@ class WordPressHTTPS_Module_Parser extends Mvied_Plugin_Module implements Mvied_
 				} else if ( in_array($extension, array('jpg', 'jpeg', 'png', 'gif')) ) {
 					$type = 'img';
 				} else {
-					$type = '';
+					continue;
 				}
 
-				if ( strpos($filename, '.' . $extension) !== false ) {
+				if ( preg_match('/\.' . $extension . '(\?|$)/', $filename) ) {
 					if ( $this->getPlugin()->isSsl() && ( $this->getPlugin()->getSetting('ssl_host_diff') || ( !$this->getPlugin()->getSetting('ssl_host_diff') && strpos($url, 'http://') === 0 ) ) ) {
 						$this->secureElement($url, $type);
 					} else if ( !$this->getPlugin()->isSsl() && strpos($url, 'https://') === 0 ) {
@@ -292,12 +306,16 @@ class WordPressHTTPS_Module_Parser extends Mvied_Plugin_Module implements Mvied_
 			$scheme = $matches[3][$i];
 			$updated = false;
 
+			if ( !$this->getPlugin()->isUrlLocal($url) ) {
+				continue;
+			}
+
 			$force_ssl = apply_filters('force_ssl', null, 0, $url );
 
 			if ( $force_ssl == true ) {
 				$updated = $this->getPlugin()->makeUrlHttps($url);
 				$this->_html = str_replace($html, str_replace($url, $updated, $html), $this->_html);
-			} else if ( $this->getPlugin()->isUrlLocal($url) && $this->getPlugin()->getSetting('exclusive_https') ) {
+			} else if ( !is_null($force_ssl) && !$force_ssl ) {
 				$updated = $this->getPlugin()->makeUrlHttp($url);
 				$this->_html = str_replace($html, str_replace($url, $updated, $html), $this->_html);
 			}

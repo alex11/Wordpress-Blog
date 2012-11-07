@@ -166,13 +166,13 @@ jQuery(document).ready( function($){
 					//sort out dates and localization masking
 					var start_pub = $("#em-tickets-form input[name=ticket_start_pub]").val();
 					var end_pub = $("#em-tickets-form input[name=ticket_end_pub]").val();
-					$('#em-tickets-form *[name]').attr('value','');
+					$('#em-tickets-form *[name]').attr('value','').removeAttr('checked');
 					$('#em-tickets-form .close').trigger('click');
 					$(this).dialog('close');
 				}
 			}]
 		});
-		$("#em-tickets-add").click(function(e){ e.preventDefault(); $('#em-tickets-form *[name]').attr('value',''); $("#em-tickets-form").dialog('open'); });
+		$("#em-tickets-add").click(function(e){ e.preventDefault(); $('#em-tickets-form *[name]').attr('value','').removeAttr('checked'); $("#em-tickets-form").dialog('open'); });
 		//Edit a Ticket
 		$(document).delegate('.ticket-actions-edit', 'click', function(e){
 			//trigger click
@@ -180,11 +180,17 @@ jQuery(document).ready( function($){
 			$('#em-tickets-add').trigger('click');
 			//populate form
 			var rowId = $(this).parents('tr').first().attr('id');
-			$('#em-tickets-form *[name]').attr('value','');
+			$('#em-tickets-form *[name]').attr('value','').removeAttr('checked');
 			$.each( $('#'+rowId+' *[name]'), function(index,el){
 				var el = $(el);
 				var selector = el.attr('class');
-				$('#em-tickets-form *[name='+selector+']').attr('value',el.attr('value'));
+				var input_field = $('#em-tickets-form *[name='+selector+']');
+				if( input_field.attr('type') == 'checkbox' ){
+					if( el.val() == 1 ){ input_field.attr('checked','checked'); }
+					else{ input_field.removeAttr('checked'); }
+				}else{
+					input_field.attr('value',el.attr('value'));	
+				}
 			});
 			$("#em-tickets-form input[name=prev_slot]").attr('value',rowId); //save the current slot number
 			//refresh datepicker and values
@@ -494,11 +500,14 @@ jQuery(document).ready( function($){
 	$("#localised-date").show();
 	$("#localised-end-date").show();
 	
-	$('input.select-all').change(function(){
-	 	if($(this).is(':checked'))
-	 	$('input.row-selector').attr('checked', true);
-	 	else
-	 	$('input.row-selector').attr('checked', false);
+	$('#em-wrapper input.select-all').change(function(){
+	 	if($(this).is(':checked')){
+			$('input.row-selector').attr('checked', true);
+			$('input.select-all').attr('checked', true);
+	 	}else{
+			$('input.row-selector').attr('checked', false);
+			$('input.select-all').attr('checked', false);
+		}
 	}); 
 	
 	updateIntervalDescriptor(); 
@@ -521,7 +530,7 @@ jQuery(document).ready( function($){
 	
 	//Finally, add autocomplete here
 	//Autocomplete
-	if( jQuery( "#em-location-data input#location-name, " ).length > 0 ){
+	if( jQuery( "#em-location-data input#location-name" ).length > 0 ){
 		jQuery( "#em-location-data input#location-name" ).autocomplete({
 			source: EM.locationajaxurl,
 			minLength: 2,
@@ -591,7 +600,7 @@ function em_setup_datepicker(wrap){
 		dateDivs.find('input.em-date-input-loc').each(function(i,dateInput){
 			//init the datepicker
 			var dateInput = jQuery(dateInput);
-			var dateValue = dateInput.next('input.em-date-input');
+			var dateValue = dateInput.nextAll('input.em-date-input').first();
 			var dateValue_value = dateValue.val();
 			dateInput.datepicker(datepicker_vals);
 			dateInput.datepicker('option', 'altField', dateValue);
@@ -604,7 +613,7 @@ function em_setup_datepicker(wrap){
 			//add logic for texts
 			dateInput.change(function(){
 				if( jQuery(this).val() == '' ){
-					jQuery(this).next('.em-date-input').val('');
+					jQuery(this).nextAll('.em-date-input').first().val('');
 				}
 			});
 		});
@@ -795,38 +804,6 @@ function em_maps() {
 			}
 		}
 		
-		//Load map
-		if(jQuery('#em-map').length > 0){
-			var em_LatLng = new google.maps.LatLng(0, 0);
-			var map = new google.maps.Map( document.getElementById('em-map'), {
-			    zoom: 14,
-			    center: em_LatLng,
-			    mapTypeId: google.maps.MapTypeId.ROADMAP,
-			    mapTypeControl: false
-			});
-			var marker = new google.maps.Marker({
-			    position: em_LatLng,
-			    map: map,
-			    draggable: true
-			});
-			var infoWindow = new google.maps.InfoWindow({
-			    content: ''
-			});
-			var geocoder = new google.maps.Geocoder();
-			google.maps.event.addListener(infoWindow, 'domready', function() { 
-				document.getElementById('location-balloon-content').parentNode.style.overflow=''; 
-				document.getElementById('location-balloon-content').parentNode.parentNode.style.overflow=''; 
-			});
-			google.maps.event.addListener(marker, 'dragend', function() {
-				var position = marker.getPosition();
-				jQuery('#location-latitude').val(position.lat());
-				jQuery('#location-longitude').val(position.lng());
-				map.setCenter(position);
-				map.panBy(40,-55);
-			});
-		    refresh_map_location();
-		}
-		
 		//Add listeners for changes to address
 		var get_map_by_id = function(id){
 			if(jQuery('#em-map').length > 0){
@@ -874,6 +851,42 @@ function em_maps() {
 				});
 			}
 		});
+		
+		//Load map
+		if(jQuery('#em-map').length > 0){
+			var em_LatLng = new google.maps.LatLng(0, 0);
+			var map = new google.maps.Map( document.getElementById('em-map'), {
+			    zoom: 14,
+			    center: em_LatLng,
+			    mapTypeId: google.maps.MapTypeId.ROADMAP,
+			    mapTypeControl: false
+			});
+			var marker = new google.maps.Marker({
+			    position: em_LatLng,
+			    map: map,
+			    draggable: true
+			});
+			var infoWindow = new google.maps.InfoWindow({
+			    content: ''
+			});
+			var geocoder = new google.maps.Geocoder();
+			google.maps.event.addListener(infoWindow, 'domready', function() { 
+				document.getElementById('location-balloon-content').parentNode.style.overflow=''; 
+				document.getElementById('location-balloon-content').parentNode.parentNode.style.overflow=''; 
+			});
+			google.maps.event.addListener(marker, 'dragend', function() {
+				var position = marker.getPosition();
+				jQuery('#location-latitude').val(position.lat());
+				jQuery('#location-longitude').val(position.lng());
+				map.setCenter(position);
+				map.panBy(40,-55);
+			});
+			if( jQuery('#location-select-id').length > 0 ){
+				jQuery('#location-select-id').trigger('change');
+			}else{
+				refresh_map_location();
+			}
+		}
 	}
 }
   

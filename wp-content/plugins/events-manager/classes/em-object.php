@@ -314,7 +314,7 @@ class EM_Object {
 			//we can accept country codes or names
 			if( in_array($args['country'], $countries) ){
 				//we have a country name, 
-				$conditions['country'] = "location_country='".array_search($args['country'])."'";	
+				$conditions['country'] = "location_country='".array_search($args['country'], $countries)."'";	
 			}elseif( array_key_exists($args['country'], $countries) ){
 				//we have a country code
 				$conditions['country'] = "location_country='".$args['country']."'";					
@@ -345,7 +345,7 @@ class EM_Object {
 				}else{
 					$conditions['category'] = " ".EM_EVENTS_TABLE.".post_id $not IN ( SELECT object_id FROM ".$wpdb->term_relationships." WHERE term_taxonomy_id={$term->term_taxonomy_id} ) ";
 				}
-			}else{
+			}elseif( $category > 0 ){
 			    $conditions = array('category'=>'2=1'); //force a false
 			}
 		}elseif( self::array_is_numeric($category) ){
@@ -771,14 +771,14 @@ class EM_Object {
 		if( $is_owner && (current_user_can($owner_capability) || (!empty($user) && $user->has_cap($owner_capability))) ){
 			//user owns the object and can therefore manage it
 			$can_manage = true;
-		}elseif( array_key_exists($owner_capability, $em_capabilities_array) ){
+		}elseif( $owner_capability && array_key_exists($owner_capability, $em_capabilities_array) ){
 			//currently user is not able to manage as they aren't the owner
 			$error_msg = $em_capabilities_array[$owner_capability];
 		}
 		//admins have special rights
 		if( current_user_can($admin_capability) || (!empty($user) && $user->has_cap($admin_capability)) ){
 			$can_manage = true;
-		}elseif( array_key_exists($admin_capability, $em_capabilities_array) ){
+		}elseif( $admin_capability && array_key_exists($admin_capability, $em_capabilities_array) ){
 			$error_msg = $em_capabilities_array[$admin_capability];
 		}
 		
@@ -995,9 +995,13 @@ class EM_Object {
 	function add_error($errors){
 		if(!is_array($errors)){ $errors = array($errors); } //make errors var an array if it isn't already
 		if(!is_array($this->errors)){ $this->errors = array(); } //create empty array if this isn't an array
-		foreach($errors as $error){			
+		foreach($errors as $key => $error){			
 			if( !in_array($error, $this->errors) ){
-				$this->errors[] = $error;
+			    if( !is_array($error) ){
+					$this->errors[] = $error;
+			    }else{
+			        $this->errors[] = array($key => $error);
+			    }
 			}
 		}
 	}
@@ -1008,6 +1012,7 @@ class EM_Object {
 	 * @return string
 	 */
 	function json_encode($array){
+	    $array = apply_filters('em_object_json_encode_pre',$array);
 		if( function_exists("json_encode") ){
 			$return = json_encode($array);
 		}else{

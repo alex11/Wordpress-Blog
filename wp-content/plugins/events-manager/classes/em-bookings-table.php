@@ -202,8 +202,9 @@ class EM_Bookings_Table{
 				}
 			}elseif( $EM_Ticket !== false ){
 				//searching bookings with a specific ticket
-				$this->bookings = $EM_Ticket->get_bookings();
-				$this->bookings_count = (is_array($this->bookings->bookings)) ? count($this->bookings->bookings):0;
+				$args = array('ticket_id'=>$EM_Ticket->ticket_id, 'order'=>$this->order,'orderby'=>$this->orderby);
+				$this->bookings_count = EM_Bookings::count($args);
+				$this->bookings = EM_Bookings::get(array_merge($args, array('limit'=>$this->limit,'offset'=>$this->offset)));
 				$this->events[$EM_Ticket->event_id] = $EM_Ticket->get_event();
 			}elseif( $EM_Event !== false ){
 				//bookings for an event
@@ -289,6 +290,7 @@ class EM_Bookings_Table{
 					<p><?php _e('Split bookings by ticket type','dbem')?> <input type="checkbox" name="show_tickets" value="1" />
 					<a href="#" title="<?php _e('If your events have multiple tickets, enabling this will show a seperate row for each ticket within a booking.'); ?>">?</a>
 				<?php endif; ?>
+				<?php do_action('em_bookings_table_export_options'); ?>
 				<div id="em-bookings-table-settings-form-cols">
 					<p><strong><?php _e('Collumns to export','dbem')?></strong></p>
 					<ul id="em-bookings-export-cols-active" class="em-bookings-cols-sortable">
@@ -491,7 +493,7 @@ class EM_Bookings_Table{
 				$headers[$col] = $this->cols_template[$col];
 			}
 		}
-		return $headers;
+		return apply_filters('em_bookings_table_get_headers', $headers, $csv, $this);
 	}
 	
 	function get_table(){

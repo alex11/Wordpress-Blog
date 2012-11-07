@@ -4,7 +4,7 @@
  Plugin URI: http://mvied.com/projects/wordpress-https/
  Description: WordPress HTTPS is intended to be an all-in-one solution to using SSL on WordPress sites.
  Author: Mike Ems
- Version: 3.1.2
+ Version: 3.2.1
  Author URI: http://mvied.com/
  */
 
@@ -25,16 +25,9 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-$include_paths = array(
-	get_include_path(),
-	dirname(__FILE__),
-	dirname(__FILE__) . '/lib'
-);
-set_include_path(implode(PATH_SEPARATOR, $include_paths));
-
 function wphttps_autoloader($class) {
-	$filename = str_replace('_', '/', $class) . '.php';
-	@include $filename;
+	$filename = str_replace('_', DIRECTORY_SEPARATOR, $class) . '.php';
+	@include dirname(__FILE__) . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . $filename;
 }
 spl_autoload_register('wphttps_autoloader');
 
@@ -48,13 +41,12 @@ spl_autoload_register('wphttps_autoloader');
 if ( function_exists('get_bloginfo') && ! defined('WP_UNINSTALL_PLUGIN') ) {
 	$wordpress_https = new WordPressHTTPS;
 	$wordpress_https->setSlug('wordpress-https');
-	$wordpress_https->setVersion('3.1.2');
+	$wordpress_https->setVersion('3.2.1');
 	$wordpress_https->setLogger(WordPressHTTPS_Logger::getInstance());
-	$wordpress_https->setPluginUrl(plugins_url('', __FILE__));
 	$wordpress_https->setDirectory(dirname(__FILE__));
 	$wordpress_https->setModuleDirectory(dirname(__FILE__) . '/lib/WordPressHTTPS/Module/');
 
-	//Load Modules
+	// Load Modules
 	$wordpress_https->loadModules();
 
 	// If WPHTTPS_RESET global is defined, reset settings
@@ -66,6 +58,7 @@ if ( function_exists('get_bloginfo') && ! defined('WP_UNINSTALL_PLUGIN') ) {
 
 	// Initialize Plugin
 	$wordpress_https->init();
+	$wordpress_https->setPluginUrl(plugins_url('', __FILE__));
 
 	// Register activation hook. Must be called outside of a class.
 	register_activation_hook(__FILE__, array($wordpress_https, 'install'));

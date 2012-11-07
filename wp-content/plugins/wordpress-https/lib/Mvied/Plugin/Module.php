@@ -8,7 +8,7 @@
  * @author Mike Ems
  * @package Mvied
  */
-class Mvied_Plugin_Module {
+class Mvied_Plugin_Module implements Mvied_Plugin_Module_Interface {
 
 	/**
 	 * Plugin object that this module extends
@@ -16,6 +16,16 @@ class Mvied_Plugin_Module {
 	 * @var Mvied_Plugin
 	 */
 	protected $_plugin;
+
+	/**
+	 * 
+	 * Initializes the module
+	 * @param none
+	 * @return void
+	 */
+	public function init() {
+		throw new Exception('No init method in ' . get_class($this));
+	}
 
 	/**
 	 * Set Plugin
