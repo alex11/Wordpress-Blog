@@ -70,6 +70,7 @@ h1#logo a:link, h1#logo a:visited {
 	width:221px;
 	height:59px;
 	background:url(images/logo.png) 0 0 no-repeat;
+	z-index:1000;
 }
 #search-bar {
 	display:none;
@@ -155,7 +156,7 @@ div#content .padder h2.pagetitle, div#content .padder #blog-single h2.posttitle 
 	display:inline-block;
 	line-height: 210%;
 }
-.groups #container #content .padder h3, .members #container #content .padder h3, h3.pagetitle {
+.activity #container #content .padder h3, .groups #container #content .padder h3, .members #container #content .padder h3, h3.pagetitle {
     font-size: 24px;
     background:url(images/bg-item-header.png) 0 0 repeat transparent;
     color:#fff;

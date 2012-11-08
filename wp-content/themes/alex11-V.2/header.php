@@ -17,7 +17,7 @@
 		<?php do_action( 'bp_before_header' ); ?>
 
 		<div id="header">
-			<h1 id="logo" role="banner"><a href="<?php echo home_url(); ?>" title="<?php _ex( 'Home', 'Home page banner link title', 'buddypress' ); ?>"><span class="display-none"><?php bp_site_name(); ?></span></a></h1>
+			<h1 id="logo" role="banner"><a href="<?php echo home_url(); ?>" title="<?php _ex( 'Home', 'Home page banner link title', 'buddypress' ); ?>">&nbsp;</a></h1>
 			<div id="search-bar" role="search">
 				<div class="padder">
 					
