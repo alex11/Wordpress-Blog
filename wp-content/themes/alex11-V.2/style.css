@@ -507,3 +507,13 @@ div.item-list-tabs ul li a, div.item-list-tabs ul li span {
 #events-personal-li {
 	display:none;
 }
+/* PLUGIN: Subscribe To Comments
+--------------------------------------------- */
+.subscribe-to-comments {
+	margin-top:10px;
+}
+.subscribe-to-comments label {
+    display: inline;
+    font-weight: normal;
+    margin: 15px 0 5px;
+}
