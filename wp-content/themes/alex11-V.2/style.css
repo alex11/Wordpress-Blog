@@ -412,6 +412,60 @@ div#item-header #item-header-content .activity {
     margin: 0;
     overflow: hidden;
 }
+.groups .group-box {
+    display: block;
+    float: left;
+    font-size: 12px;
+    height: auto;
+    line-height: 1.6em;
+    margin: 5px 28px 5px 0;
+    width: 150px;
+	height:408px;
+}
+.groups a.group-box-image {
+    display: block;
+    height: 153px;
+    position: relative;
+    width: 153px;
+}
+.groups .group-box-members {
+    background: #000;
+    bottom: 18px;
+    color: #fff;
+    display: block;
+    font-size: 10px;
+    line-height: 1em !important;
+    padding: 4px 6px;
+    position: absolute;
+    right: 0;
+}
+.groups .group-box-item-meta {
+    background: #cd552d;
+    bottom: 0;
+    color: #FFFFFF;
+    display: block;
+    font-size: 10px;
+    line-height: 1 !important;
+    padding: 4px 6px;
+    position: absolute;
+    right: 0;
+}
+ul.item-list li div.item-desc {
+    color: #888888;
+    font-size: 11px;
+    margin: 10px 0 0 0;
+    width: 100%;
+}
+img.avatar {
+    float: left;
+}
+a img {
+    border: medium none;
+}
+.groups .group-box-title {
+    display: block;
+    margin: 14px 0 7px;
+}
 .groups.group-admin div#subnav.item-list-tabs ul li {
 	margin:0 10px 0 0;
 }
