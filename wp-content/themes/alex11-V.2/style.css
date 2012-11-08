@@ -1,0 +1,454 @@
+/*
+Theme Name: BuddyPress Alex11 V.2
+Theme URI: https://www.alex11.org
+Description: Alex11 Theme for BuddyPress.
+Version: 2.0
+Author: chraema
+Author URI: https://www.alex11.org/
+Template: bp-default
+Tags: buddypress, two-column, orange, green, acampada, acampada berlin
+*/
+
+@import url("fonts.css");
+
+/* General Structure and Styles
+--------------------------------------------- */
+body {
+    background-color: #fff;
+    background-image: none;
+    background-position: left top;
+    background-repeat: repeat-x;
+    color: #000;
+	font-family:'UbuntuRegular',Helvetica,Verdana,sans-serif;
+    font-size: 12px;
+    line-height: 170%;
+    max-width:100%;
+    width: 100%;
+}
+#header {
+    background: none;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    color: #FFFFFF;
+    height: auto;
+    margin:0 auto 20px auto;
+    padding-top: 0;
+    position: relative;
+    width:960px;
+    z-index: 1000;
+}
+div#container {
+    background: none repeat scroll 0 0 transparent;
+    border-bottom: 0;
+    border-radius: 0;
+    border-right: 0;
+    overflow: hidden;
+    position: relative;
+    width:960px;
+    margin: -232px auto 0 auto;
+}
+#footer {
+	width:100%;
+	background:#464646;
+    margin: 0;
+	color:#fff;
+}
+a:link, a:visited {
+    color: #5ec9e0;
+	text-decoration:none;
+}
+a:hover, a:focus, a:active {
+	color: #91C967;
+}
+/* Header
+--------------------------------------------- */
+h1#logo a:link, h1#logo a:visited {
+	position:absolute;
+	top:12px;
+	left:0;
+	display:block;
+	width:221px;
+	height:59px;
+	background:url(images/logo.png) 0 0 no-repeat;
+}
+#search-bar {
+	display:none;
+}
+#header-banner {
+	background:url(images/header-banner.jpg) 0 0 repeat;
+	width:100%;
+	height:232px;
+}
+
+div#content .padder #whats-new-form {
+    padding: 20px;
+    margin-top:240px;
+}
+
+/* Navigation
+--------------------------------------------- */
+#navigation:after {
+    clear: both;
+    content: ".";
+    display: block;
+    height: 0;
+    visibility: hidden;
+}
+#navigation {
+    position: relative;
+    width: auto;
+    padding-left:221px;
+}
+#nav {
+    float: right;
+    list-style: none outside none;
+    margin: 20px 0 0 0;
+    padding: 0;
+}
+#nav li a:link, #nav li a:visited {
+    background: none;
+    color: #464646;
+    display: block;
+    padding: 5px 15px;
+    text-align: left;
+    text-decoration: none;
+}
+#nav li a:hover, #nav li a:focus, #nav li a:active {
+	background: none repeat scroll 0 0 #cd552d;
+    color: #fff;
+}
+#nav > li > a {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+#nav li a .second-line {
+	font-size:10px;
+}
+#nav li.selected a, #nav > li.current-menu-item a, #nav > li.current_page_item a, #nav > li.current_page_ancestor a {
+    background: none repeat scroll 0 0 #cd552d;
+    color: #fff;
+}
+/* Headlines
+--------------------------------------------- */
+h1, h2, h3, h4, h5, h6 {
+	font-weight:normal;
+}
+h1, h2, h3 {
+	font-weight:normal;
+	font-family:'QuicksandLight','UbuntuRegular',Helvetica,Verdana,sans-serif;
+}
+h2.pagetitle a:link, h2.pagetitle a:visited, h2.posttitle a:link, h2.posttitle a:visited {
+    color: #523914;
+    text-decoration: none;
+}
+h2.pagetitle a:hover, h2.pagetitle a:focus, h2.pagetitle a:active, h2.posttitle a:hover, h2.posttitle a:focus, h2.posttitle a:active {
+    color: #91C967;
+    text-decoration: none;
+}
+div#content .padder h2.pagetitle, div#content .padder #blog-single h2.posttitle {
+	font-family:'QuicksandLight','UbuntuRegular',Helvetica,Verdana,sans-serif;
+	margin:112px 0 64px 0;
+	padding:20px 15px;
+	background:url(images/bg-item-header.png) 0 0 repeat transparent;
+	color:#fff;
+	width:auto;
+	display:inline-block;
+	line-height: 210%;
+}
+.groups #container #content .padder h3, .members #container #content .padder h3, h3.pagetitle {
+    font-size: 24px;
+    background:url(images/bg-item-header.png) 0 0 repeat transparent;
+    color:#fff;
+    padding:30px 15px;
+    width:auto;
+    margin:112px 0 60px 0;
+    display:inline-block;
+}
+#container #content .padder #item-body h3 {
+    font-size: 20px;
+	margin: 0 0 20px;
+    padding:0;
+    background:none;
+    color:#cd552d;
+}
+#container #content .padder #item-header h3 {
+	font-family:'UbuntuRegular',Helvetica,Verdana,sans-serif;
+    font-size: 12px;
+    margin: 0 0 5px;
+    padding:0;
+    background:none;
+}
+.groups.group-admin #container #content .padder #item-body h4 {
+    font-size: 16px;
+    margin-bottom: 15px;
+    background:#cd552d;
+    padding:5px 15px;
+    color:#fff;
+}
+div#content .padder h2.posttitle, #footer h3 {
+	font-family:'UbuntuRegular',Helvetica,Verdana,sans-serif;
+}
+/* Content
+--------------------------------------------- */
+div#content .padder {
+    border-bottom-left-radius: 0;
+    border-right: 0;
+    border-top-left-radius: 0;
+    margin:0 245px 0 0;
+    position:relative;
+    padding:0;
+}
+div#content .padder #blog-single div.author-box {
+    background:url(images/bg-item-header.png) 0 0 repeat transparent;
+    border-radius: 0;
+    margin: 112px 0 15px 0;
+    padding: 10px;
+    width: 70px;
+	height: 69px;
+}
+div#content .padder #blog-single div.author-box img {
+    border: 4px solid #FFFFFF;
+    float: none;
+    margin: 5px 0 0 0;
+}
+div#content .padder #blog-single div.author-box p {
+	display:none;
+}
+div#content .padder #blog-single div.post-content {
+    margin-left: 90px;
+}
+
+/* Sidebar
+--------------------------------------------- */
+
+div#sidebar {
+    border-left: 1px solid #DDDDDD;
+    border-top-right-radius: 3px;
+    float: left;
+    margin-left: -226px;
+    margin-top: 232px;
+    width: 224px;
+}
+
+/* Footer
+--------------------------------------------- */
+#footer-header {
+	background:url(images/bg-footer-header.png) 0 0 no-repeat;
+	width:960px;
+	height:170px;
+	margin:50px auto 0 auto;
+}
+#footer #footer-widgets {
+    background: none repeat scroll 0 0 transparent;
+    border-bottom: 0;
+    border-radius: 0;
+    border-right: 0;
+	width:960px;
+	margin: 0 auto;
+    padding: 19px;
+}
+#footer #site-generator {
+	display:none;
+    color: #4D4D4D;
+    margin: 20px 0 0 0;
+    text-align: center;
+    text-shadow: 1px 1px 0 #FAFAFA;
+}
+#footer-widget-area h3.widgettitle {
+    background: none repeat scroll 0 0 transparent;
+    clear: left;
+    font-size: 12px;
+    margin: 0 0 10px;
+    padding: 5px 15px 5px 0;
+	border-bottom:1px solid #5ec9e0;
+}
+#footer #footer-widgets #first ul.xoxo {
+	width:70%;
+	float:left;
+}
+#footer #footer-widgets ul.xoxo .comments {
+    float: none;
+}
+#footer #footer-widgets #second ul.xoxo {
+	width:25%;
+	float:right;
+}
+#footer #footer-widgets img.avatar {
+	border:0;
+}
+
+/* Class
+--------------------------------------------- */
+.clearer { 
+	clear:both;
+	height:0px;
+}
+.display-none {
+	display:none;
+}
+p.date, p.postmetadata {
+    color: #523914;
+    font-family: 'UbuntuRegular',Helvetica,Verdana,sans-serif;
+    font-size: 12px;
+}
+p.date span:first-child {
+    font-style: normal;
+	font-family: 'UbuntuItalic',Helvetica,Verdana,sans-serif;
+}
+div.dir-search {
+    float: right;
+    margin: 241px 0 0;
+}
+
+/* Buttons
+--------------------------------------------- */
+
+button, a:link.button, a:visited.button, input[type="submit"], input[type="button"], input[type="reset"], ul.button-nav li a:link, ul.button-nav li a:visited, div.generic-button a:link, div.generic-button a:visited, .comment-reply-link {
+	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#5ec9e0), to(#41a3b8));
+	background-image: -moz-linear-gradient(top, #5ec9e0 0%, #41a3b8 100%);
+	background-image: -o-linear-gradient(top, #5ec9e0 0%, #41a3b8 100%);
+    border: 1px solid #3a899a;
+	box-shadow: 0 1px 1px #CFCFCF;
+    border-radius: 3px 3px 3px 3px;
+    color: #FFFFFF;
+    cursor: pointer;
+    font: 12px/14px Arial,Tahoma,Verdana,sans-serif;
+    outline: medium none;
+    padding: 4px 10px;
+    text-align: center;
+    text-decoration: none;
+	display:inline;
+}
+button:hover, a.button:hover, a.button:focus, input[type="submit"]:hover, input[type="button"]:hover, input[type="reset"]:hover, ul.button-nav li a:hover, ul.button-nav li.current a, div.generic-button a:hover, .comment-reply-link:hover {
+	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#5ec9e0), to(#347f8f));
+	background-image: -moz-linear-gradient(top, #5ec9e0 0%, #347f8f 100%);
+	background-image: -o-linear-gradient(top, #5ec9e0 0%, #347f8f 100%);
+    border: 1px solid #3a899a;
+	color:#fff;
+	display:inline;
+}
+.button.creation {
+    background-image: -moz-linear-gradient(center top , #66C1FF 0%, #0097FF 100%);
+    border: 1px solid #777777;
+    color: #FFFFFF;
+}
+.button.creation:hover {
+    background-image: -moz-linear-gradient(center top , #66C1FF 0%, #0079CC 100%);
+    border: 1px solid #515151;
+}
+.pagetitle a.button {
+	display:none;
+}
+.logged-in .pagetitle a.button {
+	display:inline;
+	margin:0 15px;
+}
+
+/* Individual Rules
+--------------------------------------------- */
+
+.home-page #content .padder #widget-left {
+	width:45%;
+	float:left;
+}
+.home-page #content .padder #widget-right {
+	width:45%;
+	float:right;
+}
+
+.directory.groups #sidebar {
+	display:block;
+}
+.directory.groups #container #content .padder, .directory.groups .bp-user #container #content .padder {
+	margin-right:245px;
+}
+
+.groups #sidebar, .bp-user #sidebar {
+	display:none;
+}
+
+.groups #container #content .padder, .bp-user #container #content .padder {
+	margin-right:0;
+}
+#item-header div#message.updated p {
+    background: #91C967;
+    border-color: #91C967;
+    color: #523914;
+}
+#item-header div#message.error p {
+	background: #cd552d;
+    border-color: #cd552d;
+    color: #fff;
+}
+#item-header {
+	margin:20px 0 50px 0;
+	padding:20px 20px 0 20px;
+	background: url(images/bg-item-header.png) 0 0 repeat transparent;
+}
+span.user-nicename {
+    color: #fff;
+    display: inline-block;
+    font-size: 16px;
+    font-weight: normal;
+}
+div#item-header #item-header-content, div#item-header h2 a, div#item-meta {
+    color: #fff !important;
+    text-decoration: none;
+}
+div#item-header #item-header-content .activity {
+	color:#000;
+}
+#container #content .padder #item-nav {
+	margin-top:-15px;
+	float:left;
+	width:174px;
+}
+#container #content .padder #item-nav #object-nav {
+	margin-bottom:20px;
+}
+#container #content .padder #item-nav div.item-list-tabs {
+    background: none repeat scroll 0 0 transparent;
+    clear: left;
+    margin: 0;
+    overflow: hidden;
+}
+.groups.group-admin div#subnav.item-list-tabs ul li {
+	margin:0 10px 0 0;
+}
+.groups.group-admin div#subnav.item-list-tabs ul li a:link, .groups.group-admin div#subnav.item-list-tabs ul li a:link {
+    background:#5EC9E0;
+    padding:5px 10px;
+    color:#fff;
+    border-radius:0;
+}
+.groups.group-admin div#subnav.item-list-tabs ul li a:hover, .groups.group-admin div#subnav.item-list-tabs ul li a:focus, .groups.group-admin div#subnav.item-list-tabs ul li a:active {
+    background:#cd552d;
+}
+.groups.group-admin div#subnav.item-list-tabs ul li.current a {
+	background:#cd552d;
+	font-weight:normal;
+}
+#container #content .padder #item-nav div.item-list-tabs ul li {
+    float: none;
+    margin: 5px 0 0 0;
+	border-bottom:1px solid #cd552d;
+}
+div.item-list-tabs ul li a, div.item-list-tabs ul li span {
+    display: block;
+    padding: 5px 0;
+    text-decoration: none;
+}
+#container #content .padder #item-body {
+	margin-left:40px;
+	float:left;
+	width:745px;
+}
+#container #content .padder #item-body #whats-new-form {
+	margin:0 0 10px 0;
+}
+
+/* PLUGIN: The Events Calendar
+--------------------------------------------- */
+#events-personal-li {
+	display:none;
+}
