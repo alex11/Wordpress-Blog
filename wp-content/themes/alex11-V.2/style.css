@@ -446,7 +446,7 @@ div#item-header #item-header-content .activity {
     display: block;
     font-size: 10px;
     line-height: 1 !important;
-    padding: 4px 4px;
+    padding: 4px 1px;
     position: absolute;
     right: 0;
 }
