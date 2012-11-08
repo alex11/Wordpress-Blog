@@ -34,14 +34,26 @@ get_header(); ?>
 					</div>
 
 				</div>
+				<div id="widget-first-full">
+					<?php /* Widgetized sidebar */
+				    	if ( !function_exists('dynamic_sidebar') || !dynamic_sidebar('first-fullside-homepage-widget-area') ) : ?>    	
+					<?php endif; ?>
+				</div>
+				<div class="clearer">&nbsp;</div>
 				<div id="widget-left">
 					<?php /* Widgetized sidebar */
-				    	if ( !function_exists('dynamic_sidebar') || !dynamic_sidebar('first-homepage-widget-area') ) : ?>    	
+				    	if ( !function_exists('dynamic_sidebar') || !dynamic_sidebar('left-homepage-widget-area') ) : ?>    	
 					<?php endif; ?>
 				</div>
 				<div id="widget-right">
 					<?php /* Widgetized sidebar */
-				    	if ( !function_exists('dynamic_sidebar') || !dynamic_sidebar('second-homepage-widget-area') ) : ?>    	
+				    	if ( !function_exists('dynamic_sidebar') || !dynamic_sidebar('right-homepage-widget-area') ) : ?>    	
+					<?php endif; ?>
+				</div>
+				<div class="clearer">&nbsp;</div>
+				<div id="widget-second-full">
+					<?php /* Widgetized sidebar */
+				    	if ( !function_exists('dynamic_sidebar') || !dynamic_sidebar('second-fullside-homepage-widget-area') ) : ?>    	
 					<?php endif; ?>
 				</div>
 
