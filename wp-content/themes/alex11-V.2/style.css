@@ -446,7 +446,7 @@ div#item-header #item-header-content .activity {
     display: block;
     font-size: 10px;
     line-height: 1 !important;
-    padding: 4px 6px;
+    padding: 4px 4px;
     position: absolute;
     right: 0;
 }
@@ -469,7 +469,7 @@ a img {
 .groups.group-admin div#subnav.item-list-tabs ul li {
 	margin:0 10px 0 0;
 }
-.groups.group-admin div#subnav.item-list-tabs ul li a:link, .groups.group-admin div#subnav.item-list-tabs ul li a:link {
+.groups.group-admin div#subnav.item-list-tabs ul li a:link, .groups.group-admin div#subnav.item-list-tabs ul li a:visited {
     background:#5EC9E0;
     padding:5px 10px;
     color:#fff;
