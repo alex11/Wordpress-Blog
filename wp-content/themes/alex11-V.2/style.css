@@ -54,11 +54,11 @@ div#container {
 	color:#fff;
 }
 a:link, a:visited {
-    color: #5ec9e0;
+    color: #41a3b8;
 	text-decoration:none;
 }
 a:hover, a:focus, a:active {
-	color: #91C967;
+	color: #cd552d;
 }
 /* Header
 --------------------------------------------- */
