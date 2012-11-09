@@ -174,6 +174,11 @@ div#content .padder h2.pagetitle, div#content .padder #blog-single h2.posttitle 
     padding:0;
     background:none;
 }
+#container #content h3.widgettitle {
+	background:#cd552d;
+	padding:9px 10px 6px 10px;
+	color:#fff;
+}
 .groups.group-admin #container #content .padder #item-body h4 {
     font-size: 16px;
     margin-bottom: 15px;
@@ -183,6 +188,9 @@ div#content .padder h2.pagetitle, div#content .padder #blog-single h2.posttitle 
 }
 div#content .padder h2.posttitle, #footer h3 {
 	font-family:'UbuntuRegular',Helvetica,Verdana,sans-serif;
+}
+body.activity.directory #content .padder form#whats-new-form h5 {
+    color: #fff;
 }
 /* Content
 --------------------------------------------- */
@@ -223,7 +231,15 @@ div.pagination {
     padding: 8px 20px 8px 37px;
     position: relative;
 }
-
+div#content .widget, div#content li.widget.comments ul {
+	margin:0;
+}
+div#content .widget, div#content li.widget.comments li {
+	list-style-type:none;
+}
+div#content .widget, div#content li.widget.comments li img.avatar {
+    border: 0;
+}
 /* Sidebar
 --------------------------------------------- */
 
@@ -362,13 +378,17 @@ form#whats-new-form #whats-new-content {
     height: 0;
     overflow: auto;
 }
-div#content .padder #whats-new-form {
+body.activity.directory div#content .padder #whats-new-form {
     padding: 20px;
-    margin-top:240px;
+	margin:50px 0 20px 0;
+	background: url(images/bg-item-header.png) 0 0 repeat transparent;
 }
 .groups form#whats-new-form #whats-new-submit {
     float: right;
     margin-top: 0;
+}
+.activity #content .padder form#whats-new-form div {
+	color:#fff;
 }
 
 /* Individual Rules
@@ -597,6 +617,9 @@ ul#bpfb_tmp_photo_list, ul#bpfb_tmp_document_list {
     text-decoration: none;
 	display:inline;
 }
+body.activity.directory .bpfb_actions_container input#bpfb_cancel_action[type="button"], body.activity.directory .bpfb_actions_container input#bpfb_cancel[type="button"] {
+    color: #fff;
+}
 .bpfb_actions_container input#bpfb_cancel_action[type="button"]:hover, .bpfb_actions_container input#bpfb_cancel[type="button"]:hover {
 	background-image: none;
     border: 0;
@@ -611,4 +634,35 @@ ul#bpfb_tmp_photo_list, ul#bpfb_tmp_document_list {
 }
 .bpfb_images a img {
 	display:inline;
+}
+/* PLUGIN: Buddypress Sitewide activity widget
+--------------------------------------------- */
+.swa-wrap .swa-activity-list li.activity-item {
+	border-bottom:1px solid #cd552d;
+}
+ul.swa-activity-list > li:last-child {
+    border:0;
+}
+#container #content .swa-activity-list div.swa-activity-meta a.acomment-reply, div.swa-activity-meta {
+	display:none;
+}
+#container #content .swa-activity-list .swa-activity-header a:link, #container #content .swa-activity-list .swa-activity-header a:visited, span.highlight {
+    background: none repeat scroll 0 0 transparent !important;
+    border-bottom: 0 !important;
+    border-radius: 0 !important;
+    border-right: 0 !important;
+    color: #fff !important;
+    margin-right: 0 !important;
+    padding: 0 !important;
+    text-decoration: none !important;
+}
+#container #content .swa-activity-list .swa-activity-header a:hover, #container #content .swa-activity-list .swa-activity-header a:focus, #container #content .swa-activity-list .swa-activity-header a:active {
+	background: none repeat scroll 0 0 #fff !important;
+    border-bottom: 0;
+    border-radius: 0;
+    border-right: 0;
+    color: #cd552d !important;
+    margin-right: 0;
+    padding: 0;
+    text-decoration: none;
 }
