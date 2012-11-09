@@ -646,12 +646,17 @@ ul.swa-activity-list > li:last-child {
 #container #content .swa-activity-list div.swa-activity-meta a.acomment-reply, div.swa-activity-meta {
 	display:none;
 }
+#container #content .swa-activity-list .swa-activity-header a:link, #container #content .swa-activity-list .swa-activity-header a:visited {
+	color:#41a3b8 !important;
+}
+#item-header-content span.highlight {
+	color:#fff !important;
+}
 #container #content .swa-activity-list .swa-activity-header a:link, #container #content .swa-activity-list .swa-activity-header a:visited, span.highlight {
     background: none repeat scroll 0 0 transparent !important;
     border-bottom: 0 !important;
     border-radius: 0 !important;
     border-right: 0 !important;
-    color: #fff !important;
     margin-right: 0 !important;
     padding: 0 !important;
     text-decoration: none !important;
