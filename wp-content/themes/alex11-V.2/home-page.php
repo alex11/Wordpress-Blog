@@ -21,6 +21,13 @@ get_header(); ?>
 			<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
 
 				<h2 class="pagetitle"><?php the_title(); ?></h2>
+				<?php if (is_user_logged_in() ) { //only logged in user can see this ?>
+
+				<?php } else { ?>
+					<?php /* Widgetized sidebar */
+					    if ( !function_exists('dynamic_sidebar') || !dynamic_sidebar('fullside-only-loggedout-homepage-widget-area') ) : ?>    	
+					<?php endif; ?>
+				<?php } ?>
 
 				<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 

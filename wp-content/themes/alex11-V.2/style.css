@@ -357,6 +357,10 @@ button:hover, a.button:hover, a.button:focus, input[type="submit"]:hover, input[
 	float:right;
 }
 
+.home-page #content li.widget_text {
+	margin-bottom:40px;
+}
+
 .directory.groups #sidebar {
 	display:block;
 }
