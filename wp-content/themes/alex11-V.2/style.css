@@ -81,11 +81,6 @@ h1#logo a:link, h1#logo a:visited {
 	height:232px;
 }
 
-div#content .padder #whats-new-form {
-    padding: 20px;
-    margin-top:240px;
-}
-
 /* Navigation
 --------------------------------------------- */
 #navigation:after {
@@ -168,7 +163,7 @@ div#content .padder h2.pagetitle, div#content .padder #blog-single h2.posttitle 
 #container #content .padder #item-body h3 {
     font-size: 20px;
 	margin: 0 0 20px;
-    padding:0;
+    padding:0 0 10px 0;
     background:none;
     color:#cd552d;
 }
@@ -217,6 +212,16 @@ div#content .padder #blog-single div.author-box p {
 }
 div#content .padder #blog-single div.post-content {
     margin-left: 90px;
+}
+div.pagination {
+    background: none repeat scroll 0 0 #CD552D;
+    border: medium none;
+    color: #FFFFFF;
+    font-size: 11px;
+    height: 19px;
+    margin: -20px -19px 0;
+    padding: 8px 20px 8px 37px;
+    position: relative;
 }
 
 /* Sidebar
@@ -304,7 +309,7 @@ div.dir-search {
 /* Buttons
 --------------------------------------------- */
 
-button, a:link.button, a:visited.button, input[type="submit"], input[type="button"], input[type="reset"], ul.button-nav li a:link, ul.button-nav li a:visited, div.generic-button a:link, div.generic-button a:visited, .comment-reply-link {
+button, a:link.button, a:visited.button, input[type="submit"], input[type="file"], input[type="button"], input[type="reset"], ul.button-nav li a:link, ul.button-nav li a:visited, div.generic-button a:link, div.generic-button a:visited, .comment-reply-link {
 	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#5ec9e0), to(#41a3b8));
 	background-image: -moz-linear-gradient(top, #5ec9e0 0%, #41a3b8 100%);
 	background-image: -o-linear-gradient(top, #5ec9e0 0%, #41a3b8 100%);
@@ -343,6 +348,27 @@ button:hover, a.button:hover, a.button:focus, input[type="submit"]:hover, input[
 .logged-in .pagetitle a.button {
 	display:inline;
 	margin:0 15px;
+}
+
+/* What's New Form
+--------------------------------------------- */
+form#whats-new-form #whats-new-content {
+    margin-left: 54px;
+    padding-left: 22px;
+	position:relative;
+}
+#whats-new-options {
+	clear:both;
+    height: 0;
+    overflow: auto;
+}
+div#content .padder #whats-new-form {
+    padding: 20px;
+    margin-top:240px;
+}
+.groups form#whats-new-form #whats-new-submit {
+    float: right;
+    margin-top: 0;
 }
 
 /* Individual Rules
@@ -520,4 +546,73 @@ div.item-list-tabs ul li a, div.item-list-tabs ul li span {
     display: inline;
     font-weight: normal;
     margin: 15px 0 5px;
+}
+/* PLUGIN: BuddyPress Activity Plus
+--------------------------------------------- */
+.bpfb_form_container {
+    background-color: transparent !important;
+    padding: 1em;
+}
+.bpfb_actions_container {
+	width:100%;
+}
+.bpfb_toolbarItem {
+    height: 19px !important;
+    margin-right: 10px !important;
+    width: 19px !important;
+}
+#bpfb_addPhotos {
+    background: url("images/camera.png") no-repeat scroll left top transparent !important;
+}
+#bpfb_addDocuments {
+    background: url("images/document.png") no-repeat scroll left top transparent !important;
+}
+#bpfb_addVideos, #bpfb_addLinks, #bpfb_add_remote_image {
+	display:none;
+}
+ul#bpfb_tmp_photo_list, ul#bpfb_tmp_document_list {
+	margin-bottom:20px;
+}
+.bpfb_actions_container .bpfb_controls_container {
+	float:left;
+	padding-top:15px !important;
+}
+.bpfb_actions_container, .bpfb_preview_container {
+    margin-bottom: 0;
+}
+.bpfb_actions_container input#bpfb_cancel_action[type="button"] {
+	float:left;
+	margin:5px 0 0 10px;
+}
+.bpfb_action_container p {
+	clear:both;
+}
+.bpfb_actions_container input#bpfb_cancel_action[type="button"], .bpfb_actions_container input#bpfb_cancel[type="button"] {
+	background-image: none;
+    border: 0;
+	box-shadow: none;
+    border-radius: 0;
+    color: #000;
+    cursor: pointer;
+    font: 14px/14px 'UbuntuRegular',Helvetica,Verdana,sans-serif;
+    outline: medium none;
+    padding: 0;
+    text-align: left;
+    text-decoration: none;
+	display:inline;
+}
+.bpfb_actions_container input#bpfb_cancel_action[type="button"]:hover, .bpfb_actions_container input#bpfb_cancel[type="button"]:hover {
+	background-image: none;
+    border: 0;
+	color:#cd552d;
+	display:inline;
+}
+.bpfb_images a {
+	float:left;
+	margin:5px;
+	display:block;
+	min-height:150px;
+}
+.bpfb_images a img {
+	display:inline;
 }
