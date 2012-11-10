@@ -248,7 +248,7 @@ div.item-list-tabs ul li a:link, .item-list-tabs ul li a:visited {
 	border-top:5px solid #fff;
     padding: 5px 0 8px 0;
 }
-div.item-list-tabs ul li.feed a {
+div.item-list-tabs ul li.feed a:link, div.item-list-tabs ul li.feed a:visited, div.item-list-tabs ul li.feed a:hover, div.item-list-tabs ul li.feed a:focus, div.item-list-tabs ul li.feed a:active {
 	padding:5px 0 8px 21px;
 }
 div.item-list-tabs ul li a:hover, .item-list-tabs ul li a:focus, .item-list-tabs ul li a:active {
@@ -626,22 +626,6 @@ a img {
     display: block;
     margin: 14px 0 7px;
 }
-.groups.group-admin div#subnav.item-list-tabs ul li {
-	margin:0 10px 0 0;
-}
-.groups.group-admin div#subnav.item-list-tabs ul li a:link, .groups.group-admin div#subnav.item-list-tabs ul li a:visited {
-    background:#5EC9E0;
-    padding:5px 10px;
-    color:#fff;
-    border-radius:0;
-}
-.groups.group-admin div#subnav.item-list-tabs ul li a:hover, .groups.group-admin div#subnav.item-list-tabs ul li a:focus, .groups.group-admin div#subnav.item-list-tabs ul li a:active {
-    background:#cd552d;
-}
-.groups.group-admin div#subnav.item-list-tabs ul li.current a {
-	background:#cd552d;
-	font-weight:normal;
-}
 #container #content .padder #item-body {
 	margin-left:40px;
 	float:left;
@@ -822,3 +806,9 @@ h2.pagetitle .category { font-weight:normal; font-size:11px; }
 #sidebar .padder .widget_em_widget ul li:first-child { border:0; margin-top:0; padding-top:0; }
 #sidebar .padder .widget_em_widget ul li ul li { border-top:none; margin-top:0; padding-top:0; }
 #sidebar .padder .widget_em_widget ul li ul li.eventtitle a { font-weight:bold; }
+
+/* PLUGIN: BuddyPress Group Tags
+--------------------------------------------- */
+div.dir-search {
+    margin: -22px 0 0 0 !important;
+}
