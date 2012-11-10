@@ -44,7 +44,7 @@
 						<a class="group-box-image" href="<?php bp_group_permalink(); ?>">
 							<?php bp_group_avatar(); ?>
 							<span class="group-box-members"><?php bp_group_member_count(); ?></span>
-							<span class="group-box-item-meta"><?php printf( __( 'Aktiv %s', 'buddypress' ), bp_get_group_last_active() ); ?></span>
+							<span class="group-box-item-meta"><?php printf( __( 'active %s', 'buddypress' ), bp_get_group_last_active() ); ?></span>
 						</a>
 					</div>
 				</span>
