@@ -134,7 +134,7 @@ h1#logo a:link, h1#logo a:visited {
 	background:url(images/bg-sub-menu.png) 0 0 repeat;
 	border-bottom:1px solid #cd552d;
 	padding:10px 5px;
-	color:#000;
+	color:#000 !important;
 }
 #nav ul.sub-menu li a:hover, ul.sub-menu li a:focus, ul.sub-menu li a:active {
 	background:url(images/bg-item-header.png) 0 0 repeat;
