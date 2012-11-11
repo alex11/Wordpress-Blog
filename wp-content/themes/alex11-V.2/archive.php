@@ -2,6 +2,12 @@
 
 	<div id="content">
 		<div class="padder">
+			
+			<div id="tag-cloud">
+				<?php
+					wp_tag_cloud(array('smallest' => '10', 'largest' => '12', 'number' => '28', 'orderby' => 'count', 'order' => 'DESC', 'exclude' => '', 'include' => '', 'taxonomy' => 'category') );
+				?>
+			</div>
 
 		<?php do_action( 'bp_before_archive' ); ?>
 
