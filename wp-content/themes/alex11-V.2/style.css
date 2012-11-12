@@ -79,7 +79,7 @@ h1#logo a:link, h1#logo a:visited {
 	display:none;
 }
 #header-banner {
-	background:url(images/header-banner.jpg) 0 0 repeat;
+	background:url(images/header-banner.jpg) 0 0 repeat-x;
 	width:100%;
 	height:232px;
 }
@@ -195,6 +195,10 @@ div#content .padder h2.pagetitle, div#content .padder #blog-single h2.posttitle 
     margin: 0 0 5px;
     padding:0;
     background:none;
+}
+#container #content .padder #item-header #item-actions h3 {
+	line-height:15px;
+	margin:0 0 5px 0;
 }
 #container #content h3.widgettitle {
 	background:#F99A3D;
