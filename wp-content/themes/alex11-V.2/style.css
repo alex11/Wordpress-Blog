@@ -519,7 +519,7 @@ div#item-header div.generic-button a:hover, div#item-header div.generic-button a
     border: 1px solid #3a899a;
 	color:#fff;
 }
-.activity-meta a.button:link, .activity-meta a.button:visited {
+.activity-meta a.button.fav:link, .activity-meta a.button.fav:visited, .activity-meta a.button.confirm:link, .activity-meta a.button.confirm:visited {
 	background:transparent;
     border: 0;
 	box-shadow: none;
@@ -533,7 +533,7 @@ div#item-header div.generic-button a:hover, div#item-header div.generic-button a
     text-decoration: none;
 	display:inline;
 }
-.activity-meta a.button:hover, .activity-meta a.button:focus, .activity-meta a.button:active {
+.activity-meta a.button.fav:hover, .activity-meta a.button.fav:focus, .activity-meta a.button.fav:active, .activity-meta a.button.confirm:hover, .activity-meta a.button.confirm:focus, .activity-meta a.button.confirm:active {
 	color: #cd552d;
 }
 /* Forms
@@ -850,7 +850,7 @@ body.activity.directory .bpfb_actions_container input#bpfb_cancel_action[type="b
 ul.swa-activity-list > li:last-child {
     border:0;
 }
-.swa-wrap .swa-activity-list li.activity-item .swa-activity-avatar img {
+.swa-wrap .swa-activity-list li.activity-item .swa-activity-avatar img, .swa-activity-comments .acomment-avatar img {
 	margin-bottom:10px;
 }
 #container #content .swa-activity-list div.swa-activity-meta a.acomment-reply, div.swa-activity-meta {
@@ -881,7 +881,7 @@ ul.swa-activity-list > li:last-child {
     padding: 0;
     text-decoration: none;
 }
-.swa-pagination  {
+.swa-pagination, .swa-activity-comments .acomment-options {
 	display:none;
 }
 /* PLUGIN: Event Manager
@@ -982,7 +982,7 @@ h2.pagetitle .category { font-weight:normal; font-size:11px; }
     font-size: 20px;
     font-weight: normal;
 }
-/* PLUGIN: BuddyPress Group Tags
+/* PLUGIN: BuddyPress Group Email Subscription
 --------------------------------------------- */
 #item-header-content .group-subscription-options {
 	background:url(images/bg-item-header.png) 0 0 repeat transparent;
@@ -1006,6 +1006,12 @@ h2.pagetitle .category { font-weight:normal; font-size:11px; }
 	box-shadow: none !important;
 	color:#fff !important;
 }
-.group-subscription-status {
+.group-subscription-status, {
 	font-weight:normal;
+}
+#item-meta .group-subscription-div .gemail_icon {
+    background: url("images/email.png") 0 1px no-repeat scroll transparent !important;
+    font-weight: normal;
+    margin-left: 2px;
+    padding-left: 25px !important;
 }
