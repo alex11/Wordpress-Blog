@@ -362,6 +362,18 @@ div#sidebar {
     margin-top: 232px;
     width: 224px;
 }
+#sidebar #sidebar-login-form {
+	display:none;
+}
+body.home-page #sidebar #sidebar-login-form, body.registration #sidebar #sidebar-login-form, body.activation #sidebar #sidebar-login-form {
+	display:inline;
+}
+body.home-page #sidebar #login-button, body.registration #sidebar #login-button, body.activation #sidebar #login-button {
+	display:none;
+}
+body.registration #sidebar p#login-text, body.activation #sidebar p#login-text {
+	display:none;
+}
 div#sidebar div#sidebar-me img.avatar {
 	width:45px;
 	height:45px;
@@ -564,6 +576,38 @@ body.activity.directory div#content .padder #whats-new-form {
     margin-top: 0;
 }
 .activity #content .padder form#whats-new-form div {
+	color:#fff;
+}
+
+/* Register & Activate page
+--------------------------------------------- */
+body.register #register-page #register-rules {
+	background: url(images/bg-item-header.png) 0 0 repeat transparent;
+	margin:20px 0 40px 0;
+	padding:15px 15px 1px 15px;
+	color:#fff;
+}
+body.register #register-page #register-rules li {
+	font-size:14px;
+	font-family:'UbuntuLight',Helvetica,Verdana,sans-serif;
+	list-style-type:disc;
+	padding-left:8px;
+	margin-bottom:5px;
+}
+body.register #register-page #register-rules h3 span {
+	font-size:13px;
+}
+body.register #register-page #register-rules a:link, body.register #register-page #register-rules a:visited {
+	color:#9CD6E3;
+}
+body.register #register-page #register-rules a:hover, body.register #register-page #register-rules a:focus, body.register #register-page #register-rules a:active {
+	color:#fff;
+}
+#activate-page h2.widgettitle, #activate-page h3, #register-page h2.completed-registration {
+	background: url(images/bg-item-header.png) 0 0 repeat transparent;
+	width:auto;
+	margin:120px 0 55px 0;
+	padding:30px 10px;
 	color:#fff;
 }
 
