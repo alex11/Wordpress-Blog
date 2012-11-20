@@ -25,7 +25,7 @@
 						<li>Jugendfreundlich und nicht kriminell</li>
 						<li>Deine Inhalte publizierst du als Privatperson und nicht im Namen einer Organisation, Unternehmen, Partei o.&auml;.</li>
 						<li>Alle Inhalte werden automatisch mit der <LINK>Creative Commons Lizenz</LINK> lizensiert, es sei denn du w&auml;hlst eine andere Lizenzart f&uuml;r deine Inhalte.</li>
-						<li>Die Moderation beh&auml;lt sich Struktur-, Kategorie- und Tag&auml;nderungen vor. Keine inhaltlichen &auml;nderungen deiner Artikel.</li>
+						<li>Die Moderation beh&auml;lt sich Struktur-, Kategorie- und Tag&auml;nderungen vor. Keine inhaltlichen &Auml;nderungen deiner Artikel.</li>
 						<li>Es ist der Datenschutz zu beachten. Ohne Zustimmung der jeweiligen Person d&uuml;rfen keine Personen- oder Kontaktdaten ver&ouml;ffentlicht oder verbreitet werden.</li>
 					</ul>
 				</div>
