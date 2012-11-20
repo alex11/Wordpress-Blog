@@ -610,6 +610,13 @@ body.register #register-page #register-rules a:hover, body.register #register-pa
 	padding:30px 10px;
 	color:#fff;
 }
+#register-page #signup_form div.password {
+	float:left;
+	width:50%;
+}
+#register-page #signup_form div.password input {
+	width:80%;
+}
 
 /* Individual Rules
 --------------------------------------------- */

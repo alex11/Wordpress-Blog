@@ -45,19 +45,28 @@
 
 					<label for="signup_username"><?php _e( 'Username', 'buddypress' ); ?> <?php _e( '(required)', 'buddypress' ); ?></label>
 					<?php do_action( 'bp_signup_username_errors' ); ?>
-					<input type="text" name="signup_username" id="signup_username" value="<?php bp_signup_username_value(); ?>" /><br />(Dieser kann nicht mehr ge&auml;ndert werden)
+					<input type="text" name="signup_username" id="signup_username" value="<?php bp_signup_username_value(); ?>" />
+					<p class="field-visibility-settings-notoggle">Dieses Feld kann gesehen werden von: <b>Jeder</b></p>
+					<p class="description">Den Benutzernamen am besten in zusammenh&auml;ngenden Kleinbuchstaben und OHNE Sonderzeichen. Er kann nicht mehr ge&auml;ndert werden!</p>
 
 					<label for="signup_email"><?php _e( 'Email Address', 'buddypress' ); ?> <?php _e( '(required)', 'buddypress' ); ?></label>
 					<?php do_action( 'bp_signup_email_errors' ); ?>
 					<input type="text" name="signup_email" id="signup_email" value="<?php bp_signup_email_value(); ?>" />
-
-					<label for="signup_password"><?php _e( 'Choose a Password', 'buddypress' ); ?> <?php _e( '(required)', 'buddypress' ); ?></label>
-					<?php do_action( 'bp_signup_password_errors' ); ?>
-					<input type="password" name="signup_password" id="signup_password" value="" />
-
-					<label for="signup_password_confirm"><?php _e( 'Confirm Password', 'buddypress' ); ?> <?php _e( '(required)', 'buddypress' ); ?></label>
-					<?php do_action( 'bp_signup_password_confirm_errors' ); ?>
-					<input type="password" name="signup_password_confirm" id="signup_password_confirm" value="" />
+					<p class="field-visibility-settings-notoggle">Dieses Feld kann gesehen werden von: <b>Administratoren</b></p>
+					<p class="description">Deine E-Mail ist vertraulich und wird zu keiner Zeit veröffentlicht oder ohne Deiner Zustimmung an Dritte weitergegeben.</p>
+					
+					<div class="password">
+						<label for="signup_password">Passwort <?php _e( '(required)', 'buddypress' ); ?></label>
+						<?php do_action( 'bp_signup_password_errors' ); ?>
+						<input type="password" name="signup_password" id="signup_password" value="" />
+					</div>
+					<div class="password">
+						<label for="signup_password_confirm">wiederholen <?php _e( '(required)', 'buddypress' ); ?></label>
+						<?php do_action( 'bp_signup_password_confirm_errors' ); ?>
+						<input type="password" name="signup_password_confirm" id="signup_password_confirm" value="" />
+					</div>
+					<p class="field-visibility-settings-notoggle">Dieses Feld kann gesehen werden von: <b>Niemanden</b></p>
+					<p class="description">Dein Passwort wird verschlüsselt übertragen und gespeichert. Es sollte nicht allzu einfach sein und regelmäßig wieder geändert werden.</p>
 
 				</div><!-- #basic-details-section -->
 
