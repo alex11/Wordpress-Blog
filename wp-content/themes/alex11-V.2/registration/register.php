@@ -267,13 +267,14 @@
 
 			<?php if ( 'completed-confirmation' == bp_get_current_signup_step() ) : ?>
 
-				<h2 class="completed-registration">Willkommen an Bord!</h2>
+				<h2 class="completed-registration">Bitte überprüfe dein E-Mail Postfach</h2>
 
 				<?php do_action( 'template_notices' ); ?>
 				<?php do_action( 'bp_before_registration_confirmed' ); ?>
 
 				<?php if ( bp_registration_needs_activation() ) : ?>
-					<p><?php _e( 'You have successfully created your account! To begin using this site you will need to activate your account via the email we have just sent to your address.', 'buddypress' ); ?></p>
+					<h3>Wir haben Dir eine E-Mail mit einem Link zum Abschließen der Registrierung geschickt. Wenn Du die E-Mail nicht zeitnah in Deinem Posteingang finden solltest, schau mal im Spamordner nach und überprüfe ggf. den Spamfilter, ob du E-Mails von no-reply@alex11.org empfangen kannst.</h3>
+					<p>Um sicher zu gehen, dass die E-Mails dein Posteingang erreichen und nicht gelöscht oder in den Spamordner verschoben werden, füge die E-Mail Adresse no-reply@alex11.org in die Liste deiner vertrauenswürdigen Absender ein.</p>
 				<?php else : ?>
 					<p><?php _e( 'You have successfully created your account! Please log in using the username and password you have just created.', 'buddypress' ); ?></p>
 				<?php endif; ?>
