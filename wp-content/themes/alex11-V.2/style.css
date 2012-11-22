@@ -678,13 +678,36 @@ body.register #register-page #register-rules a:hover, body.register #register-pa
 /* Individual Rules
 --------------------------------------------- */
 
-.home-page #content .padder #widget-left {
+body.home-page #content .padder #widget-left {
 	width:45%;
 	float:left;
 }
-.home-page #content .padder #widget-right {
+body.home-page #content .padder #widget-right {
 	width:45%;
 	float:right;
+}
+body.home-page #content a.home-link {
+    display: block;
+    float: left;
+    margin-right: 51px;
+    position: relative;
+    text-align: center;
+    width: 140px;
+}
+body.home-page #content a.home-link:last-child {
+    margin-right: 0;
+}
+body.home-page #content a.home-link:link span, body.home-page #content a.home-link:visited span {
+    background: none repeat scroll 0 0 #F99A3D;
+    color: #FFFFFF;
+    display: block;
+    font-size: 14px;
+    margin: 20px 0;
+    padding: 5px;
+}
+body.home-page #content a.home-link:hover span, body.home-page #content a.home-link:focus span, body.home-page #content a.home-link:active span {
+    background: none repeat scroll 0 0 #CD552D;
+    color: #FFFFFF;
 }
 body.activity-permalink div#container {
 	margin:-185px auto 0 auto;
