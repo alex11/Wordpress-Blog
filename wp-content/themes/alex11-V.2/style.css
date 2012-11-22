@@ -383,6 +383,19 @@ div#sidebar {
 #sidebar #sidebar-login-form {
 	display:none;
 }
+#sidebar .widget_search {
+	margin:0 -24px 0 -19px;
+}
+#sidebar #searchform input#s {
+	width:81%;
+	font-size:16px;
+	padding:8px 35px 10px 2px;
+	border:1px solid #F99A3D;
+}
+#sidebar #searchform input#searchsubmit {
+	text-indent:-9999px;
+	margin-left: -35px;
+}
 body.home-page #sidebar #sidebar-login-form, body.registration #sidebar #sidebar-login-form, body.activation #sidebar #sidebar-login-form {
 	display:inline;
 }
@@ -536,6 +549,9 @@ input[type="submit"]#searchsubmit {
     color: #FFFFFF;
 	width:28px;
 	height:27px;
+}
+input[type="submit"]#searchsubmit:hover {
+	background-position:0 -27px;
 }
 div#item-header div.generic-button a:link, div#item-header div.generic-button a:visited, form.dir-form h3 a.button:link, form.dir-form h3 a.button:visited, h2.pagetitle a.button:link, h2.pagetitle a.button:visited, h3.pagetitle a.button:link, h3.pagetitle a.button:visited {
 	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#747272), to(#464646));
@@ -841,6 +857,9 @@ a img {
 }
 #tag-cloud a:hover, #tag-cloud a:focus, #tag-cloud a:active {
 	color:#41a3b8;
+}
+body.search .pagetitle {
+	display:none;
 }
 
 /* PLUGIN: The Events Calendar
