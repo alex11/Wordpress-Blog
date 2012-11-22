@@ -32,9 +32,9 @@ body {
     color: #FFFFFF;
     height: auto;
     margin:0 auto 20px auto;
-    padding-top: 0;
+    padding: 0 10px;
     position: relative;
-    width:960px;
+    width:980px;
     z-index: 1000;
 }
 div#container {
@@ -44,7 +44,8 @@ div#container {
     border-right: 0;
     overflow: hidden;
     position: relative;
-    width:960px;
+    width:980px;
+	padding:0 10px;
     margin: -232px auto 0 auto;
 }
 #footer {
@@ -72,7 +73,7 @@ textarea {
 h1#logo a:link, h1#logo a:visited {
 	position:absolute;
 	top:12px;
-	left:0;
+	left:10px;
 	display:block;
 	width:221px;
 	height:59px;
