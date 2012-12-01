@@ -690,7 +690,7 @@ body.home-page #content .padder #widget-right {
 body.home-page #content a.home-link {
     display: block;
     float: left;
-    margin-right: 51px;
+    margin-right: 58px;
     position: relative;
     text-align: center;
     width: 140px;
@@ -876,8 +876,11 @@ a img {
 	text-align:center;
 }
 #tag-cloud a:link, #tag-cloud a:visited {
-	color:#fff;
-	font-family:'UbuntuLight',Helvetica,Verdana,sans-serif;
+    border-right: 1px solid #FFFFFF;
+    color: #FFFFFF;
+    font-family: 'UbuntuLight',Helvetica,Verdana,sans-serif;
+    padding-right: 4px;
+	margin-right: 1px;
 }
 #tag-cloud a:hover, #tag-cloud a:focus, #tag-cloud a:active {
 	color:#41a3b8;
