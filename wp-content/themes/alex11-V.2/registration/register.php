@@ -22,10 +22,9 @@
 					<h3>Grundregeln Kurzform <span>(<a target="_blank" href="/regeln">vollst&auml;ndigen Grunds&auml;tze /-regeln</a>)</span></h3>
 					<ul>
 						<li>Keine Diskriminierung</li>
-						<li>Jugendfreundlich und nicht kriminell</li>
 						<li>Deine Inhalte publizierst du als Privatperson und nicht im Namen einer Organisation, Unternehmen, Partei o.&auml;.</li>
-						<li>Alle Inhalte werden automatisch mit der <LINK>Creative Commons Lizenz</LINK> lizensiert, es sei denn du w&auml;hlst eine andere Lizenzart f&uuml;r deine Inhalte.</li>
-						<li>Die Moderation beh&auml;lt sich Struktur-, Kategorie- und Tag&auml;nderungen vor. Keine inhaltlichen &Auml;nderungen deiner Artikel.</li>
+						<li>Alle Inhalte werden automatisch mit der <a href="http://creativecommons.org/licenses/by-sa/3.0/de/" target="_blank">Creative Commons Lizenz</a> lizensiert, es sei denn du w&auml;hlst eine andere Lizenzart f&uuml;r deine Inhalte.</li>
+						<li>Es wird nicht zensiert. Die Moderation beh&auml;lt sich lediglich Struktur-, Kategorie- und Tag&auml;nderungen vor.</li>
 						<li>Es ist der Datenschutz zu beachten. Ohne Zustimmung der jeweiligen Person d&uuml;rfen keine Personen- oder Kontaktdaten ver&ouml;ffentlicht oder verbreitet werden.</li>
 					</ul>
 				</div>
